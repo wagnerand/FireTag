@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay id="waComposeOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <commandset id="composeCommands">
+    <command id="toggleSidebar" oncommand="toggleSidebar();"/>
+  </commandset>
+
+    <commandset id="composeCommands">
+        <command id="toggleSidebar" oncommand="toggleSidebar();"/>
+    </commandset>
+
+    <broadcasterset id="composeBroadcasters">
+        <broadcaster id="viewAnnotationSidebar"
+                 label="WebsiteAnnotation"
+                 autoCheck="false"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://FireTag/content/sidebar_tb_compose.xul"
+                 sidebartitle="WebsiteAnnotation"
+                 oncommand="toggleSidebar('viewAnnotationSidebar');" />
+    </broadcasterset>
+
+  <menupopup id="viewSidebarMenu">
+    <menuitem id="viewAnnotationSidebarMenu"
+                observes="viewAnnotationSidebar"/>
+    </menupopup>
+
+</overlay>

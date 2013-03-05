@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<prefwindow id="FireTagPrefsWin" title="FireTag Settings"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <prefpane id="general" label="General">
+        <preferences>
+            <preference id="host" name="extensions.dfki.FireTag.server.host" type="string" />
+            <preference id="port" name="extensions.dfki.FireTag.server.port" type="string" />
+            <preference id="path" name="extensions.dfki.FireTag.server.path" type="string" />
+            <preference id="authKey" name="extensions.dfki.FireTag.server.authKey" type="string" />
+            <preference id="autocompleteShowDocuments" name="extensions.dfki.FireTag.autocomplete.showDocuments" type="bool" />
+            <preference id="autocompleteShowTasks" name="extensions.dfki.FireTag.autocomplete.showTasks" type="bool" />
+            <preference id="suggestConcepts" name="extensions.dfki.FireTag.suggestConcepts" type="bool" />
+            <preference id="debug" name="extensions.dfki.FireTag.debug" type="bool" />
+        </preferences>
+        <vbox>
+            <hbox>
+                <label value="Server location: http://" />
+                <textbox preference="host" clickSelectsAll="true" size="20" />
+                <label value=":" />
+                <textbox preference="port" clickSelectsAll="true" size="4" />
+                <label value="/" />
+                <textbox preference="path" clickSelectsAll="true" size="20" />
+            </hbox>
+            <hbox>
+                <label value="Authorization Key:"/>
+                <textbox preference="authKey" clickSelectsAll="true" size="40" />
+            </hbox>
+            <vbox>
+                <checkbox label="Show tasks in autocomplete popup" preference="autocompleteShowTasks" />
+                <checkbox label="Show documents in autocomplete popup" preference="autocompleteShowDocuments" />
+                <checkbox label="Suggest concepts" preference="suggestConcepts" />
+                <checkbox label="Debug mode" preference="debug" />
+            </vbox>
+        </vbox>
+    </prefpane>
+
+</prefwindow>

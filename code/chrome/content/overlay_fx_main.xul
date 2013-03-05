@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_main.js" />
+
+    <menupopup id="viewSidebarMenu">
+        <menuitem key="key_openASidebar" observes="viewAnnotationSidebar"  />
+    </menupopup>
+
+    <keyset id="mainKeyset">
+        <key id="key_openASidebar" command="viewAnnotationSidebar"
+            key="a"
+            modifiers="control alt" />
+    </keyset>
+
+    <broadcasterset id="mainBroadcasterSet">
+        <broadcaster id="viewAnnotationSidebar"
+                 label="WebsiteAnnotation"
+                 autoCheck="false"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://FireTag/content/sidebar_fx.xul"
+                 sidebartitle="WebsiteAnnotation"
+                 oncommand="toggleSidebar('viewAnnotationSidebar');" />
+    </broadcasterset>
+
+</overlay>

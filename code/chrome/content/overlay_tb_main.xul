@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_main.js" />
+    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_tb_main.js" />
+
+<!--
+    <tree id="threadTree">
+        <treecols id="threadCols">
+            <splitter class="tree-splitter" />
+            <treecol id="conceptCol"
+                    persist="width hidden ordinal"
+                    hidden="false"
+                    flex="4"
+                    label="Concept" tooltiptext="Concept Icons" />
+        </treecols>
+    </tree>
+-->
+    <vbox id="messagepaneboxwrapper">
+        <splitter id="FireTagSplitter"
+                collapse="after"
+                resizebefore="closest"
+                state="collapsed"
+                persist="state"
+                oncommand="dfki.FireTag.overlay.storeSidebarState();">
+            <grippy/>
+        </splitter>
+
+        <vbox id="FireTagSidebar-box" style="min-width: 250px;" width="300" persist="visibility width">
+            <browser id="FireTagSidebar" flex="1"/>
+        </vbox>
+    </vbox>
+
+</overlay>

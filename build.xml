@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+
+<project name="FireTag" default="buildNewVersion">
+
+	<property name="src.dir" value="code" />
+	<property name="dist.dir" value="dist" />
+	<property name="dist.loc" location="dist" />
+	<property name="ext.name.lower" value="firetag" />
+	<property name="ext.prefname" value="dfki.FireTag" />
+	<property name="app.id" value="firetag@opendfki.de" />
+	<property name="sign.key.name" value="FireTag" />
+
+	<target name="_getVersionFromPref">
+		<loadfile srcFile="${src.dir}/defaults/preferences/${ext.name.lower}.js" property="installVersion">
+			<filterchain>
+				<linecontains>
+					<contains value="extensions.${ext.prefname}.installVersion" />
+				</linecontains>
+				<striplinebreaks />
+				<!-- filtering like this is a bit dirty -->
+				<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
+					<param type="tokenchar" name="begintoken" value="p" />
+					<param type="tokenchar" name="endtoken" value="," />
+					<param type="token" name="ref(&quot;extensions.${ext.prefname}.installVersion&quot;" value="" />
+				</filterreader>
+				<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
+					<param type="tokenchar" name="begintoken" value=" " />
+					<param type="tokenchar" name="endtoken" value="&quot;" />
+					<param type="token" name="" value="" />
+				</filterreader>
+				<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
+					<param type="tokenchar" name="begintoken" value="&quot;" />
+					<param type="tokenchar" name="endtoken" value=";" />
+					<param type="token" name=")" value="" />
+				</filterreader>
+			</filterchain>
+		</loadfile>
+	</target>
+
+	<target name="_setVersionInRDF" depends="_getVersionFromPref">
+		<replaceregexp file="${src.dir}/install.rdf" match="em:version=&quot;[\x00-\x7f]+?&quot;" replace="em:version=&quot;${installVersion}&quot;" />
+		<replaceregexp file="${dist.dir}/update.rdf" match="em:version=&quot;[\x00-\x7f]+?&quot;" replace="em:version=&quot;${installVersion}&quot;" />
+
+	</target>
+
+	<target name="_makeXPI" depends="_setVersionInRDF">
+		<fail message="Version ${installVersion} has already been built! You have to delete ${ext.name.lower}_${installVersion}.xpi and ${ext.name.lower}_${installVersion}_moz.xpi manually if you want to rebuilt this version.">
+			<condition>
+				<and>
+					<available file="${dist.dir}/${ext.name.lower}_${installVersion}.xpi" />
+					<available file="${dist.dir}/${ext.name.lower}_${installVersion}_moz.xpi" />
+				</and>
+			</condition>
+		</fail>
+		<condition property="fileExt" value="_moz" else="">
+			<isset property="moz" />
+		</condition>
+		<zip destfile="${dist.dir}/${ext.name.lower}_${installVersion}${fileExt}.xpi">
+			<fileset dir="${src.dir}">
+				<exclude name="**/.DS_Store" />
+				<include name="chrome/content/**" />
+				<include name="chrome/locale/**" />
+				<include name="chrome/skin/**" />
+				<include name="components/**" />
+				<include name="defaults/**" />
+				<include name="modules/**" />
+				<include name="install.rdf" />
+				<include name="chrome.manifest" />
+				<exclude name="**/.*" />
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="_moveXPI" depends="_makeXPI">
+		<copy file="${dist.dir}/${ext.name.lower}_${installVersion}.xpi" tofile="${dist.dir}/${ext.name.lower}.xpi" overwrite="yes" />
+	</target>
+
+    <target name="_signExt" depends="_moveXPI">
+        <exec executable="cmd" osfamily="windows">
+            <arg value="/C for_build\util\mccoy\mccoy.exe -sign file:///${dist.loc}/update.rdf -key ${sign.key.name} -addOnFileName file:///${dist.loc}/${ext.name.lower}.xpi" />
+        </exec>
+        <exec executable="for_build/util/McCoy.app/Contents/MacOS/mccoy" osfamily="mac">
+            <arg line="-sign file:///${dist.loc}/update.rdf -key ${sign.key.name} -addOnFileName file:///${dist.loc}/${ext.name.lower}.xpi" />
+        </exec>
+    </target>
+
+	<target name="_buildExtSelfHosted" depends="_signExt" />
+
+    <target name="_buildExtForMozilla">
+        <copy file="${src.dir}/install.rdf" tofile="${src.dir}/install.rdf.safe" overwrite="yes" />
+        <replaceregexp file="${src.dir}/install.rdf" match="[\s]*em:updateURL=.*&quot;" replace="" />
+        <replaceregexp file="${src.dir}/install.rdf" match="[\s]*em:updateKey=.*&quot;" replace="" />
+        <antcall target="_makeXPI">
+            <param name="moz" value="yes" />
+        </antcall>
+        <copy file="${src.dir}/install.rdf.safe" tofile="${src.dir}/install.rdf" overwrite="yes" />
+        <delete file="${src.dir}/install.rdf.safe" />
+    </target>
+
+    <target name="reSignForCompatibilityBump">
+        <exec executable="cmd" osfamily="windows">
+            <arg value="/C for_build\util\mccoy\mccoy.exe -sign file:///${dist.loc}/update.rdf -key ${sign.key.name}" />
+        </exec>
+        <exec executable="for_build/util/McCoy.app/Contents/MacOS/mccoy" osfamily="mac">
+            <arg line="-sign file:///${dist.loc}/update.rdf -key ${sign.key.name}" />
+        </exec>
+    </target>
+
+	<target name="buildNewVersion">
+		<antcall target="_buildExtSelfHosted" />
+		<antcall target="_buildExtForMozilla" />
+	</target>
+
+</project>

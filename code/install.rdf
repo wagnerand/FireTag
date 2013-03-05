@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <Description RDF:about="rdf:#$c0zYx"
+                   em:locale="de-DE"
+                   em:name="FireTag"
+                   em:description="Find, relate, tag!" />
+  <RDF:Description RDF:about="rdf:#$UXteT2"
+                   em:id="{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+                   em:minVersion="4.0"
+                   em:maxVersion="22.*" />
+  <RDF:Description RDF:about="rdf:#$UXteT3"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="4.0"
+                   em:maxVersion="22.*" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="firetag@opendfki.de"
+                   em:version="0.7"
+                   em:name="FireTag"
+                   em:description="Find, relate, tag!"
+                   em:creator="Andreas Wagner"
+                   em:optionsURL="chrome://FireTag/content/preferences.xul"
+                   em:homepageURL="https://github.com/wagnerand/FireTag"
+                   em:iconURL="chrome://FireTag/skin/logo32.png"
+                   em:updateURL="https://raw.github.com/wagnerand/FireTag/master/dist/update.rdf">
+    <em:targetApplication RDF:resource="rdf:#$UXteT2"/>
+    <em:targetApplication RDF:resource="rdf:#$UXteT3"/>
+    <em:localized RDF:resource="rdf:#$c0zYx"/>
+  </RDF:Description>
+</RDF:RDF>

@@ -1,0 +1,22 @@
+#annotationTree treechildren::-moz-tree-image(action) {
+    height: 16px;
+    width: 16px;
+}
+
+#annotationTree #action {
+    width: 20px;
+}
+
+#annotationTree #isPublic {
+    width: 20px;
+}
+
+#annotationTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }
+#annotationTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
+
+#annotationSearchBoxTb { -moz-binding: url('chrome://global/content/bindings/autocomplete.xml#autocomplete'); }
+
+#annotationSearchBoxTb .autocomplete-history-dropmarker {
+    display: none;
+}
+

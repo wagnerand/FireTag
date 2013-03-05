@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+<?xml-stylesheet href="chrome://global/skin/toolbarbutton.css" type="text/css" ?>
+<?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
+<?xml-stylesheet href="chrome://FireTag/skin/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://FireTag/skin/style_fx.css" type="text/css"?>
+
+<page id="FireTagSb" title="FireTag" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://FireTag/content/sidebar.js" />
+    <script type="application/x-javascript" src="chrome://FireTag/content/sidebar_fx.js" />
+
+    <vbox flex="1">
+
+        <hbox>
+            <hbox flex="1" align="center">
+                <image id="imageIsPrivate" src="chrome://FireTag/skin/private.png" width="16" height="16" />
+                <label id="labelResource" onclick="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
+            </hbox>
+            <hbox style="margin-right: 5px">
+                <toolbarbutton id="buttonEditResourceLabel"
+                        tooltiptext="Edit Label"
+                        oncommand="dfki.FireTag.instance.onButtonEditResourceLabelClicked();"
+                        class="toolbarbutton-1"
+                        image="chrome://FireTag/skin/editLabel.png"
+                        width="24" height="26" />
+                <toolbarbutton id="buttonPublish"
+                        tooltiptext="Share this resource"
+                        image="chrome://FireTag/skin/share.png"
+                        oncommand="dfki.FireTag.instance.onButtonPublishResourcesClicked();"
+                        class="toolbarbutton-1"
+                        width="24" height="26" />
+            </hbox>
+        </hbox>
+
+        <textbox id="annotationSearchBox"
+            type="autocomplete"
+            clickSelectsAll="true"
+            autocompletesearch="firetag-concept-search"
+            completedefaultindex="false"
+            ontextentered="dfki.FireTag.instance.onSearchboxTextEntered();"
+            showimagecolumn="true"
+            placeholder="Search for concepts"
+            highlightnonmatches="true" />
+
+        <tree id="annotationTree" flex="1" seltype="text" onclick="dfki.FireTag.instance.onTreeClicked(event);">
+            <treecols>
+                <treecol id="name" label="Name" flex="1" primary="true" />
+                <treecol id="isPublic" />
+                <treecol id="action" />
+            </treecols>
+            <treechildren tooltip="treeItemTooltip" />
+        </tree>
+
+        <toolbar style="margin-right: 5px">
+            <spacer flex="1" />
+            <toolbarbutton id="toggleTasks"
+                    tooltiptext="Show Tasks"
+                    oncommand="dfki.FireTag.instance.onButtonToggleTasksClicked();"
+                    type="checkbox"
+                    class="toolbarbutton-1"
+                    image="chrome://FireTag/skin/task.png" />
+            <toolbarbutton id="toggleDocuments"
+                    tooltiptext="Show Documents"
+                    oncommand="dfki.FireTag.instance.onButtonToggleDocumentsClicked();"
+                    type="checkbox"
+                    class="toolbarbutton-1"
+                    image="chrome://FireTag/skin/document.png" />
+        </toolbar>
+
+    </vbox>
+
+    <popupset>
+        <tooltip id="treeItemTooltip" onpopupshowing="dfki.FireTag.instance.onTreeItemTooltipShowing(event);" />
+    </popupset>
+
+</page>
