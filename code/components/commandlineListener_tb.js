@@ -7,12 +7,12 @@ const CLASS_NAME = "FireTag Concept Search";
 const CONTRACT_ID = "@mozilla.org/commandlinehandler/general-startup;1?type=messageidopener";
 const CATEGORY = "m-messageidopener";
 
-function messageIdOpener() {
+function MessageIdOpener() {
     Components.utils.import("resource:///modules/gloda/public.js");
     Components.utils.import("resource:///modules/MailUtils.js");
 }
 
-messageIdOpener.prototype = {
+MessageIdOpener.prototype = {
 
     classDescription : CLASS_NAME,
     classID : CLASS_ID,
@@ -22,7 +22,7 @@ messageIdOpener.prototype = {
 
     _xpcom_categories: [{
         category: "command-line-handler",
-        entry: "m-messageidopener",
+        entry: "m-messageidopener"
     }],
 
     handle : function clh_handle(cmdLine) {
@@ -61,7 +61,7 @@ messageIdOpener.prototype = {
         }
     },
 
-    helpInfo : "  -message-id <id>     Open email by message-id \n",
+    helpInfo : "  -message-id <id>     Open email by message-id \n"
 };
 
-const NSGetFactory = XPCOMUtils.generateNSGetFactory([ messageIdOpener ]);
+const NSGetFactory = XPCOMUtils.generateNSGetFactory([ MessageIdOpener ]);

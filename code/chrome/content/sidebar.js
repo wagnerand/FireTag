@@ -858,7 +858,8 @@ Sidebar.addPimoConceptToModel = function(concept, model) {
         types : concept.types,
         isPublic : concept.public
     });
-}
+};
+
 Sidebar.toggleTasks = function() {
     let checked = document.getElementById("toggleTasks").checked;
     Sidebar.prefs.setBoolPref("autocomplete.showTasks", checked);
@@ -924,7 +925,7 @@ dfki.FireTag.registerPrefListener = function() {
         }
     });
     myPrefListener.register(true);
-}
+};
 
 window.addEventListener("load", function() {
     dfki.FireTag.instance = new Sidebar();

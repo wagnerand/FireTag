@@ -12,8 +12,8 @@ Sidebar.prototype.addListeners = function() {
 
     // Remove event listeners on unload
     window.addEventListener("unload", function () {
-        this.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function() { self.onPageLoad.call(self); }, false);
-        this.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+        self.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function() { self.onPageLoad.call(self); }, false);
+        self.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
     }, false);
 };
 
@@ -86,4 +86,4 @@ Sidebar.prototype.onPageLoad = function(event) {
     if (doc.nodeName == "#document") {
         this.rebuildSidebar();
     }
-}
+};
