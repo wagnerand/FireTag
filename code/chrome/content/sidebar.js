@@ -844,10 +844,21 @@ Sidebar.prototype = {
     }
 };
 
+Sidebar.testConceptIsOfType = function( concept, typeUri ) {
+    for (let i = 0; i < concept.allTypes.length; i++) {
+        let conceptTypeUri = concept.allTypes[i].uri;
+        if (conceptTypeUri == typeUri)
+        	return true;
+    }
+    return false;
+}
+
 // Class methods
 Sidebar.addPimoConceptToModel = function(concept, model) {
-    if ((concept.types[0].uri.indexOf("pimo:core#Document") > -1) && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
-            (concept.types[0].uri.indexOf("pimo:core#Task") > -1) && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
+    if (!Sidebar.testConceptIsOfType(concept, "pimo:core#Thing"))
+    	return;
+    if (Sidebar.testConceptIsOfType(concept, "pimo:core#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
+    	Sidebar.testConceptIsOfType(concept, "pimo:core#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
         return;
     }
 

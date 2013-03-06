@@ -127,6 +127,16 @@ function EAAutoCompleteSearch() {
     Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
 }
 
+function testConceptIsOfType( concept, typeUri ) {
+    for (let i = 0; i < concept.allTypes.length; i++) {
+        let conceptTypeUri = concept.allTypes[i].uri;
+        if (conceptTypeUri == typeUri)
+        	return true;
+    }
+    return false;
+}
+
+
 
 EAAutoCompleteSearch.prototype = {
 
@@ -158,14 +168,14 @@ EAAutoCompleteSearch.prototype = {
           var rpcResult = JSON.parse(response).result;
           dfki.FireTag.common.autoComplete.results = [];
           for (var i = 0; i < rpcResult.length; i++) {
-              if (rpcResult[i].types[0].uri.indexOf("#InformationElement") > -1) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:core#InformationElement")) {
                   continue;
               }
-              if (rpcResult[i].types[0].uri.indexOf("pimo:core#Document") > -1) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:core#Document")) {
                   if (!dfki.FireTag.common.showDocuments)
                       continue;
               }
-              if (rpcResult[i].types[0].uri.indexOf("pimo:core#Task") > -1) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:core#Task")) {
                   if (!dfki.FireTag.common.showTasks)
                       continue;
               }
@@ -188,7 +198,7 @@ EAAutoCompleteSearch.prototype = {
      */
   stopSearch: function () {
   },
-
+  
   QueryInterface: XPCOMUtils.generateQI([ Ci.nsIAutoCompleteSearch ])
 };
 
