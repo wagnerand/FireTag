@@ -24,19 +24,37 @@ dfki.FireTag.overlay.tb.main.init = function() {
     var sentMailListener = {
         msgsClassified: function(aMsgs, aJunkProcessed, aTraitProcessed) {
             for (var hdr in fixIterator(aMsgs.enumerate(), Components.interfaces.nsIMsgDBHdr)) {
-                if (dfki.FireTag.common.sentMsgs.indexOf(hdr.messageId) > -1) {
 
-                    /*
-                     let oldMsgId = dfki.FireTag.common.sentMsgs[hdr.messageId];
+                // Is this message a draft? Then don't try to change the uri!
+                if (hdr.folder.getFlag(0x00000400) == false) {
+                    let jsonCheckExisting = {
+                        method : "PimoQueryApi.isExisting",
+                        params : [ dfki.FireTag.common.authKey, hdr.messageId ]
+                    };
 
-                     var json = {
-                     method : "PimoManipulationApi.changeResourceUri",
-                     params : [ dfki.FireTag.common.authKey, oldMsgId, hdr.messageId ]
-                     };
+                    var callbackCheckExisting =  function (response) {
+                        var result = JSON.parse(response).result;
+                        if (result == false) {
+                            let uri = hdr.folder.getUriForMsg(hdr);
+                            let messageService = Components.classes["@mozilla.org/messenger;1"]
+                                .createInstance(Components.interfaces.nsIMessenger)
+                                .messageServiceFromURI(uri);
 
-                     delete dfki.FireTag.common.sentMsgs[hdr.messageId];
-                     DragonTalkTb.rpc.JSONRPCCall(json);
-                     */
+                            MsgHdrToMimeMessage(hdr, null,
+                                function (aMsgHdr, aMimeMsg) {
+                                    if (aMimeMsg.has("X-PIMO-DRAFTURI")) {
+                                        let jsonChangeURI = {
+                                            method : "PimoManipulationApi.changeResourceUri",
+                                            params : [ dfki.FireTag.common.authKey, aMimeMsg.get("X-PIMO-DRAFTURI"), "message-id://" + hdr.messageId ]
+                                        };
+                                        dfki.FireTag.rpc.JSONRPCCall(jsonChangeURI);
+                                    }
+                                }, true, {
+                                    partsOnDemand: true
+                                });
+                        }
+                    };
+                    dfki.FireTag.rpc.JSONRPCCall(jsonCheckExisting, callbackCheckExisting);
                 }
             }
         }

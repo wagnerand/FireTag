@@ -1,27 +1,30 @@
+function componentConstruct() {
+}
+
 Sidebar.prototype.addListeners = function() {
     var self = this;
-    this.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).
-        getInterface(Components.interfaces.nsIWebNavigation).
-        QueryInterface(Components.interfaces.nsIDocShellTreeItem).
-        rootTreeItem.
-        QueryInterface(Components.interfaces.nsIInterfaceRequestor).
-        getInterface(Components.interfaces.nsIDOMWindow);
 
-    this.mainWin.gBrowser.addEventListener("DOMContentLoaded", function() { self.onPageLoad.call(self); }, false);
-    this.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+    Sidebar.mainWin.gBrowser.addEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
+    Sidebar.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
 
     // Remove event listeners on unload
     window.addEventListener("unload", function () {
-        self.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function() { self.onPageLoad.call(self); }, false);
-        self.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+        Sidebar.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
+        Sidebar.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
     }, false);
 };
 
 Sidebar.STRIP_PER_RESOURCE = 1000;
 Sidebar.annotationSearchBoxName = "annotationSearchBox";
+Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).
+    getInterface(Components.interfaces.nsIWebNavigation).
+    QueryInterface(Components.interfaces.nsIDocShellTreeItem).
+    rootTreeItem.
+    QueryInterface(Components.interfaces.nsIInterfaceRequestor).
+    getInterface(Components.interfaces.nsIDOMWindow);
 
 Sidebar.getCurrentResources = function() {
-    return [dfki.FireTag.instance.mainWin.gBrowser.contentDocument];
+    return [Sidebar.mainWin.gBrowser.contentDocument];
 };
 
 Sidebar.getCurrentSelectionCount = function() {
@@ -66,13 +69,13 @@ Sidebar.getResourceTextForOBIE = function(resource) {
 };
 
 Sidebar.prototype.onPageLoad = function(event) {
-    if (Sidebar.inPrivateMode) {
+    if (Sidebar.inPrivateMode()) {
         resetSidebar();
         return;
     }
 
     var doc = event.originalTarget;
-    if (doc.location.href != this.mainWin.gBrowser.contentDocument.location.href) {
+    if (doc.location.href != Sidebar.mainWin.gBrowser.contentDocument.location.href) {
         return;
     }
 

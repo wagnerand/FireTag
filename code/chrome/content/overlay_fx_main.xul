@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
@@ -17,12 +16,12 @@
 
     <broadcasterset id="mainBroadcasterSet">
         <broadcaster id="viewAnnotationSidebar"
-                 label="WebsiteAnnotation"
+                 label="Pimo Annotation"
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
-                 sidebarurl="chrome://FireTag/content/sidebar_fx.xul"
-                 sidebartitle="WebsiteAnnotation"
+                 sidebarurl="chrome://FireTag/content/sidebar_fx_main.xul"
+                 sidebartitle="Pimo Annotation"
                  oncommand="toggleSidebar('viewAnnotationSidebar');" />
     </broadcasterset>
 

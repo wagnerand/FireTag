@@ -12,12 +12,12 @@
 
     <broadcasterset id="composeBroadcasters">
         <broadcaster id="viewAnnotationSidebar"
-                 label="WebsiteAnnotation"
+                 label="Pimo Annotation"
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
                  sidebarurl="chrome://FireTag/content/sidebar_tb_compose.xul"
-                 sidebartitle="WebsiteAnnotation"
+                 sidebartitle="Pimo Annotation"
                  oncommand="toggleSidebar('viewAnnotationSidebar');" />
     </broadcasterset>
 

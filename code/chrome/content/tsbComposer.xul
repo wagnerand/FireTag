@@ -81,8 +81,8 @@ the terms of any one of the MPL, the GPL or the LGPL.
   mojiSidebarInit();
 
   toggleAddressPicker = function toggleAddressPicker() {
-    tsbToggleAddressPicker();
-  };
+    tsbToggleAddressPicker;
+  }
 
   window.addEventListener( "load", tsbComposerInit, false);
 

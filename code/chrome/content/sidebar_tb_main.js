@@ -1,3 +1,6 @@
+function componentConstruct() {
+}
+
 Sidebar.STRIP_PER_RESOURCE = 1000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 

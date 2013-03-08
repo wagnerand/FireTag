@@ -75,40 +75,8 @@
 		<copy file="${dist.dir}/${ext.name.lower}_${installVersion}.xpi" tofile="${dist.dir}/${ext.name.lower}.xpi" overwrite="yes" />
 	</target>
 
-    <target name="_signExt" depends="_moveXPI">
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/C for_build\util\mccoy\mccoy.exe -sign file:///${dist.loc}/update.rdf -key ${sign.key.name} -addOnFileName file:///${dist.loc}/${ext.name.lower}.xpi" />
-        </exec>
-        <exec executable="for_build/util/McCoy.app/Contents/MacOS/mccoy" osfamily="mac">
-            <arg line="-sign file:///${dist.loc}/update.rdf -key ${sign.key.name} -addOnFileName file:///${dist.loc}/${ext.name.lower}.xpi" />
-        </exec>
-    </target>
-
-	<target name="_buildExtSelfHosted" depends="_signExt" />
-
-    <target name="_buildExtForMozilla">
-        <copy file="${src.dir}/install.rdf" tofile="${src.dir}/install.rdf.safe" overwrite="yes" />
-        <replaceregexp file="${src.dir}/install.rdf" match="[\s]*em:updateURL=.*&quot;" replace="" />
-        <replaceregexp file="${src.dir}/install.rdf" match="[\s]*em:updateKey=.*&quot;" replace="" />
-        <antcall target="_makeXPI">
-            <param name="moz" value="yes" />
-        </antcall>
-        <copy file="${src.dir}/install.rdf.safe" tofile="${src.dir}/install.rdf" overwrite="yes" />
-        <delete file="${src.dir}/install.rdf.safe" />
-    </target>
-
-    <target name="reSignForCompatibilityBump">
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/C for_build\util\mccoy\mccoy.exe -sign file:///${dist.loc}/update.rdf -key ${sign.key.name}" />
-        </exec>
-        <exec executable="for_build/util/McCoy.app/Contents/MacOS/mccoy" osfamily="mac">
-            <arg line="-sign file:///${dist.loc}/update.rdf -key ${sign.key.name}" />
-        </exec>
-    </target>
-
-	<target name="buildNewVersion">
-		<antcall target="_buildExtSelfHosted" />
-		<antcall target="_buildExtForMozilla" />
+    <target name="buildNewVersion">
+		<antcall target="_moveXPI" />
 	</target>
 
 </project>

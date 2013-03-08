@@ -21,7 +21,7 @@
         <splitter id="FireTagSplitter"
                 collapse="after"
                 resizebefore="closest"
-                state="collapsed"
+                state="open"
                 persist="state"
                 oncommand="dfki.FireTag.overlay.storeSidebarState();">
             <grippy/>

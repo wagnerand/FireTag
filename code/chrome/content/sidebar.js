@@ -20,6 +20,7 @@ function Sidebar() {
     this.stopIt = false;
     this.lastSelectedAutoCompleteIndex = -99;
     this.treeboxObject = null;
+    componentConstruct.call(this);
 
     this.annotationTree = document.getElementById("annotationTree");
 //    this.treeboxObject.QueryInterface(Components.interfaces.nsITreeBoxObject);
@@ -398,11 +399,11 @@ Sidebar.prototype = {
                 } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
                     return dfki.FireTag.instance.annotatedConcepts[row - 1].name;
                 } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
-                    return "Conversation Concepts";
+                    return "Inferred Concepts";
                 } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                     return dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2].name;
                 } else if (row == (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    return "Suggested Concepts";
+                    return "Found Concepts";
                 } else if (row > (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1].name;
                 }

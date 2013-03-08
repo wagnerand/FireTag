@@ -9,6 +9,7 @@ if (!dfki.FireTag) {
 }
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import("resource:///modules/iteratorUtils.jsm");
 
 const CLASS_ID = Components.ID("e64ddfd3-9775-4d18-994b-5a75f4ed3d1a");
 const CLASS_NAME = "FireTag Concept Search";
@@ -198,7 +199,7 @@ EAAutoCompleteSearch.prototype = {
      */
   stopSearch: function () {
   },
-  
+
   QueryInterface: XPCOMUtils.generateQI([ Ci.nsIAutoCompleteSearch ])
 };
 
