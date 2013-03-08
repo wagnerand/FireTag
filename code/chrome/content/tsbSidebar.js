@@ -1,9 +1,9 @@
 /* ***** BEGIN LICENSE BLOCK *****
 Version: MPL 1.1/GPL 2.0/LGPL 2.1
 
-The contents of this collection are subject to the Mozilla Public License Version 
-1.1 (the "License"); you may not use this file except in compliance with 
-the License. You may obtain a copy of the License at 
+The contents of this collection are subject to the Mozilla Public License Version
+1.1 (the "License"); you may not use this file except in compliance with
+the License. You may obtain a copy of the License at
 http://www.mozilla.org/MPL/
 
 Software distributed under the License is distributed on an "AS IS" basis,
@@ -22,7 +22,7 @@ Portions created by the Initial Developer are Copyright (C) 2006
 the Initial Developer. All Rights Reserved.
 
 Contributor(s):
-Andreas Wagner <mail@andreaswagner.org> - Changes for FireTag 
+Andreas Wagner <mail@andreaswagner.org> - Changes for FireTag
 
 Alternatively, the contents of this file may be used under the terms of
 either the GNU General Public License Version 2 or later (the "GPL"), or
@@ -113,7 +113,7 @@ var xSidebar = {
             }
           }
           else {
-            // Remove the |sidebarcommand| attribute, because the element it 
+            // Remove the |sidebarcommand| attribute, because the element it
             // refers to no longer exists, so we should assume this sidebar
             // panel has been uninstalled. (249883)
             sidebarBox.removeAttribute("sidebarcommand");
