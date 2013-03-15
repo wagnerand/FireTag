@@ -1,7 +1,7 @@
 function componentConstruct() {
 }
 
-Sidebar.STRIP_PER_RESOURCE = 1000;
+Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 
 //var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);

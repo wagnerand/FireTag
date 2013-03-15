@@ -14,7 +14,7 @@ Sidebar.prototype.addListeners = function() {
     }, false);
 };
 
-Sidebar.STRIP_PER_RESOURCE = 1000;
+Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBox";
 Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).
     getInterface(Components.interfaces.nsIWebNavigation).

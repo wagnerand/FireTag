@@ -27,7 +27,7 @@ Sidebar.prototype.addListeners = function() {
     Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
 };
 
-Sidebar.STRIP_PER_RESOURCE = 1000;
+Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).
     getInterface(Components.interfaces.nsIWebNavigation).
