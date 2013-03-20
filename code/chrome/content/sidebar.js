@@ -856,10 +856,10 @@ Sidebar.testConceptIsOfType = function( concept, typeUri ) {
 
 // Class methods
 Sidebar.addPimoConceptToModel = function(concept, model) {
-    if (!Sidebar.testConceptIsOfType(concept, "pimo:core#Thing"))
+    if (!Sidebar.testConceptIsOfType(concept, "pimo:thing#Thing"))
     	return;
-    if (Sidebar.testConceptIsOfType(concept, "pimo:core#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
-    	Sidebar.testConceptIsOfType(concept, "pimo:core#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
+    if (Sidebar.testConceptIsOfType(concept, "pimo:thing#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
+    	Sidebar.testConceptIsOfType(concept, "pimo:thing#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
         return;
     }
 

@@ -168,14 +168,14 @@ EAAutoCompleteSearch.prototype = {
           var rpcResult = JSON.parse(response).result;
           dfki.FireTag.common.autoComplete.results = [];
           for (var i = 0; i < rpcResult.length; i++) {
-              if (testConceptIsOfType(rpcResult[i], "pimo:core#InformationElement")) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:informationelement#InformationElement")) {
                   continue;
               }
-              if (testConceptIsOfType(rpcResult[i], "pimo:core#Document")) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:thing#Document")) {
                   if (!dfki.FireTag.common.showDocuments)
                       continue;
               }
-              if (testConceptIsOfType(rpcResult[i], "pimo:core#Task")) {
+              if (testConceptIsOfType(rpcResult[i], "pimo:thing#Task")) {
                   if (!dfki.FireTag.common.showTasks)
                       continue;
               }
