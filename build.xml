@@ -40,22 +40,10 @@
 	<target name="_setVersionInRDF" depends="_getVersionFromPref">
 		<replaceregexp file="${src.dir}/install.rdf" match="em:version=&quot;[\x00-\x7f]+?&quot;" replace="em:version=&quot;${installVersion}&quot;" />
 		<replaceregexp file="${dist.dir}/update.rdf" match="em:version=&quot;[\x00-\x7f]+?&quot;" replace="em:version=&quot;${installVersion}&quot;" />
-
 	</target>
 
 	<target name="_makeXPI" depends="_setVersionInRDF">
-		<fail message="Version ${installVersion} has already been built! You have to delete ${ext.name.lower}_${installVersion}.xpi and ${ext.name.lower}_${installVersion}_moz.xpi manually if you want to rebuilt this version.">
-			<condition>
-				<and>
-					<available file="${dist.dir}/${ext.name.lower}_${installVersion}.xpi" />
-					<available file="${dist.dir}/${ext.name.lower}_${installVersion}_moz.xpi" />
-				</and>
-			</condition>
-		</fail>
-		<condition property="fileExt" value="_moz" else="">
-			<isset property="moz" />
-		</condition>
-		<zip destfile="${dist.dir}/${ext.name.lower}_${installVersion}${fileExt}.xpi">
+		<zip destfile="${dist.dir}/${ext.name.lower}.xpi">
 			<fileset dir="${src.dir}">
 				<exclude name="**/.DS_Store" />
 				<include name="chrome/content/**" />
@@ -71,12 +59,8 @@
 		</zip>
 	</target>
 
-	<target name="_moveXPI" depends="_makeXPI">
-		<copy file="${dist.dir}/${ext.name.lower}_${installVersion}.xpi" tofile="${dist.dir}/${ext.name.lower}.xpi" overwrite="yes" />
-	</target>
-
     <target name="buildNewVersion">
-		<antcall target="_moveXPI" />
+		<antcall target="_makeXPI" />
 	</target>
 
 </project>
