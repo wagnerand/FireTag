@@ -18,7 +18,7 @@
                 <toolbarbutton id="buttonPublish"
                         tooltiptext="Share this resource"
                         image="chrome://FireTag/skin/share.png"
-                        oncommand="dfki.FireTag.instance.onButtonPublishResourcesClicked();"
+                        oncommand="dfki.FireTag.instance.onButtonPublishResourcesClicked(dfki.FireTag.instance.currentResourcesAsPimoThings);"
                         class="toolbarbutton-1" />
             </hbox>
         </hbox>

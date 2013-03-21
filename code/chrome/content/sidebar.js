@@ -547,6 +547,27 @@ Sidebar.prototype = {
         getColumnProperties: function (column, element, prop) {}
     },
 
+    getResourceAtRow : function(row) {
+        if ((row > 0) && (row < this.annotatedConcepts.length + 1)) {
+            return this.annotatedConcepts[row - 1];
+        } else if ((row > this.annotatedConcepts.length + 1) && (row < (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
+            return this.conversationConcepts[row - this.annotatedConcepts.length - 1 - 1];
+        } else if (row > (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1)) {
+            return this.suggestedConcepts[row - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1];
+        }
+    },
+
+    publish : function (resources) {
+        for (let i = 0, len = resources.length; i < len; i++) {
+            let resourceURI = resources[i].uri;
+            var json = {
+                method: "PimoGroupApi.setPublic",
+                params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+            };
+            dfki.FireTag.rpc.JSONRPCCall(json);
+        }
+    },
+
     onAutoCompletePopupShown : function () {
         if (dfki.FireTag.instance.stopIt) {
             dfki.FireTag.instance.stopIt = false;
@@ -586,17 +607,8 @@ Sidebar.prototype = {
         }
     },
 
-    onButtonPublishResourcesClicked : function() {
-
-        for (var i = 0; i < this.currentResourcesAsPimoThings.length; i++) {
-            var currentThing = this.currentResourcesAsPimoThings[i];
-            var resourceURI = currentThing.uri;
-            var json = {
-                method : "PimoGroupApi.setPublic",
-                params : [ dfki.FireTag.common.authKey, resourceURI, true ]
-            };
-            dfki.FireTag.rpc.JSONRPCCall(json);
-        }
+    onButtonPublishResourcesClicked : function(resources) {
+        this.publish(resources);
         var buttonPublish = document.getElementById("buttonPublish");
         buttonPublish.disabled = true;
         var imageIsPrivate  = document.getElementById("imageIsPrivate");
@@ -690,7 +702,8 @@ Sidebar.prototype = {
                 this.annotationTree.currentIndex = -1;
                 this.annotationTree.view.selection.clearSelection();
                 this.annotationTree.view.selection.invalidateSelection();
-            } else if (column.value.id == "name") {
+            }
+            else if (column.value.id == "name") {
                 if (event.detail == 2) {
                     row = row.value;
 
@@ -706,6 +719,20 @@ Sidebar.prototype = {
 
                     if (uri) {
                         Sidebar.extProtService.loadUrl(uri);
+                    }
+                }
+            }
+            else if (column.value.id ="isPublic") {
+                if (event.detail == 2) {
+                    row = row.value;
+                    if ((row > 0) &&
+                            (row != (this.annotatedConcepts.length + 1)) &&
+                            (row != (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
+                        let resource = this.getResourceAtRow.call(this, row);
+                        if (!resource.isPublic) {
+                            this.publish.call(this, [resource]);
+                            resource.isPublic = true;
+                        }
                     }
                 }
             }
