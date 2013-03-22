@@ -38,8 +38,8 @@
         <tree id="annotationTree" flex="1" seltype="text" onclick="dfki.FireTag.instance.onTreeClicked(event);">
             <treecols>
                 <treecol id="name" label="Name" flex="1" primary="true" />
-                <treecol id="isPublic" />
-                <treecol id="action" />
+                <treecol id="isPublic" label="Public Status" src="chrome://FireTag/skin/private.png" class="treecol-image" />
+                <treecol id="action" label="Action" />
             </treecols>
             <treechildren tooltip="treeItemTooltip" />
         </tree>
