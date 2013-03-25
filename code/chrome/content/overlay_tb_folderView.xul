@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_tb_folderView.js" />
+
+    <popup id="folderPaneContext">
+        <menuitem id="firetag-folderview-context"
+                  label="Set Pimo?"
+                  accesskey="P"
+                  oncommand=""
+                  insertafter="folderPaneContext-settings"/>
+    </popup>
+    <menupopup id="menu_FolderViewsPopup">
+        <menuitem id="firetag-folderview-menu" value="pimo"
+                  label="Pimo Annotations"
+                  accesskey="P"
+                  type="radio" name="viewmessages"
+                  oncommand="gFolderTreeView.mode = this.value"/>
+    </menupopup>
+</overlay>
