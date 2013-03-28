@@ -396,16 +396,15 @@ Sidebar.prototype = {
             if (column.id == "name") {
                 if (row === 0) {
                     return "Annotated Concepts";
-                } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
-                    return dfki.FireTag.instance.annotatedConcepts[row - 1].name;
                 } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
                     return "Inferred Concepts";
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                    return dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2].name;
                 } else if (row == (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return "Found Concepts";
-                } else if (row > (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    return dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1].name;
+                } else {
+                    let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                    if (resource != null) {
+                        return resource.name;
+                    }
                 }
             }
             return null;
@@ -416,16 +415,10 @@ Sidebar.prototype = {
         isContainerOpen : function (row) {
             if (row === 0) {
                 return true;
-            } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
-                return false;
-            } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
+            } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                 return true;
-            } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                return false;
-            } else if (row == (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
+            } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                 return true;
-            } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                return false;
             }
             return false;
         },
@@ -444,11 +437,8 @@ Sidebar.prototype = {
         isEditable: function (row, column) { return false; },
         isSelectable : function (row, col) {
             if (col.id == "action") {
-                if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    return true;
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                    return true;
-                } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
+                let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                if (resource != null) {
                     return true;
                 }
             }
@@ -457,16 +447,16 @@ Sidebar.prototype = {
         getParentIndex : function (row) {
             if (row === 0) {
                 return -1;
-            } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
-                return 0;
             } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
                 return -1;
-            } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                return dfki.FireTag.instance.annotatedConcepts.length + 1;
             } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                 return -1;
-            } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                return dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1;
+            } else {
+                let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                if (resource != null) {
+                    let parent = dfki.FireTag.instance.getResourceParent(resource);
+                    return row - parent.indexOf(resource) - 1;
+                }
             }
             return -1;
         },
@@ -492,46 +482,31 @@ Sidebar.prototype = {
         toggleOpenState : function (row) {},
         getImageSrc: function (row, col) {
             if (col.id == "name") {
-                let resource = { icon : null };
-                if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    resource = dfki.FireTag.instance.annotatedConcepts[row - 1];
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                    resource = dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2];
-                } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                    resource = dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1];
+                let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                if (resource != null) {
+                    return resource.icon;
                 }
-                return resource.icon;
-            }
-
-            if (col.id == "action") {
-                if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    return "chrome://FireTag/skin/delete.png";
-                } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    if (dfki.FireTag.instance.conversationConcepts.length > 0)
+            } else if (col.id == "action") {
+                if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1)) {
+                    if (dfki.FireTag.instance.conversationConcepts.length > 0) {
                         return "chrome://FireTag/skin/addAll.png";
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                    return "chrome://FireTag/skin/add.png";
-                } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                    return "chrome://FireTag/skin/add.png";
+                    }
+                } else {
+                    let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                    let parent = dfki.FireTag.instance.getResourceParent(resource);
+                    if (parent == dfki.FireTag.instance.annotatedConcepts) {
+                        return "chrome://FireTag/skin/delete.png";
+                    } else if ((parent == dfki.FireTag.instance.conversationConcepts) || (parent == dfki.FireTag.instance.suggestedConcepts)) {
+                        return "chrome://FireTag/skin/add.png";
+                    }
                 }
-                return null;
-            }
-
-            if (col.id == "isPublic") {
-                if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
-                    if (!(dfki.FireTag.instance.annotatedConcepts[row - 1].isPublic)) {
-                        return "chrome://FireTag/skin/private.png";
-                    }
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                    if (!(dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2].isPublic)) {
-                        return "chrome://FireTag/skin/private.png";
-                    }
-                } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                    if (!(dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1].isPublic)) {
+            } else if (col.id == "isPublic") {
+                let resource = dfki.FireTag.instance.getResourceAtRow(row);
+                if (resource != null) {
+                    if (!resource.isPublic) {
                         return "chrome://FireTag/skin/private.png";
                     }
                 }
-                return null;
             }
             return null;
         },
@@ -554,6 +529,17 @@ Sidebar.prototype = {
             return this.conversationConcepts[row - this.annotatedConcepts.length - 1 - 1];
         } else if (row > (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1)) {
             return this.suggestedConcepts[row - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1];
+        }
+        return null;
+    },
+
+    getResourceParent : function(resource) {
+        if (this.annotatedConcepts.indexOf(resource) > -1) {
+            return this.annotatedConcepts;
+        } else if (this.conversationConcepts.indexOf(resource) > -1) {
+            return this.conversationConcepts;
+        }  else if (this.suggestedConcepts.indexOf(resource) > -1) {
+            return this.suggestedConcepts;
         }
     },
 
@@ -707,32 +693,20 @@ Sidebar.prototype = {
                 if (event.detail == 2) {
                     row = row.value;
 
-                    var uri = null;
-
-                    if ((row > 0) && (row < this.annotatedConcepts.length + 1)) {
-                        uri = Services.io.newURI(this.annotatedConcepts[row - 1].uri, null, null);
-                    } else if ((row > this.annotatedConcepts.length + 1) && (row < (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
-                        uri = Services.io.newURI(this.conversationConcepts[row - this.annotatedConcepts.length - 1 - 1].uri, null, null);
-                    } else if (row > (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1)) {
-                        uri = Services.io.newURI(this.suggestedConcepts[row - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1].uri, null, null);
-                    }
-
-                    if (uri) {
+                    let resource = this.getResourceAtRow(row);
+                    if (resource != null) {
+                        let uri = Services.io.newURI(resource.uri, null, null);
                         Sidebar.extProtService.loadUrl(uri);
                     }
                 }
             }
-            else if (column.value.id ="isPublic") {
+            else if (column.value.id == "isPublic") {
                 if (event.detail == 2) {
                     row = row.value;
-                    if ((row > 0) &&
-                            (row != (this.annotatedConcepts.length + 1)) &&
-                            (row != (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
-                        let resource = this.getResourceAtRow.call(this, row);
-                        if (!resource.isPublic) {
-                            this.publish.call(this, [resource]);
-                            resource.isPublic = true;
-                        }
+                    let resource = this.getResourceAtRow(row);
+                    if ((resource != null) && (!resource.isPublic)) {
+                        this.publish.call(this, [resource]);
+                        resource.isPublic = true;
                     }
                 }
             }
@@ -748,28 +722,20 @@ Sidebar.prototype = {
     },
 
     onTreeItemTooltipShowing : function(event) {
-        function getConceptTypeAtCell(row, column) {
-            if ((row >= 0) && (column) && (column.id == "name")) {
-                if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
-                    return dfki.FireTag.instance.annotatedConcepts[row - 1].types[0].label;
-                } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
-                    return dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2].types[0].label;
-                } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
-                    return dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1].types[0].label;
-                }
-            }
-            return null;
-        }
-
-        let tooltip = document.getElementById("treeItemTooltip");
         let row = {}, column = {}, part = {};
         dfki.FireTag.instance.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
-        let conceptText = getConceptTypeAtCell(row.value, column.value);
-        if ((conceptText) && (conceptText.length > 0)) {
-            tooltip.label = conceptText;
-        } else {
-            event.preventDefault();
+        if (column.value.id == "name") {
+            let resource = this.getResourceAtRow(row.value);
+            if (resource != null) {
+                let conceptText = resource.types[0].label;
+                if ((conceptText) && (conceptText.length > 0)) {
+                    let tooltip = document.getElementById("treeItemTooltip");
+                    tooltip.label = conceptText;
+                    return;
+                }
+            }
         }
+        event.preventDefault();
     },
 
     onSearchboxTextEntered : function() {
@@ -879,7 +845,7 @@ Sidebar.testConceptIsOfType = function( concept, typeUri ) {
         	return true;
     }
     return false;
-}
+};
 
 // Class methods
 Sidebar.addPimoConceptToModel = function(concept, model) {
