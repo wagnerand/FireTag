@@ -49,6 +49,17 @@ Sidebar.prototype.addListeners = function() {
      }*/
 };
 
+Sidebar.prototype.publish = function (resources) {
+    for (let i = 0, len = resources.length; i < len; i++) {
+        let resourceURI = resources[i].uri;
+        var json = {
+            method: "PimoGroupApi.setPublic",
+            params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json);
+    }
+};
+
 Sidebar.getCurrentResources = function() {
     return window.top.gFolderDisplay.selectedMessages;
 };
