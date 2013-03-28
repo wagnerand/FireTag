@@ -1,9 +1,10 @@
 function componentConstruct() {
-    if (Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.indexOf("X-PIMO-DRAFTURI:") > -1) {
-        let head = Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders;
-        this.draftId = head.match(/X-PIMO-DRAFTURI: message-draft-id:\/\/[\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}/);
-        dfki.FireTag.common.LOG("Recovered X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + " from header.");
-    }
+// not working as otherRandomHeaders is empty!
+//    if (Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.indexOf("X-PIMO-DRAFTURI:") > -1) {
+//        let head = Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders;
+//        this.draftId = head.match(/X-PIMO-DRAFTURI: message-draft-id:\/\/[\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}/);
+//        dfki.FireTag.common.LOG("Recovered X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + " from header.");
+//    }
 }
 
 Sidebar.prototype.addListeners = function() {
@@ -21,7 +22,7 @@ Sidebar.prototype.addListeners = function() {
             Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.replace(head, "");
             dfki.FireTag.common.LOG("Removed X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + " from header.");
         }
-    }
+    };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true );
     Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
