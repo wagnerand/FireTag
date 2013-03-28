@@ -11,7 +11,11 @@ Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 
 var rpc = {
 
+    globalCount : 0,
+
     JSONRPCCall : function (json, callback, param) {
+        let localCount = ++this.globalCount;
+        let start = Date.now();
 
         var host = dfki.FireTag.common.prefBranch.getCharPref("server.host");
         var port = dfki.FireTag.common.prefBranch.getCharPref("server.port");
@@ -24,6 +28,8 @@ var rpc = {
         p.onreadystatechange = function () {
             if (p.readyState == 4) {
                 if (p.status == 200) {
+                    let duration = Date.now() - start;
+                    dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
                     if ((p.responseText) && (callback)) {
                         callback.call(this, p.responseText, param);
                     }
@@ -33,7 +39,7 @@ var rpc = {
 
         p.open("POST", destination);
         p.send(JSON.stringify(json));
-        dfki.FireTag.common.LOG("JSON sent to: " + destination + "\n " + JSON.stringify(json) + "\n");
+        dfki.FireTag.common.LOG("RPC (" + localCount + ") to: " + destination + "\n " + JSON.stringify(json) + "\n");
     }
 
 };
