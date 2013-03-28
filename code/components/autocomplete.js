@@ -190,7 +190,7 @@ EAAutoCompleteSearch.prototype = {
           var newResult = new EAAutoCompleteResult(searchString, Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", dfki.FireTag.common.autoComplete.results);
           listener.onSearchResult(that, newResult);
       };
-      dfki.FireTag.rpc.JSONRPCCall.call(this, json, callback, globalRequestCounter);
+      dfki.FireTag.rpc.JSONRPCCall(json, callback, globalRequestCounter);
   },
 
   /*

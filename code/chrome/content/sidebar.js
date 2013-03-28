@@ -598,7 +598,7 @@ Sidebar.prototype = {
                     method : "PimoManipulationApi.setPrefLabel",
                     params : [ dfki.FireTag.common.authKey, resourceURI, newLabel ]
                 };
-                dfki.FireTag.rpc.JSONRPCCall.call(this, json);
+                dfki.FireTag.rpc.JSONRPCCall(json);
 
                 labelElement.value = newLabel;
                 labelElement.className = "plain";
