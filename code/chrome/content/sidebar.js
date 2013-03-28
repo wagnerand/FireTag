@@ -724,7 +724,7 @@ Sidebar.prototype = {
     onTreeItemTooltipShowing : function(event) {
         let row = {}, column = {}, part = {};
         dfki.FireTag.instance.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
-        if (column.value.id == "name") {
+        if ((column.value) && (column.value.id == "name")) {
             let resource = this.getResourceAtRow(row.value);
             if (resource != null) {
                 let conceptText = resource.types[0].label;
