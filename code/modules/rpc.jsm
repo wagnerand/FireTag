@@ -31,6 +31,9 @@ var rpc = {
                     let duration = Date.now() - start;
                     dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
                     if ((p.responseText) && (callback)) {
+                        if (dfki.FireTag.common.prefBranch.getBoolPref("debug.rpc")) {
+                            dfki.FireTag.common.LOG("RPC (" + localCount + ") response: " + p.responseText);
+                        }
                         callback.call(this, p.responseText, param);
                     }
                 }
