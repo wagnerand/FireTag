@@ -3,7 +3,6 @@
 <?xml-stylesheet href="chrome://global/skin/toolbarbutton.css" type="text/css" ?>
 <?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
 <?xml-stylesheet href="chrome://FireTag/skin/style.css" type="text/css"?>
-<?xml-stylesheet href="chrome://FireTag/skin/style_fx.css" type="text/css"?>
 
 <?xul-overlay href="chrome://FireTag/content/sidebar_fx.xul"?>
 

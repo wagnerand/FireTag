@@ -26,8 +26,8 @@ var rpc = {
         var destination = "http://" + host + ":" + port + "/" + path;
 
         p.onreadystatechange = function () {
-            if (p.readyState == 4) {
-                if (p.status == 200) {
+            if (p.readyState === 4) {
+                if (p.status === 200) {
                     let duration = Date.now() - start;
                     dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
                     if ((p.responseText) && (callback)) {

@@ -29,12 +29,12 @@ MessageIdOpener.prototype = {
         try {
             var uristr = cmdLine.handleFlagWithParam("message-id", false);
             if (uristr) {
-                if (uristr.substr(0, 11) == "message-id:") {
+                if (uristr.substr(0, 11) === "message-id:") {
                     uristr = uristr.substr(11);
-                    if (uristr.substr(0, 2) == "//") {
+                    if (uristr.substr(0, 2) === "//") {
                         uristr = uristr.substr(2);
                     }
-                    if (uristr.substr(uristr.length - 1) == "/") {
+                    if (uristr.substr(uristr.length - 1) === "/") {
                         uristr = uristr.substr(0, uristr.length - 1);
                     }
                 }

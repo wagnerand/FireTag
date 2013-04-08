@@ -90,7 +90,7 @@ EAAutoCompleteResult.prototype = {
 //    if (!this._comments || !this._comments[index])
 //      return null;  // not a category label, so no special styling
 //
-//    if (index == 0)
+//    if (index === 0)
 //      return "suggestfirst";  // category label on first line of results
 //
 //    return "suggesthint";   // category label on any other line of results
@@ -130,7 +130,7 @@ function EAAutoCompleteSearch() {
 function testConceptIsOfType( concept, typeUri ) {
     for (let i = 0; i < concept.allTypes.length; i++) {
         let conceptTypeUri = concept.allTypes[i].uri;
-        if (conceptTypeUri == typeUri)
+        if (conceptTypeUri === typeUri)
         	return true;
     }
     return false;
@@ -162,7 +162,7 @@ EAAutoCompleteSearch.prototype = {
               params : [dfki.FireTag.common.authKey, "*" + searchString + "*", 0, 0]
       };
       var callback = function (response, counter) {
-          if (counter != globalRequestCounter) {
+          if (counter !== globalRequestCounter) {
               return;
           }
           var rpcResult = JSON.parse(response).result;

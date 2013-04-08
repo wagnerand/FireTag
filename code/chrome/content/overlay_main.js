@@ -14,7 +14,7 @@ dfki.FireTag.overlay = {
 
     storeSidebarState : function () {
         var splitter = document.getElementById("FireTagSplitter");
-        if (splitter.getAttribute("state") == "") {
+        if (!splitter.getAttribute("state")) {
             splitter.setAttribute("state", "open");
         }
     },

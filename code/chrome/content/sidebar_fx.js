@@ -86,18 +86,18 @@ Sidebar.prototype.onPageLoad = function(event) {
     }
 
     var doc = event.originalTarget;
-    if (doc.location.href != Sidebar.mainWin.gBrowser.contentDocument.location.href) {
+    if (doc.location.href !== Sidebar.mainWin.gBrowser.contentDocument.location.href) {
         return;
     }
 
     var win = doc.defaultView;
-    if (win != win.top) {
+    if (win !== win.top) {
         return;
     }
     if (win.frameElement) {
         return;
     }
-    if (doc.nodeName == "#document") {
+    if (doc.nodeName === "#document") {
         this.rebuildSidebar();
     }
 };
