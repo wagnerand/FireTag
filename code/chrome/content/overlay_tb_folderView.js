@@ -57,7 +57,7 @@ let gPimoFolderTreeMode = {
             gFolderTreeView._rowMap = map;
             gFolderTreeView._tree.rowCountChanged(0, map.length);
         };
-        dfki.FireTag.rpc.JSONRPCCall.call(this, json, callback);
+        dfki.FireTag.rpc.JSONRPCCall(json, callback);
 
         return [];
     },
