@@ -46,7 +46,7 @@ var treeView = {
     isSorted: function () { return false; },
     getLevel: function (row) { return 0; },
     getImageSrc: function (row, col) {
-        if (col.id == "name") {
+        if (col.id === "name") {
             return visibleItems[row].iconBase64For16x16;
         }
         return null;

@@ -26,7 +26,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
             for (var hdr in fixIterator(aMsgs.enumerate(), Components.interfaces.nsIMsgDBHdr)) {
 
                 // Is this message a draft? Then don't try to change the uri!
-                if (hdr.folder.getFlag(0x00000400) == false) {
+                if (!hdr.folder.getFlag(0x00000400)) {
                     let jsonCheckExisting = {
                         method : "PimoQueryApi.isExisting",
                         params : [ dfki.FireTag.common.authKey, hdr.messageId ]
@@ -34,7 +34,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
 
                     var callbackCheckExisting =  function (response) {
                         var result = JSON.parse(response).result;
-                        if (result == false) {
+                        if (!result) {
                             let uri = hdr.folder.getUriForMsg(hdr);
                             let messageService = Components.classes["@mozilla.org/messenger;1"]
                                 .createInstance(Components.interfaces.nsIMessenger)

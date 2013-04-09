@@ -71,8 +71,8 @@ Sidebar.prototype = {
 
         let currentSelectionCount = Sidebar.getCurrentSelectionCount();
 
-        if (currentSelectionCount == 1) {
-            if ((!resources) || (resources.length == 0)) {
+        if (currentSelectionCount === 1) {
+            if ((!resources) || (resources.length === 0)) {
                 imageIsPrivate.style.visibility = "hidden";
                 labelResource.value = "";
                 labelResource.tooltipText = "";
@@ -84,7 +84,7 @@ Sidebar.prototype = {
                 labelResource.className = "plain";
                 labelResource.value = resources[0].label;
                 labelResource.tooltipText = resources[0].label;
-                if (resources[0].public == true) {
+                if (resources[0].public) {
                     buttonPublish.disabled = true;
                     imageIsPrivate.style.visibility = "hidden";
                 }
@@ -97,7 +97,7 @@ Sidebar.prototype = {
         }
         //We already check for selection count < 1 in rebuildSidebar, so it must be > 1 here
         else {
-            if ((!resources) || (resources.length == 0)) {
+            if ((!resources) || (resources.length === 0)) {
                 imageIsPrivate.style.visibility = "hidden";
                 labelResource.className = "header";
                 labelResource.value = "0 of " + currentSelectionCount + " messages in PIMO.";
@@ -117,7 +117,7 @@ Sidebar.prototype = {
                 let isPublic = resources[0].public;
                 let mixedStatus = false;
                 for (let i = 1; i < resources.length; i++) {
-                    if (resources[i].public != isPublic) {
+                    if (resources[i].public !== isPublic) {
                         mixedStatus = true;
                         break;
                     }
@@ -169,9 +169,9 @@ Sidebar.prototype = {
     },
 
     selectedResourcesChanged : function() {
-        if ((this.lastSelectedResources) && (this.lastSelectedResources.length == Sidebar.getCurrentResources().length)) {
+        if ((this.lastSelectedResources) && (this.lastSelectedResources.length === Sidebar.getCurrentResources().length)) {
             for (let i = 0; i < Sidebar.getCurrentResources().length; i++) {
-                if ((!this.lastSelectedResources[i]) || (Sidebar.getCurrentResources()[i] != this.lastSelectedResources[i])) {
+                if ((!this.lastSelectedResources[i]) || (Sidebar.getCurrentResources()[i] !== this.lastSelectedResources[i])) {
                     return true;
                 }
             }
@@ -232,7 +232,7 @@ Sidebar.prototype = {
 
                         let alreadyInAnnotated = false;
                         for (let k = 0; k < self.annotatedConcepts.length; k++) {
-                            if (self.annotatedConcepts[k].uri == currentResult.uri) {
+                            if (self.annotatedConcepts[k].uri === currentResult.uri) {
                                 alreadyInAnnotated = true;
                                 break;
                             }
@@ -241,7 +241,7 @@ Sidebar.prototype = {
                         if (!alreadyInAnnotated) {
                             let alreadyInConversation = false;
                             for (let m = 0; m < self.conversationConcepts.length; m++) {
-                                if (self.conversationConcepts[m].uri == currentResult.uri) {
+                                if (self.conversationConcepts[m].uri === currentResult.uri) {
                                     alreadyInConversation = true;
                                     break;
                                 }
@@ -288,7 +288,7 @@ Sidebar.prototype = {
     },
 
     getConversationAnnotations : function(resources) {
-/*        if (resources.length == 1) {
+/*        if (resources.length === 1) {
             if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
                 this.getOBIEResults(resources);
             }
@@ -297,7 +297,7 @@ Sidebar.prototype = {
 */
         var resourceURIs = [];
         for (let x = 1; x < resources.length; x++) {
-            if (resources[x].threadId != resources[0].threadId) {
+            if (resources[x].threadId !== resources[0].threadId) {
                 if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
                     this.getOBIEResults(resources);
                 }
@@ -344,7 +344,7 @@ Sidebar.prototype = {
                                             for (let i = 0; i < result.length; i++) {
                                                 var alreadyInAnnotated = false;
                                                 for (let j = 0; j < self.annotatedConcepts.length; j++) {
-                                                    if (self.annotatedConcepts[j].uri == result[i].uri) {
+                                                    if (self.annotatedConcepts[j].uri === result[i].uri) {
                                                         alreadyInAnnotated = true;
                                                         break;
                                                     }
@@ -378,7 +378,7 @@ Sidebar.prototype = {
             }
         };
 
-        if (typeof Gloda != "undefined") {
+        if (Gloda) {
             Gloda.getMessageCollectionForHeader(msgHdr, convFinderListener);
         } else {
             if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
@@ -393,16 +393,16 @@ Sidebar.prototype = {
         rowCount : 0,
         setTree: function (treebox) { this.treebox = treebox; },
         getCellText : function (row, column) {
-            if (column.id == "name") {
+            if (column.id === "name") {
                 if (row === 0) {
                     return "Annotated Concepts";
                 } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
                     return dfki.FireTag.instance.annotatedConcepts[row - 1].name;
-                } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
+                } else if (row === dfki.FireTag.instance.annotatedConcepts.length + 1) {
                     return "Inferred Concepts";
                 } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                     return dfki.FireTag.instance.conversationConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 2].name;
-                } else if (row == (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
+                } else if (row === (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return "Found Concepts";
                 } else if (row > (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return dfki.FireTag.instance.suggestedConcepts[row - dfki.FireTag.instance.annotatedConcepts.length - 1 - dfki.FireTag.instance.conversationConcepts.length - 1 - 1].name;
@@ -411,18 +411,18 @@ Sidebar.prototype = {
             return null;
         },
         isContainer: function (row) {
-            return ((row === 0) || (row == dfki.FireTag.instance.annotatedConcepts.length + 1) || (row == dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1));
+            return ((row === 0) || (row === dfki.FireTag.instance.annotatedConcepts.length + 1) || (row === dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1));
         },
         isContainerOpen : function (row) {
             if (row === 0) {
                 return true;
             } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
                 return false;
-            } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
+            } else if (row === dfki.FireTag.instance.annotatedConcepts.length + 1) {
                 return true;
             } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
                 return false;
-            } else if (row == (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
+            } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                 return true;
             } else if (row > (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1)) {
                 return false;
@@ -443,7 +443,7 @@ Sidebar.prototype = {
         isSorted: function () { return false; },
         isEditable: function (row, column) { return false; },
         isSelectable : function (row, col) {
-            if (col.id == "action") {
+            if (col.id === "action") {
                 if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return true;
                 } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
@@ -459,7 +459,7 @@ Sidebar.prototype = {
                 return -1;
             } else if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
                 return 0;
-            } else if (row == dfki.FireTag.instance.annotatedConcepts.length + 1) {
+            } else if (row === dfki.FireTag.instance.annotatedConcepts.length + 1) {
                 return -1;
             } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
                 return dfki.FireTag.instance.annotatedConcepts.length + 1;
@@ -480,7 +480,7 @@ Sidebar.prototype = {
             let thisLevel = dfki.FireTag.instance.getLevel(row);
             for (let t = afterIndex + 1; t < this.rowCount; t++) {
                 let nextLevel = dfki.FireTag.instance.getLevel(t);
-                if (nextLevel == thisLevel) {
+                if (nextLevel === thisLevel) {
                     return true;
                 }
                 if (nextLevel < thisLevel) {
@@ -491,7 +491,7 @@ Sidebar.prototype = {
         },
         toggleOpenState : function (row) {},
         getImageSrc: function (row, col) {
-            if (col.id == "name") {
+            if (col.id === "name") {
                 let resource = { icon : null };
                 if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     resource = dfki.FireTag.instance.annotatedConcepts[row - 1];
@@ -503,7 +503,7 @@ Sidebar.prototype = {
                 return resource.icon;
             }
 
-            if (col.id == "action") {
+            if (col.id === "action") {
                 if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     return "chrome://FireTag/skin/delete.png";
                 } else if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1)) {
@@ -517,7 +517,7 @@ Sidebar.prototype = {
                 return null;
             }
 
-            if (col.id == "isPublic") {
+            if (col.id === "isPublic") {
                 if ((row > 0) && (row < dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     if (!(dfki.FireTag.instance.annotatedConcepts[row - 1].isPublic)) {
                         return "chrome://FireTag/skin/private.png";
@@ -586,7 +586,7 @@ Sidebar.prototype = {
     },
 
     onButtonEditResourceLabelClicked : function() {
-        if (Sidebar.getCurrentSelectionCount() == 1) {
+        if (Sidebar.getCurrentSelectionCount() === 1) {
             let currentThing = this.currentResourcesAsPimoThings[0];
             let labelElement = document.getElementById("labelResource");
             let resourceURI = currentThing.uri;
@@ -625,7 +625,7 @@ Sidebar.prototype = {
         var row = {}, column = {}, part = {}, json = null;
         this.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
         if (column.value) {
-            if (column.value.id == "action") {
+            if (column.value.id === "action") {
                 row = row.value;
                 var resources = Sidebar.getCurrentResources();
 
@@ -644,7 +644,7 @@ Sidebar.prototype = {
                         params : [ dfki.FireTag.common.authKey, resourceURIs, removedItem.uri ]
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json);
-                } else if (row == (this.annotatedConcepts.length + 1)) {
+                } else if (row === (this.annotatedConcepts.length + 1)) {
                     while (this.conversationConcepts.length > 0) {
                         this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(row - this.annotatedConcepts.length - 1 - 1, 1)[0];
                         this.treeboxObject.invalidate();
@@ -676,7 +676,7 @@ Sidebar.prototype = {
                     };
                     let self = this;
                     let callback = function(response) {
-                        if (self.annotatedConcepts.length == 1)
+                        if (self.annotatedConcepts.length === 1)
                             self.rebuildSidebar.call(self, true);
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json, callback);
@@ -692,7 +692,7 @@ Sidebar.prototype = {
                     };
                     let self = this;
                     let callback = function(response) {
-                        if (self.annotatedConcepts.length == 1)
+                        if (self.annotatedConcepts.length === 1)
                             self.rebuildSidebar.call(self, true);
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json, callback);
@@ -702,8 +702,8 @@ Sidebar.prototype = {
                 this.annotationTree.view.selection.clearSelection();
                 this.annotationTree.view.selection.invalidateSelection();
             }
-            else if (column.value.id == "name") {
-                if (event.detail == 2) {
+            else if (column.value.id === "name") {
+                if (event.detail === 2) {
                     row = row.value;
 
                     var uri = null;
@@ -722,11 +722,11 @@ Sidebar.prototype = {
                 }
             }
             else if (column.value.id ="isPublic") {
-                if (event.detail == 2) {
+                if (event.detail === 2) {
                     row = row.value;
                     if ((row > 0) &&
-                            (row != (this.annotatedConcepts.length + 1)) &&
-                            (row != (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
+                            (row !== (this.annotatedConcepts.length + 1)) &&
+                            (row !== (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
                         let resource = this.getResourceAtRow.call(this, row);
                         if (!resource.isPublic) {
                             this.publish.call(this, [resource]);
@@ -748,7 +748,7 @@ Sidebar.prototype = {
 
     onTreeItemTooltipShowing : function(event) {
         function getConceptTypeAtCell(row, column) {
-            if ((row >= 0) && (column) && (column.id == "name")) {
+            if ((row >= 0) && (column) && (column.id === "name")) {
                 if (row < dfki.FireTag.instance.annotatedConcepts.length + 1) {
                     return dfki.FireTag.instance.annotatedConcepts[row - 1].types[0].label;
                 } else if ((row > dfki.FireTag.instance.annotatedConcepts.length + 1) && (row < (dfki.FireTag.instance.annotatedConcepts.length + 1 + dfki.FireTag.instance.conversationConcepts.length + 1))) {
@@ -830,7 +830,7 @@ Sidebar.prototype = {
 
             var isAlreadyInList = false;
             for (let i = 0; i < dfki.FireTag.instance.annotatedConcepts.length; i++) {
-                if (autoCompleteResult.uri == dfki.FireTag.instance.annotatedConcepts[i].uri) {
+                if (autoCompleteResult.uri === dfki.FireTag.instance.annotatedConcepts[i].uri) {
                     isAlreadyInList = true;
                     break;
                 }
@@ -862,7 +862,7 @@ Sidebar.prototype = {
     },
 
     onLabelClicked : function(event) {
-        if (event.detail == 2) {
+        if (event.detail === 2) {
             let resources = this.currentResourcesAsPimoThings;
             for (let i = 0; i < resources.length; i++) {
                 Sidebar.openResourceExternal(resources[i].uri);
@@ -874,7 +874,7 @@ Sidebar.prototype = {
 Sidebar.testConceptIsOfType = function( concept, typeUri ) {
     for (let i = 0; i < concept.allTypes.length; i++) {
         let conceptTypeUri = concept.allTypes[i].uri;
-        if (conceptTypeUri == typeUri)
+        if (conceptTypeUri === typeUri)
         	return true;
     }
     return false;

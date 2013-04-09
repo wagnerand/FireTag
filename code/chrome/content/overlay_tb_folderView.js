@@ -76,12 +76,12 @@ let gPimoFolderTreeMode = {
     }
 };
 
-gFolderTreeView.registerFolderTreeMode('pimo', gPimoFolderTreeMode, "Pimo Annotations!");
+gFolderTreeView.registerFolderTreeMode("pimo", gPimoFolderTreeMode, "Pimo Annotations!");
 
 function testConceptIsOfType ( concept, typeUri ) {
     for (let i = 0; i < concept.allTypes.length; i++) {
         let conceptTypeUri = concept.allTypes[i].uri;
-        if (conceptTypeUri == typeUri)
+        if (conceptTypeUri === typeUri)
             return true;
     }
     return false;

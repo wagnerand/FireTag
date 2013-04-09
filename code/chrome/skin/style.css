@@ -14,7 +14,7 @@
 #annotationTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }
 #annotationTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
 
-#annotationSearchBoxTb { -moz-binding: url('chrome://global/content/bindings/autocomplete.xml#autocomplete'); }
+#annotationSearchBoxTb { -moz-binding: url("chrome://global/content/bindings/autocomplete.xml#autocomplete"); }
 
 #annotationSearchBoxTb .autocomplete-history-dropmarker {
     display: none;

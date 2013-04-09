@@ -9,7 +9,7 @@ Components.utils.import("resource:///modules/gloda/public.js");
 
 Sidebar.prototype.addListeners = function() {
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
-    if (window.top.document.location == "chrome://messenger/content/messenger.xul") {
+    if (window.top.document.location === "chrome://messenger/content/messenger.xul") {
         let msgTree = window.top.GetThreadTree();
         let self = this;
         msgTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
@@ -30,9 +30,9 @@ Sidebar.prototype.addListeners = function() {
             monitorName : "FireTag_tabMonitor",
             onTabTitleChanged : function (aTab) {},
             onTabSwitched : function (aTab, aOldTab) {
-                if (aTab.mode.name == "folder") {
+                if (aTab.mode.name === "folder") {
                     self.rebuildSidebar.call(self);
-                } /*else if (aTab.mode.name == "message") {
+                } /*else if (aTab.mode.name === "message") {
                  var msgHdr = aTab.folderDisplay.selectedMessage;
                  getPimoResults([msgHdr]);
                  }*/
@@ -43,7 +43,7 @@ Sidebar.prototype.addListeners = function() {
             onTabRestored : function (aTab, aState, aIsFirstTab) {}
         };
         window.top.document.getElementById("tabmail").registerTabMonitor(tabMonitor);
-    } /*else if (window.top.document.location == "chrome://messenger/content/messengercompose/messengercompose.xul") {
+    } /*else if (window.top.document.location === "chrome://messenger/content/messengercompose/messengercompose.xul") {
      var msgHdr = window.top.messageSinkHeader.mSaveHdr;
      getPimoResults([msgHdr]);
      }*/

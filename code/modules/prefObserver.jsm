@@ -10,22 +10,22 @@ var prefObserver = function (callback) {
 };
 
 prefObserver.prototype.observe = function (subject, topic, data) {
-    if (topic == 'nsPref:changed') {
+    if (topic === "nsPref:changed") {
         this._callback(this._branch, data);
     }
 };
 
 prefObserver.prototype.register = function (trigger) {
-    this._branch.addObserver('', this, false);
+    this._branch.addObserver("", this, false);
     if (trigger) {
         let that = this;
-        this._branch.getChildList('', {}).
+        this._branch.getChildList("", {}).
             forEach(function (pref_leaf_name) { that._callback(that._branch, pref_leaf_name); });
     }
 };
 
 prefObserver.prototype.unregister = function () {
     if (this._branch) {
-        this._branch.removeObserver('', this);
+        this._branch.removeObserver("", this);
     }
 };
