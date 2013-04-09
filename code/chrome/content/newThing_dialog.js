@@ -8,15 +8,15 @@ if (!dfki.FireTag) {
 Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
 
-var visibleItems = [];
-var classes = [];
+let visibleItems = [];
+let classes = [];
 
-var classTree = null;
-var treeboxObject = null;
+let classTree = null;
+let treeboxObject = null;
 
 function onAccept() {
-    var selectionIndex = classTree.currentIndex;
-    var selectedItem = visibleItems[selectionIndex];
+    let selectionIndex = classTree.currentIndex;
+    let selectedItem = visibleItems[selectionIndex];
     window.arguments[0].out = {
             type : selectedItem.uri,
             icon : selectedItem.iconBase64For16x16
@@ -33,7 +33,7 @@ function onClickTree(event) {
     }
 }
 
-var treeView = {
+let treeView = {
     treebox: null,
     selection: null,
     rowCount : visibleItems.length,
@@ -62,12 +62,12 @@ function setView() {
 }
 
 function getAllClasses() {
-    var json = {
+    let json = {
             method : "PimoSchemaQueryApi.getAllThingSubclasses",
             params : [dfki.FireTag.common.authKey, 0, 0]
         };
 
-    var callback = function (response) {
+    let callback = function (response) {
         classes = JSON.parse(response).result;
         visibleItems = classes.slice(0);
         treeboxObject.rowCountChanged(0, visibleItems.length);
@@ -78,7 +78,7 @@ function getAllClasses() {
 function searchClass() {
     treeboxObject.rowCountChanged(0, -visibleItems.length);
     visibleItems.length = 0;
-    var searchString = document.getElementById("newThingSearchBox").value.trim().toLowerCase();
+    let searchString = document.getElementById("newThingSearchBox").value.trim().toLowerCase();
     if (searchString.length > 0) {
         for (let i = 0; i < classes.length; i++) {
             if (classes[i].label.toLowerCase().indexOf(searchString) >= 0) {

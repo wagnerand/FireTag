@@ -1,8 +1,8 @@
-var EXPORTED_SYMBOLS = [ "prefObserver" ];
+let EXPORTED_SYMBOLS = [ "prefObserver" ];
 
-var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+let prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
 
-var prefObserver = function (callback) {
+let prefObserver = function (callback) {
     // We need to keep a reference to the branch to prevent garbage collection
     this._branch = prefService.getBranch("extensions.dfki.FireTag.");
     this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);

@@ -183,13 +183,13 @@ Sidebar.prototype = {
     lookupResources : function(resourceURIs) {
         let resourceURIsSliced = resourceURIs.slice(0, Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC);
         if (resourceURIsSliced.length > 0) {
-            var json = {
+            let json = {
                 method : "PimoDataApi.getAndCollectThingsForGroundingOccurrences",
                 params : [ dfki.FireTag.common.authKey, resourceURIsSliced ]
             };
             let self = this;
-            var callback = function (response) {
-                var result = JSON.parse(response).result;
+            let callback = function (response) {
+                let result = JSON.parse(response).result;
                 if ((result)) {
                     for (let i = 0; i < result.length; i++) {
                         if (result[i].res) {
@@ -205,21 +205,21 @@ Sidebar.prototype = {
     },
 
     getOBIEResults : function(resources) {
-        var obieTexts = [];
-        var pimoResourceUris = [];
-        var len = Math.min(resources.length, Sidebar.MAX_NUMBER_OF_RESOURCES);
-        for (var i = 0; i < len; i++) {
+        let obieTexts = [];
+        let pimoResourceUris = [];
+        let len = Math.min(resources.length, Sidebar.MAX_NUMBER_OF_RESOURCES);
+        for (let i = 0; i < len; i++) {
             obieTexts.push(Sidebar.getResourceTextForOBIE(resources[i]));
             pimoResourceUris.push(Sidebar.getPimoResourceUri(resources[i]));
         }
 
-        var json = {
+        let json = {
             method : "ObieApi.findAndCollectEntityReferencesInTexts",
             params : [ dfki.FireTag.common.authKey, obieTexts, pimoResourceUris ]
         };
 
         let self = this;
-        var callback = function (response) {
+        let callback = function (response) {
             let result = JSON.parse(response).result;
             if (result) {
 
@@ -295,7 +295,7 @@ Sidebar.prototype = {
             return;
         }
 */
-        var resourceURIs = [];
+        let resourceURIs = [];
         for (let x = 1; x < resources.length; x++) {
             if (resources[x].threadId !== resources[0].threadId) {
                 if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
@@ -305,36 +305,36 @@ Sidebar.prototype = {
             }
         }
 
-        var msgHdr = resources[0];
+        let msgHdr = resources[0];
 
         let self = this;
 
-        var convFinderListener = {
+        let convFinderListener = {
             onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
             onItemsModified: function _onItemsModified(aItems, aCollection) {},
             onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
             onQueryCompleted: function _onQueryCompleted(conversation_coll) {
                 try {
-                    var messagesListener = {
+                    let messagesListener = {
                         onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
                         onItemsModified: function _onItemsModified(aItems, aCollection) {},
                         onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
                         onQueryCompleted: function _onQueryCompleted(conversation_coll) {
                             try {
                                 for (let i = 0; i < conversation_coll.items.length; i++) {
-                                    var currentHeader = conversation_coll.items[i].folderMessage;
+                                    let currentHeader = conversation_coll.items[i].folderMessage;
                                     if (resources.indexOf(currentHeader) < 0) {
                                         resourceURIs.push(Sidebar.getPimoResourceUri(currentHeader));
                                     }
                                 }
 
                                 if (resourceURIs.length > 0) {
-                                    var json = {
+                                    let json = {
                                         method : "PimoAnnotationApi.getAnnotationsForDataResources",
                                         params : [ dfki.FireTag.common.authKey, resourceURIs ]
                                     };
 
-                                    var callback = function (response) {
+                                    let callback = function (response) {
                                         let result = JSON.parse(response).result;
                                         if (result) {
 
@@ -342,7 +342,7 @@ Sidebar.prototype = {
                                             self.conversationConcepts.length = 0;
 
                                             for (let i = 0; i < result.length; i++) {
-                                                var alreadyInAnnotated = false;
+                                                let alreadyInAnnotated = false;
                                                 for (let j = 0; j < self.annotatedConcepts.length; j++) {
                                                     if (self.annotatedConcepts[j].uri === result[i].uri) {
                                                         alreadyInAnnotated = true;
@@ -585,33 +585,33 @@ Sidebar.prototype = {
 
     onButtonPublishResourcesClicked : function(resources) {
         this.publish(resources);
-        var buttonPublish = document.getElementById("buttonPublish");
+        let buttonPublish = document.getElementById("buttonPublish");
         buttonPublish.disabled = true;
-        var imageIsPrivate  = document.getElementById("imageIsPrivate");
+        let imageIsPrivate  = document.getElementById("imageIsPrivate");
         imageIsPrivate.style.visibility = "hidden";
 
         if (Sidebar.getCurrentSelectionCount() > 1) {
-            var labelResource = document.getElementById("labelResource");
+            let labelResource = document.getElementById("labelResource");
             labelResource.className = "header";
             labelResource.value = Sidebar.getCurrentSelectionCount() + " of " + Sidebar.getCurrentSelectionCount() + " messages in PIMO.";
         }
     },
 
     onTreeClicked : function(event) {
-        var row = {}, column = {}, part = {}, json = null;
+        let row = {}, column = {}, part = {}, json = null;
         this.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
         if (column.value) {
             if (column.value.id === "action") {
                 let rowIndex = row.value;
-                var resources = Sidebar.getCurrentResources();
+                let resources = Sidebar.getCurrentResources();
 
                 if ((rowIndex > 0) && (rowIndex < this.annotatedConcepts.length + 1)) {
-                    var removedItem = this.annotatedConcepts.splice(rowIndex - 1, 1)[0];
+                    let removedItem = this.annotatedConcepts.splice(rowIndex - 1, 1)[0];
                     this.treeboxObject.rowCountChanged(rowIndex, -1);
 
-                    var resourceURIs = [];
+                    let resourceURIs = [];
                     for (let i = 0; i < resources.length; i++) {
-                        var resourceURI = Sidebar.getPimoResourceUri(resources[i]);
+                        let resourceURI = Sidebar.getPimoResourceUri(resources[i]);
                         resourceURIs.push(resourceURI);
                     }
 
@@ -728,35 +728,35 @@ Sidebar.prototype = {
     },
 
     onSearchboxTextEntered : function() {
-        var searchString  = document.getElementById(Sidebar.annotationSearchBoxName).value;
+        let searchString  = document.getElementById(Sidebar.annotationSearchBoxName).value;
 
-        var resources = Sidebar.getCurrentResources();
+        let resources = Sidebar.getCurrentResources();
         let metadataArray = Sidebar.getResourcesMetadata(resources);
 
         if (dfki.FireTag.instance.lastSelectedAutoCompleteIndex < 0) {
-            var params = { inn : { name : searchString }, out : null };
+            let params = { inn : { name : searchString }, out : null };
             window.openDialog("chrome://FireTag/content/newThing_dialog.xul", "",
                 "chrome, dialog, modal, centerscreen, resizable=yes", params).focus();
             if (params.out) {
 
                 let self = this;
 
-                var jsonNewThing = {
+                let jsonNewThing = {
                     method : "PimoManipulationApi.createNewThing",
                     params : [ dfki.FireTag.common.authKey, searchString ]
                 };
 
-                var callbackNewThing = function (response) {
-                    var newThingUri = JSON.parse(response).result;
+                let callbackNewThing = function (response) {
+                    let newThingUri = JSON.parse(response).result;
 
-                    var jsonAddType = {
+                    let jsonAddType = {
                         method : "PimoManipulationApi.addType",
                         params : [ dfki.FireTag.common.authKey, newThingUri, params.out.type ]
                     };
 
-                    var callbackAddType = function (response) {
-                        //                    var types = [];
-                        //                    var obj = { uri : params.out.type };
+                    let callbackAddType = function (response) {
+                        //                    let types = [];
+                        //                    let obj = { uri : params.out.type };
                         //                    types[0] = obj;
                         //                    annotatedConcepts[annotatedConcepts.length] = {
                         //                        name : searchString,
@@ -767,11 +767,11 @@ Sidebar.prototype = {
                         //                    treeboxObject.rowCountChanged(annotatedConcepts.length, 1);
                         document.getElementById(Sidebar.annotationSearchBoxName).value = "";
 
-                        var jsonAddProperty = {
+                        let jsonAddProperty = {
                             method : "PimoAnnotationApi.addAnnotationForDataResourcesWithMetadatas",
                             params : [ dfki.FireTag.common.authKey, metadataArray, newThingUri ]
                         };
-                        var callbackJsonAddProperty = function(response) {
+                        let callbackJsonAddProperty = function(response) {
                             self.rebuildSidebar.call(self, true);
                         };
                         dfki.FireTag.rpc.JSONRPCCall(jsonAddProperty, callbackJsonAddProperty);
@@ -782,9 +782,9 @@ Sidebar.prototype = {
                 dfki.FireTag.rpc.JSONRPCCall(jsonNewThing, callbackNewThing);
             }
         } else {
-            var autoCompleteResult = dfki.FireTag.common.autoComplete.results[dfki.FireTag.instance.lastSelectedAutoCompleteIndex];
+            let autoCompleteResult = dfki.FireTag.common.autoComplete.results[dfki.FireTag.instance.lastSelectedAutoCompleteIndex];
 
-            var isAlreadyInList = false;
+            let isAlreadyInList = false;
             for (let i = 0; i < dfki.FireTag.instance.annotatedConcepts.length; i++) {
                 if (autoCompleteResult.uri === dfki.FireTag.instance.annotatedConcepts[i].uri) {
                     isAlreadyInList = true;
@@ -801,12 +801,12 @@ Sidebar.prototype = {
                 //            };
                 //            treeboxObject.rowCountChanged(annotatedConcepts.length, 1);
 
-                var json = {
+                let json = {
                     method : "PimoAnnotationApi.addAnnotationForDataResourcesWithMetadatas",
                     params : [ dfki.FireTag.common.authKey, metadataArray, autoCompleteResult.uri ]
                 };
                 let self = this;
-                var callbackAdd =  function (response) {
+                let callbackAdd =  function (response) {
                     self.rebuildSidebar.call(self, true);
                 };
 
@@ -892,11 +892,11 @@ Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC = 20;
 Sidebar.MAX_NUMBER_OF_RESOURCES = 5;
 
 dfki.FireTag.registerPrefListener = function() {
-    var myPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
+    let myPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
         switch (name) {
             case "autocomplete.showDocuments":
-                var showDocuments = Sidebar.prefs.getBoolPref("autocomplete.showDocuments");
-                var buttonDocuments = document.getElementById("toggleDocuments");
+                let showDocuments = Sidebar.prefs.getBoolPref("autocomplete.showDocuments");
+                let buttonDocuments = document.getElementById("toggleDocuments");
                 buttonDocuments.checked = showDocuments;
                 if (showDocuments) {
                     buttonDocuments.image = "chrome://FireTag/skin/document.png";
@@ -906,8 +906,8 @@ dfki.FireTag.registerPrefListener = function() {
                 dfki.FireTag.instance.rebuildTree.call(dfki.FireTag.instance);
                 break;
             case "autocomplete.showTasks":
-                var showTasks = Sidebar.prefs.getBoolPref("autocomplete.showTasks");
-                var buttonTasks = document.getElementById("toggleTasks");
+                let showTasks = Sidebar.prefs.getBoolPref("autocomplete.showTasks");
+                let buttonTasks = document.getElementById("toggleTasks");
                 buttonTasks.checked = showTasks;
                 if (showTasks) {
                     buttonTasks.image = "chrome://FireTag/skin/task.png";
@@ -932,8 +932,8 @@ window.addEventListener("load", function() {
 }, false);
 
 function getStackDump() {
-    var lines = [];
-    for (var frame = Components.stack; frame; frame = frame.caller) {
+    let lines = [];
+    for (let frame = Components.stack; frame; frame = frame.caller) {
         lines.push(frame.filename + " (" + frame.lineNumber + ")");
     }
     return lines.join("\n");

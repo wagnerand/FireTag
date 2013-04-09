@@ -27,7 +27,7 @@ MessageIdOpener.prototype = {
 
     handle : function clh_handle(cmdLine) {
         try {
-            var uristr = cmdLine.handleFlagWithParam("message-id", false);
+            let uristr = cmdLine.handleFlagWithParam("message-id", false);
             if (uristr) {
                 if (uristr.substr(0, 11) === "message-id:") {
                     uristr = uristr.substr(11);
@@ -38,19 +38,19 @@ MessageIdOpener.prototype = {
                         uristr = uristr.substr(0, uristr.length - 1);
                     }
                 }
-                var query = Gloda.newQuery(Gloda.NOUN_MESSAGE);
+                let query = Gloda.newQuery(Gloda.NOUN_MESSAGE);
                 query.headerMessageID(uristr);
 
-                var messageIdListener = {
+                let messageIdListener = {
                         onItemsAdded: function myListener_onItemsAdded(aItems, aCollection) {},
                         onItemsModified: function myListener_onItemsModified(aItems, aCollection) {},
                         onItemsRemoved: function myListener_onItemsRemoved(aItems, aCollection) {},
                         onQueryCompleted: function myListener_onQueryCompleted(aCollection) {
-                            var message = aCollection.items[0];
+                            let message = aCollection.items[0];
 
-                            var messen = Components.classes["@mozilla.org/messenger;1"].createInstance(Components.interfaces.nsIMessenger);
-                            var msgService = messen.messageServiceFromURI(message.folderMessageURI);
-                            var msgHdr = msgService.messageURIToMsgHdr(message.folderMessageURI);
+                            let messen = Components.classes["@mozilla.org/messenger;1"].createInstance(Components.interfaces.nsIMessenger);
+                            let msgService = messen.messageServiceFromURI(message.folderMessageURI);
+                            let msgHdr = msgService.messageURIToMsgHdr(message.folderMessageURI);
                             MailUtils.displayMessage(msgHdr);
                         }
                     };
