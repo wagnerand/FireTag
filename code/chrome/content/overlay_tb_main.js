@@ -32,8 +32,8 @@ dfki.FireTag.overlay.tb.main.init = function() {
                         params : [ dfki.FireTag.common.authKey, hdr.messageId ]
                     };
 
-                    var callbackCheckExisting =  function (response) {
-                        var result = JSON.parse(response).result;
+                    let callbackCheckExisting = function (response) {
+                        let result = JSON.parse(response).result;
                         if (!result) {
                             let uri = hdr.folder.getUriForMsg(hdr);
                             let messageService = Components.classes["@mozilla.org/messenger;1"]
