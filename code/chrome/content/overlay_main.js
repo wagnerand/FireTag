@@ -13,25 +13,25 @@ Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
 dfki.FireTag.overlay = {
 
     storeSidebarState : function () {
-        var splitter = document.getElementById("FireTagSplitter");
+        let splitter = document.getElementById("FireTagSplitter");
         if (!splitter.getAttribute("state")) {
             splitter.setAttribute("state", "open");
         }
     },
 
     init : function () {
-        var overlayPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
+        let overlayPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
             switch (name) {
             case "server.authKey":
-                var authKey = dfki.FireTag.common.prefBranch.getCharPref("server.authKey");
+                let authKey = dfki.FireTag.common.prefBranch.getCharPref("server.authKey");
                 dfki.FireTag.common.authKey = authKey;
                 break;
             case "autocomplete.showDocuments":
-                var showDocuments = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showDocuments");
+                let showDocuments = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showDocuments");
                 dfki.FireTag.common.showDocuments = showDocuments;
                 break;
             case "autocomplete.showTasks":
-                var showTasks = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showTasks");
+                let showTasks = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showTasks");
                 dfki.FireTag.common.showTasks = showTasks;
                 break;
             }
@@ -39,7 +39,7 @@ dfki.FireTag.overlay = {
 
         overlayPrefListener.register(true);
 
-        var sidebar = document.getElementById("FireTagSidebar");
+        let sidebar = document.getElementById("FireTagSidebar");
         if (sidebar) {
             sidebar.setAttribute("src", "chrome://FireTag/content/sidebar_tb_main.xul");
         }

@@ -14,7 +14,7 @@ const CLASS_ID = Components.ID("e64ddfd3-9775-4d18-994b-5a75f4ed3d1a");
 const CLASS_NAME = "FireTag Concept Search";
 const CONTRACT_ID = "@mozilla.org/autocomplete/search;1?name=firetag-concept-search";
 
-var globalRequestCounter = 0;
+let globalRequestCounter = 0;
 
 // Implements nsIAutoCompleteResult
 function EAAutoCompleteResult(searchString, searchResult, defaultIndex, errorDescription, results) {
@@ -155,19 +155,19 @@ EAAutoCompleteSearch.prototype = {
      */
   startSearch: function (searchString, searchParam, result, listener) {
       ++globalRequestCounter;
-      var that = this;
+      let that = this;
 
-      var json = {
+      let json = {
               method : "PimoSearchApi.searchForThingsWithLabelLike",
               params : [dfki.FireTag.common.authKey, "*" + searchString + "*", 0, 0]
       };
-      var callback = function (response, counter) {
+      let callback = function (response, counter) {
           if (counter !== globalRequestCounter) {
               return;
           }
-          var rpcResult = JSON.parse(response).result;
+          let rpcResult = JSON.parse(response).result;
           dfki.FireTag.common.autoComplete.results = [];
-          for (var i = 0; i < rpcResult.length; i++) {
+          for (let i = 0; i < rpcResult.length; i++) {
               if (testConceptIsOfType(rpcResult[i], "pimo:informationelement#InformationElement")) {
                   continue;
               }
@@ -187,7 +187,7 @@ EAAutoCompleteSearch.prototype = {
               };
           }
 
-          var newResult = new EAAutoCompleteResult(searchString, Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", dfki.FireTag.common.autoComplete.results);
+          let newResult = new EAAutoCompleteResult(searchString, Ci.nsIAutoCompleteResult.RESULT_SUCCESS, 0, "", dfki.FireTag.common.autoComplete.results);
           listener.onSearchResult(that, newResult);
       };
       dfki.FireTag.rpc.JSONRPCCall(json, callback, globalRequestCounter);

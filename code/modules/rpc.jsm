@@ -1,4 +1,4 @@
-var EXPORTED_SYMBOLS = [ "rpc" ];
+let EXPORTED_SYMBOLS = [ "rpc" ];
 
 if (!dfki) {
     var dfki = {};
@@ -9,7 +9,7 @@ if (!dfki.FireTag) {
 
 Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 
-var rpc = {
+let rpc = {
 
     globalCount : 0,
 
@@ -17,13 +17,13 @@ var rpc = {
         let localCount = ++this.globalCount;
         let start = Date.now();
 
-        var host = dfki.FireTag.common.prefBranch.getCharPref("server.host");
-        var port = dfki.FireTag.common.prefBranch.getCharPref("server.port");
-        var path = dfki.FireTag.common.prefBranch.getCharPref("server.path");
+        let host = dfki.FireTag.common.prefBranch.getCharPref("server.host");
+        let port = dfki.FireTag.common.prefBranch.getCharPref("server.port");
+        let path = dfki.FireTag.common.prefBranch.getCharPref("server.path");
 
-        var p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
+        let p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                 .createInstance(Components.interfaces.nsIXMLHttpRequest);
-        var destination = "http://" + host + ":" + port + "/" + path;
+        let destination = "http://" + host + ":" + port + "/" + path;
 
         p.onreadystatechange = function () {
             if (p.readyState === 4) {

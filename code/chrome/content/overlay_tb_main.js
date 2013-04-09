@@ -19,9 +19,9 @@ Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 dfki.FireTag.overlay.tb.main.init = function() {
     window.removeEventListener("load", dfki.FireTag.overlay.tb.main.init, false);
 
-    var notificationService = Components.classes["@mozilla.org/messenger/msgnotificationservice;1"].getService(Components.interfaces.nsIMsgFolderNotificationService);
+    let notificationService = Components.classes["@mozilla.org/messenger/msgnotificationservice;1"].getService(Components.interfaces.nsIMsgFolderNotificationService);
 
-    var sentMailListener = {
+    let sentMailListener = {
         msgsClassified: function(aMsgs, aJunkProcessed, aTraitProcessed) {
             for (let hdr in fixIterator(aMsgs.enumerate(), Components.interfaces.nsIMsgDBHdr)) {
 
@@ -32,8 +32,8 @@ dfki.FireTag.overlay.tb.main.init = function() {
                         params : [ dfki.FireTag.common.authKey, hdr.messageId ]
                     };
 
-                    var callbackCheckExisting =  function (response) {
-                        var result = JSON.parse(response).result;
+                    let callbackCheckExisting =  function (response) {
+                        let result = JSON.parse(response).result;
                         if (result === false) {
                             let uri = hdr.folder.getUriForMsg(hdr);
                             let messageService = Components.classes["@mozilla.org/messenger;1"]

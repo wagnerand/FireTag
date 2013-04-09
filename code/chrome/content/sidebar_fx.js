@@ -2,7 +2,7 @@ function componentConstruct() {
 }
 
 Sidebar.prototype.addListeners = function() {
-    var self = this;
+    let self = this;
 
     Sidebar.mainWin.gBrowser.addEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
     Sidebar.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
@@ -17,7 +17,7 @@ Sidebar.prototype.addListeners = function() {
 Sidebar.prototype.publish = function (resources) {
     for (let i = 0, len = resources.length; i < len; i++) {
         let resourceURI = resources[i].uri;
-        var json = {
+        let json = {
             method: "PimoGroupApi.setPublic",
             params: [ dfki.FireTag.common.authKey, resourceURI, true ]
         };
@@ -65,7 +65,7 @@ Sidebar.getPimoResourceLabel = function(resource) {
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
-    var body = resource.body;
+    let body = resource.body;
 
     if (body) {
         // TODO: HACK
@@ -85,12 +85,12 @@ Sidebar.prototype.onPageLoad = function(event) {
         return;
     }
 
-    var doc = event.originalTarget;
+    let doc = event.originalTarget;
     if (doc.location.href !== Sidebar.mainWin.gBrowser.contentDocument.location.href) {
         return;
     }
 
-    var win = doc.defaultView;
+    let win = doc.defaultView;
     if (win !== win.top) {
         return;
     }

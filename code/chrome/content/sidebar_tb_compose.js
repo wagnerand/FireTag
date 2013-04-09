@@ -8,7 +8,7 @@ function componentConstruct() {
 }
 
 Sidebar.prototype.addListeners = function() {
-    var self = this;
+    let self = this;
     window.setInterval(function() { self.rebuildSidebar.call(self, true); }, 10000);
 
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
@@ -34,7 +34,7 @@ Sidebar.prototype.publish = function (resources) {
         onStartSending : function(aMsgID, aMsgSize) {
             for (let i = 0, len = resources.length; i < len; i++) {
                 let resourceURI = resources[i].uri;
-                var json = {
+                let json = {
                     method: "PimoGroupApi.setPublic",
                     params: [ dfki.FireTag.common.authKey, resourceURI, true ]
                 };
@@ -109,12 +109,12 @@ Sidebar.getPimoResourceLabel = function(resource) {
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
-    var allText = "";
-    var subject = resource.subject;
+    let allText = "";
+    let subject = resource.subject;
     if (subject) {
         allText += subject + "\n";
     }
-    var body = Sidebar.getMessageBody(resource);
+    let body = Sidebar.getMessageBody(resource);
     if (body) {
         allText += body.substring(0, Sidebar.STRIP_PER_RESOURCE) + "\n";
     }

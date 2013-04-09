@@ -17,9 +17,9 @@ Sidebar.prototype.addListeners = function() {
         let folderTree = window.top.document.getElementById("folderTree");
         folderTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
 
-//        var msgDisplayedObserver = {
+//        let msgDisplayedObserver = {
 //                observe : function(subject, topic, data) {
-//                    var msgDbHdr = messen.messageServiceFromURI(data).messageURIToMsgHdr(data);
+//                    let msgDbHdr = messen.messageServiceFromURI(data).messageURIToMsgHdr(data);
 //                    rebuildSidebar();
 //                }
 //        };
@@ -33,7 +33,7 @@ Sidebar.prototype.addListeners = function() {
                 if (aTab.mode.name === "folder") {
                     self.rebuildSidebar.call(self);
                 } /*else if (aTab.mode.name === "message") {
-                 var msgHdr = aTab.folderDisplay.selectedMessage;
+                 let msgHdr = aTab.folderDisplay.selectedMessage;
                  getPimoResults([msgHdr]);
                  }*/
             },
@@ -44,7 +44,7 @@ Sidebar.prototype.addListeners = function() {
         };
         window.top.document.getElementById("tabmail").registerTabMonitor(tabMonitor);
     } /*else if (window.top.document.location === "chrome://messenger/content/messengercompose/messengercompose.xul") {
-     var msgHdr = window.top.messageSinkHeader.mSaveHdr;
+     let msgHdr = window.top.messageSinkHeader.mSaveHdr;
      getPimoResults([msgHdr]);
      }*/
 };
@@ -52,7 +52,7 @@ Sidebar.prototype.addListeners = function() {
 Sidebar.prototype.publish = function (resources) {
     for (let i = 0, len = resources.length; i < len; i++) {
         let resourceURI = resources[i].uri;
-        var json = {
+        let json = {
             method: "PimoGroupApi.setPublic",
             params: [ dfki.FireTag.common.authKey, resourceURI, true ]
         };
@@ -103,12 +103,12 @@ Sidebar.getPimoResourceLabel = function(resource) {
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
-    var allText = "";
-    var subject = resource.subject;
+    let allText = "";
+    let subject = resource.subject;
     if (subject) {
         allText += subject + "\n";
     }
-    var body = Sidebar.getMessageBody(resource);
+    let body = Sidebar.getMessageBody(resource);
     if (body) {
         allText += body.substring(0, Sidebar.STRIP_PER_RESOURCE) + "\n";
     }

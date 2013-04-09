@@ -1,8 +1,8 @@
-var EXPORTED_SYMBOLS = [ "common" ];
+let EXPORTED_SYMBOLS = [ "common" ];
 
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-var common = {
+let common = {
     authKey : null,
     autoComplete : [],
     prefBranch : Services.prefs.getBranch("extensions.dfki.FireTag."),
