@@ -646,7 +646,6 @@ Sidebar.prototype = {
                     dfki.FireTag.rpc.JSONRPCCall(json);
                 } else if (row == (this.annotatedConcepts.length + 1)) {
                     while (this.conversationConcepts.length > 0) {
-                        var alreadyInPimo = (this.annotatedConcepts.length > 0);
                         this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(row - this.annotatedConcepts.length - 1 - 1, 1)[0];
                         this.treeboxObject.invalidate();
 
@@ -658,7 +657,7 @@ Sidebar.prototype = {
                         };
                         let self = this;
                         let callback = function(response, params) {
-                            if ((!alreadyInPimo) && (self.conversationConcepts.length == 0)) {
+                            if ((self.annotatedConcepts.length <= 0) && (self.conversationConcepts.length === 0)) {
                                 self.rebuildSidebar.call(self, true);
                             }
                         };
