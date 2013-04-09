@@ -14,6 +14,17 @@ Sidebar.prototype.addListeners = function() {
     }, false);
 };
 
+Sidebar.prototype.publish = function (resources) {
+    for (let i = 0, len = resources.length; i < len; i++) {
+        let resourceURI = resources[i].uri;
+        var json = {
+            method: "PimoGroupApi.setPublic",
+            params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json);
+    }
+};
+
 Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBox";
 Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).

@@ -453,7 +453,7 @@ Sidebar.prototype = {
                 return -1;
             } else {
                 let resource = dfki.FireTag.instance.getResourceAtRow(row);
-                if (resource != null) {
+                if (resource) {
                     let parent = dfki.FireTag.instance.getResourceParent(resource);
                     return row - parent.indexOf(resource) - 1;
                 }
@@ -541,17 +541,7 @@ Sidebar.prototype = {
         }  else if (this.suggestedConcepts.indexOf(resource) > -1) {
             return this.suggestedConcepts;
         }
-    },
-
-    publish : function (resources) {
-        for (let i = 0, len = resources.length; i < len; i++) {
-            let resourceURI = resources[i].uri;
-            var json = {
-                method: "PimoGroupApi.setPublic",
-                params: [ dfki.FireTag.common.authKey, resourceURI, true ]
-            };
-            dfki.FireTag.rpc.JSONRPCCall(json);
-        }
+        return null;
     },
 
     onAutoCompletePopupShown : function () {
@@ -612,12 +602,12 @@ Sidebar.prototype = {
         this.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
         if (column.value) {
             if (column.value.id === "action") {
-                row = row.value;
+                let rowIndex = row.value;
                 var resources = Sidebar.getCurrentResources();
 
-                if ((row > 0) && (row < this.annotatedConcepts.length + 1)) {
-                    var removedItem = this.annotatedConcepts.splice(row - 1, 1)[0];
-                    this.treeboxObject.rowCountChanged(row, -1);
+                if ((rowIndex > 0) && (rowIndex < this.annotatedConcepts.length + 1)) {
+                    var removedItem = this.annotatedConcepts.splice(rowIndex - 1, 1)[0];
+                    this.treeboxObject.rowCountChanged(rowIndex, -1);
 
                     var resourceURIs = [];
                     for (let i = 0; i < resources.length; i++) {
@@ -630,9 +620,9 @@ Sidebar.prototype = {
                         params : [ dfki.FireTag.common.authKey, resourceURIs, removedItem.uri ]
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json);
-                } else if (row === (this.annotatedConcepts.length + 1)) {
+                } else if (rowIndex === (this.annotatedConcepts.length + 1)) {
                     while (this.conversationConcepts.length > 0) {
-                        this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(row - this.annotatedConcepts.length - 1 - 1, 1)[0];
+                        this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
                         this.treeboxObject.invalidate();
 
                         let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -650,8 +640,8 @@ Sidebar.prototype = {
                         dfki.FireTag.rpc.JSONRPCCall(json, callback);
 
                     }
-                } else if ((row > this.annotatedConcepts.length + 1) && (row < (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
-                    this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(row - this.annotatedConcepts.length - 1 - 1, 1)[0];
+                } else if ((rowIndex > this.annotatedConcepts.length + 1) && (rowIndex < (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
+                    this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
                     this.treeboxObject.invalidate();
 
                     let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -666,8 +656,8 @@ Sidebar.prototype = {
                             self.rebuildSidebar.call(self, true);
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json, callback);
-                } else if (row > this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1) {
-                    this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(row - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1, 1)[0];
+                } else if (rowIndex > this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1) {
+                    this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1, 1)[0];
                     this.treeboxObject.invalidate();
 
                     let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -690,10 +680,10 @@ Sidebar.prototype = {
             }
             else if (column.value.id === "name") {
                 if (event.detail === 2) {
-                    row = row.value;
+                    let rowIndex = row.value;
 
-                    let resource = this.getResourceAtRow(row);
-                    if (resource != null) {
+                    let resource = this.getResourceAtRow(rowIndex);
+                    if (resource) {
                         let uri = Services.io.newURI(resource.uri, null, null);
                         Sidebar.extProtService.loadUrl(uri);
                     }
@@ -701,8 +691,8 @@ Sidebar.prototype = {
             }
             else if (column.value.id === "isPublic") {
                 if (event.detail === 2) {
-                    row = row.value;
-                    let resource = this.getResourceAtRow(row);
+                    let rowIndex = row.value;
+                    let resource = this.getResourceAtRow(rowIndex);
                     if ((resource) && (!resource.isPublic)) {
                         this.publish.call(this, [resource]);
                         resource.isPublic = true;
@@ -723,7 +713,7 @@ Sidebar.prototype = {
     onTreeItemTooltipShowing : function(event) {
         let row = {}, column = {}, part = {};
         dfki.FireTag.instance.treeboxObject.getCellAt(event.clientX, event.clientY, row, column, part);
-        if (column.value.id === "name") {
+        if ((column.value) && (column.value.id === "name")) {
             let resource = this.getResourceAtRow(row.value);
             if (resource) {
                 let conceptText = resource.types[0].label;

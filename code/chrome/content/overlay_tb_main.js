@@ -23,7 +23,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
 
     var sentMailListener = {
         msgsClassified: function(aMsgs, aJunkProcessed, aTraitProcessed) {
-            for (var hdr in fixIterator(aMsgs.enumerate(), Components.interfaces.nsIMsgDBHdr)) {
+            for (let hdr in fixIterator(aMsgs.enumerate(), Components.interfaces.nsIMsgDBHdr)) {
 
                 // Is this message a draft? Then don't try to change the uri!
                 if (!hdr.folder.getFlag(0x00000400)) {

@@ -80,7 +80,7 @@ function searchClass() {
     visibleItems.length = 0;
     var searchString = document.getElementById("newThingSearchBox").value.trim().toLowerCase();
     if (searchString.length > 0) {
-        for (var i = 0; i < classes.length; i++) {
+        for (let i = 0; i < classes.length; i++) {
             if (classes[i].label.toLowerCase().indexOf(searchString) >= 0) {
                 visibleItems[visibleItems.length] = {
                     label : classes[i].label,

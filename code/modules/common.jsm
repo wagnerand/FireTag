@@ -8,8 +8,7 @@ var common = {
     prefBranch : Services.prefs.getBranch("extensions.dfki.FireTag."),
     LOG : function(message) {
         if (this.prefBranch.getBoolPref("debug")) {
-            let now = new Date().toISOString();
-            dump(now + " [FireTag] " + message + "\n");
+            dump((new Date().toISOString()) + " [FireTag] " + message + "\n");
         }
     }
 };

@@ -9,7 +9,7 @@ Components.utils.import("resource:///modules/gloda/public.js");
 
 Sidebar.prototype.addListeners = function() {
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
-    if (window.top.document.location === "chrome://messenger/content/messenger.xul") {
+    if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
         let msgTree = window.top.GetThreadTree();
         let self = this;
         msgTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
@@ -47,6 +47,17 @@ Sidebar.prototype.addListeners = function() {
      var msgHdr = window.top.messageSinkHeader.mSaveHdr;
      getPimoResults([msgHdr]);
      }*/
+};
+
+Sidebar.prototype.publish = function (resources) {
+    for (let i = 0, len = resources.length; i < len; i++) {
+        let resourceURI = resources[i].uri;
+        var json = {
+            method: "PimoGroupApi.setPublic",
+            params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json);
+    }
 };
 
 Sidebar.getCurrentResources = function() {

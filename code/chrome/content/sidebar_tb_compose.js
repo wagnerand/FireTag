@@ -25,7 +25,30 @@ Sidebar.prototype.addListeners = function() {
     };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true );
-    Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
+    //not working as otherRandomHeaders is empty when the window gets reopened, so no need to save our header on close
+    //Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
+};
+
+Sidebar.prototype.publish = function (resources) {
+    let sendListener = {
+        onStartSending : function(aMsgID, aMsgSize) {
+            for (let i = 0, len = resources.length; i < len; i++) {
+                let resourceURI = resources[i].uri;
+                var json = {
+                    method: "PimoGroupApi.setPublic",
+                    params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+                };
+                dfki.FireTag.rpc.JSONRPCCall(json);
+            }
+        },
+        onProgress : function(aMsgID, aProgress, aProgressMax) {},
+        onStatus : function(aMsgID, aMsg) {},
+        onStopSending : function(aMsgID, aStatus, aMsg, aReturnFile) {},
+        onGetDraftFolderURI : function(aFolderURI) {},
+        onSendNotPerformed : function(aMsgID, aStatus) {}
+    };
+
+    Sidebar.mainWin.gMsgCompose.addMsgSendListener(sendListener);
 };
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
