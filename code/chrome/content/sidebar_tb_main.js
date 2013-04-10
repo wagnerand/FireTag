@@ -76,6 +76,7 @@ Sidebar.getResourcesMetadata = function(resources) {
             label : Sidebar.getPimoResourceLabel(resources[i]),
             messageURI : resources[i].folder.getUriForMsg(resources[i]),
             date : resources[i].dateInSeconds,
+            type : "pimo:informationelement#Email",
             folderURL : resources[i].folder.folderURL,
             folderName : resources[i].folder.name,
             from : resources[i].author,
