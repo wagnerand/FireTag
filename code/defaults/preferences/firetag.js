@@ -1,4 +1,4 @@
-pref("extensions.dfki.FireTag.installVersion", "0.7.2");
+pref("extensions.dfki.FireTag.installVersion", "0.7.3");
 
 pref("extensions.dfki.FireTag.server.host", "projects.dfki.uni-kl.de");
 pref("extensions.dfki.FireTag.server.port", "80");
