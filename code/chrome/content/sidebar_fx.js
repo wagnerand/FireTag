@@ -46,7 +46,8 @@ Sidebar.getResourcesMetadata = function(resources) {
     return [{
         uri : Sidebar.getPimoResourceUri(resources[0]),
         label : Sidebar.getPimoResourceLabel(resources[0]),
-        title: Sidebar.getPimoResourceLabel(resources[0])
+        title: Sidebar.getPimoResourceLabel(resources[0]),
+        type : "pimo:informationelement#Webpage"
     }];
 };
 

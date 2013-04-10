@@ -73,7 +73,8 @@ Sidebar.getResourcesMetadata = function(resources) {
     for (let i = 0, len = resources.length; i < len; i++) {
         result.push({
             uri : Sidebar.getPimoResourceUri(resources[i]),
-            label : Sidebar.getPimoResourceLabel(resources[i])
+            label : Sidebar.getPimoResourceLabel(resources[i]),
+            type : "pimo:informationelement#Email"
             /*
             messageURI : resources[i].folder.getUriForMsg(resources[i]),
 
