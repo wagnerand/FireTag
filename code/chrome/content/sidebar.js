@@ -838,7 +838,7 @@ Sidebar.testConceptIsOfType = function( concept, typeUri ) {
 
 // Class methods
 Sidebar.addPimoConceptToModel = function(concept, model) {
-    if (!Sidebar.testConceptIsOfType(concept, "pimo:thing#Thing"))
+    if (!Sidebar.testConceptIsOfType(concept, "pimo:thing#Thing") && (!Sidebar.testConceptIsOfType(concept, "http://www.w3.org/2000/01/rdf-schema#Class")))
     	return;
     if (Sidebar.testConceptIsOfType(concept, "pimo:thing#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
     	Sidebar.testConceptIsOfType(concept, "pimo:thing#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
