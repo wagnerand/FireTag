@@ -288,14 +288,6 @@ Sidebar.prototype = {
     },
 
     getConversationAnnotations : function(resources) {
-/*        if (resources.length === 1) {
-            if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
-                this.getOBIEResults(resources);
-            }
-            return;
-        }
-*/
-        let resourceURIs = [];
         for (let x = 1; x < resources.length; x++) {
             if (resources[x].threadId !== resources[0].threadId) {
                 if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
@@ -305,84 +297,81 @@ Sidebar.prototype = {
             }
         }
 
-        let msgHdr = resources[0];
-
         let self = this;
-
-        let convFinderListener = {
-            onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
-            onItemsModified: function _onItemsModified(aItems, aCollection) {},
-            onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
-            onQueryCompleted: function _onQueryCompleted(conversation_coll) {
-                try {
+        if ("Gloda" in window) {
+            let convFinderListener = {
+                onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
+                onItemsModified: function _onItemsModified(aItems, aCollection) {},
+                onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
+                onQueryCompleted: function _onQueryCompleted(conversation_coll) {
                     let messagesListener = {
                         onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
                         onItemsModified: function _onItemsModified(aItems, aCollection) {},
                         onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
                         onQueryCompleted: function _onQueryCompleted(conversation_coll) {
+                            let resourceURIs = [];
                             try {
                                 for (let i = 0; i < conversation_coll.items.length; i++) {
-                                    let currentHeader = conversation_coll.items[i].folderMessage;
-                                    if (resources.indexOf(currentHeader) < 0) {
-                                        resourceURIs.push(Sidebar.getPimoResourceUri(currentHeader));
+                                    let currentConvHeader = conversation_coll.items[i].folderMessage;
+                                    if (resources.indexOf(currentConvHeader) < 0) {
+                                        resourceURIs.push(Sidebar.getPimoResourceUri(currentConvHeader));
                                     }
                                 }
+                            } catch (e) { }
 
-                                if (resourceURIs.length > 0) {
-                                    let json = {
-                                        method : "PimoAnnotationApi.getAnnotationsForDataResources",
-                                        params : [ dfki.FireTag.common.authKey, resourceURIs ]
-                                    };
+                            if (resourceURIs.length > 0) {
+                                let json = {
+                                    method : "PimoAnnotationApi.getAnnotationsForDataResources",
+                                    params : [ dfki.FireTag.common.authKey, resourceURIs ]
+                                };
 
-                                    let callback = function (response) {
-                                        let result = JSON.parse(response).result;
-                                        if (result) {
+                                let callback = function (response) {
+                                    let result = JSON.parse(response).result;
+                                    if (result) {
 
-                                            self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, -self.conversationConcepts.length);
-                                            self.conversationConcepts.length = 0;
+                                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, -self.conversationConcepts.length);
+                                        self.conversationConcepts.length = 0;
 
-                                            for (let i = 0; i < result.length; i++) {
-                                                let alreadyInAnnotated = false;
-                                                for (let j = 0; j < self.annotatedConcepts.length; j++) {
-                                                    if (self.annotatedConcepts[j].uri === result[i].uri) {
-                                                        alreadyInAnnotated = true;
-                                                        break;
-                                                    }
-                                                }
-                                                if (!alreadyInAnnotated) {
-                                                    Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts);
+                                        for (let i = 0; i < result.length; i++) {
+                                            let alreadyInAnnotated = false;
+                                            for (let j = 0; j < self.annotatedConcepts.length; j++) {
+                                                if (self.annotatedConcepts[j].uri === result[i].uri) {
+                                                    alreadyInAnnotated = true;
+                                                    break;
                                                 }
                                             }
-                                            self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, self.conversationConcepts.length);
-                                            self.treeboxObject.invalidateRow(self.annotatedConcepts.length + 1);
+                                            if (!alreadyInAnnotated) {
+                                                Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts);
+                                            }
                                         }
-                                        if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
-                                            self.getOBIEResults.call(self, resources);
-                                        }
-                                    };
-                                    dfki.FireTag.rpc.JSONRPCCall(json, callback);
-                                } else {
+                                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, self.conversationConcepts.length);
+                                        self.treeboxObject.invalidateRow(self.annotatedConcepts.length + 1);
+                                    }
                                     if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
                                         self.getOBIEResults.call(self, resources);
                                     }
+                                };
+                                dfki.FireTag.rpc.JSONRPCCall(json, callback);
+                            } else {
+                                if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
+                                    self.getOBIEResults.call(self, resources);
                                 }
-
-                            } catch (e) { }
+                            }
                         }
                     };
 
-                    for (let h = 0; h < conversation_coll.items.length; h++) {
-                        conversation_coll.items[h].conversation.getMessagesCollection(messagesListener);
-                    }
-                } catch (e) { }
-            }
-        };
+                    try {
+                        for (let h = 0; h < conversation_coll.items.length; h++) {
+                            conversation_coll.items[h].conversation.getMessagesCollection(messagesListener);
+                        }
+                    } catch (e) { }
+                }
+            };
 
-        if (Gloda) {
-            Gloda.getMessageCollectionForHeader(msgHdr, convFinderListener);
+            Gloda.getMessageCollectionForHeader(resources[0], convFinderListener);
         } else {
             if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
-                self.getOBIEResults.call(self, resources);
+                this.getOBIEResults(resources);
             }
         }
     },
