@@ -14,7 +14,7 @@ Sidebar.prototype.addListeners = function() {
     }, false);
 };
 
-Sidebar.prototype.publish = function (resources) {
+Sidebar.prototype.publish = function (resources, defer) {
     for (let i = 0, len = resources.length; i < len; i++) {
         let resourceURI = resources[i].uri;
         let json = {

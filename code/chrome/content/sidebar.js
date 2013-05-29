@@ -573,7 +573,7 @@ Sidebar.prototype = {
     },
 
     onButtonPublishResourcesClicked : function(resources) {
-        this.publish(resources);
+        this.publish(resources, true);
         let buttonPublish = document.getElementById("buttonPublish");
         buttonPublish.disabled = true;
         let imageIsPrivate  = document.getElementById("imageIsPrivate");
@@ -683,7 +683,7 @@ Sidebar.prototype = {
                     let rowIndex = row.value;
                     let resource = this.getResourceAtRow(rowIndex);
                     if ((resource) && (!resource.isPublic)) {
-                        this.publish.call(this, [resource]);
+                        this.publish.call(this, [resource], false);
                         resource.isPublic = true;
                     }
                 }

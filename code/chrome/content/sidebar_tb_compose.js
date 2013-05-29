@@ -29,26 +29,32 @@ Sidebar.prototype.addListeners = function() {
     //Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
 };
 
-Sidebar.prototype.publish = function (resources) {
-    let sendListener = {
-        onStartSending : function(aMsgID, aMsgSize) {
-            for (let i = 0, len = resources.length; i < len; i++) {
-                let resourceURI = resources[i].uri;
-                let json = {
-                    method: "PimoGroupApi.setPublic",
-                    params: [ dfki.FireTag.common.authKey, resourceURI, true ]
-                };
-                dfki.FireTag.rpc.JSONRPCCall(json);
-            }
-        },
-        onProgress : function(aMsgID, aProgress, aProgressMax) {},
-        onStatus : function(aMsgID, aMsg) {},
-        onStopSending : function(aMsgID, aStatus, aMsg, aReturnFile) {},
-        onGetDraftFolderURI : function(aFolderURI) {},
-        onSendNotPerformed : function(aMsgID, aStatus) {}
+Sidebar.prototype.publish = function (resources, defer) {
+    let execute = function(aMsgID, aMsgSize) {
+        for (let i = 0, len = resources.length; i < len; i++) {
+            let resourceURI = resources[i].uri;
+            let json = {
+                method: "PimoGroupApi.setPublic",
+                params: [ dfki.FireTag.common.authKey, resourceURI, true ]
+            };
+            dfki.FireTag.rpc.JSONRPCCall(json);
+        }
     };
 
-    Sidebar.mainWin.gMsgCompose.addMsgSendListener(sendListener);
+    if (defer) {
+        let sendListener = {
+            onStartSending : function(aMsgID, aMsgSize) { execute(aMsgID, aMsgSize); },
+            onProgress : function(aMsgID, aProgress, aProgressMax) {},
+            onStatus : function(aMsgID, aMsg) {},
+            onStopSending : function(aMsgID, aStatus, aMsg, aReturnFile) {},
+            onGetDraftFolderURI : function(aFolderURI) {},
+            onSendNotPerformed : function(aMsgID, aStatus) {}
+        };
+
+        Sidebar.mainWin.gMsgCompose.addMsgSendListener(sendListener);
+    } else {
+        execute(null, null);
+    }
 };
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
