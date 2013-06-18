@@ -21,9 +21,11 @@ let rpc = {
         let port = dfki.FireTag.common.prefBranch.getCharPref("server.port");
         let path = dfki.FireTag.common.prefBranch.getCharPref("server.path");
 
+        let destination = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
+        destination += "/pimodb/json-rpc";
+
         let p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                 .createInstance(Components.interfaces.nsIXMLHttpRequest);
-        let destination = "http://" + host + ":" + port + "/" + path;
 
         p.onreadystatechange = function () {
             if (p.readyState === 4) {
