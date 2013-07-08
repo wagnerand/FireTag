@@ -17,10 +17,6 @@ let rpc = {
         let localCount = ++this.globalCount;
         let start = Date.now();
 
-        let host = dfki.FireTag.common.prefBranch.getCharPref("server.host");
-        let port = dfki.FireTag.common.prefBranch.getCharPref("server.port");
-        let path = dfki.FireTag.common.prefBranch.getCharPref("server.path");
-
         let destination = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
         destination += "/pimodb/json-rpc";
 
