@@ -12,7 +12,8 @@ The FireTag sidebar uses this service and presents annotated and suggested conce
 
 * Open *code/defaults/preferences/firetag.js* and increase the value of the preference `extensions.dfki.FireTag.installVersion` (first line)
 * Call `ant` from the root directory of the project.
-
+* `git tag TAGNAME` whereas the TAGNAME should be the new version number (e.g., `0.7.8`)
+* `git push --tags`
 
 ## Contact
 
