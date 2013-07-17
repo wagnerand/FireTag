@@ -156,10 +156,14 @@ EAAutoCompleteSearch.prototype = {
     startSearch: function (searchString, searchParam, result, listener) {
         ++globalRequestCounter;
         let that = this;
+        
+        let maxMatches = 10;
+        if (searchString.indexOf("*") >= 0 )
+        	maxMatches = 0;
 
         let json = {
             method : "PimoSearchApi.searchForThingsWithLabelLike",
-            params : [dfki.FireTag.common.authKey, "*" + searchString + "*", 0, 0]
+            params : [dfki.FireTag.common.authKey, "*" + searchString + "*", 0, maxMatches]
         };
         let callback = function (response, counter) {
             if (counter !== globalRequestCounter) {
