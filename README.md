@@ -8,10 +8,9 @@ The PIMO stores all annotations (of the user and of the group) and can also anal
 The FireTag sidebar uses this service and presents annotated and suggested concepts accordingly.
 
 
-## How to build an xpi package for distribution
+## Development
 
-* Open *code/defaults/preferences/firetag.js* and increase the value of the preference `extensions.dfki.FireTag.installVersion` (first line)
-* Call `ant` from the root directory of the project.
+See [the wiki](https://github.com/wagnerand/FireTag/wiki/DeveloperInstructions) for developer instructions.
 
 
 ## Contact
