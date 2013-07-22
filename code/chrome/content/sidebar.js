@@ -12,6 +12,7 @@ Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
 
 // Constructor
 function Sidebar() {
+    this.suggestedConceptsLastPimoResult = [];
     this.suggestedConcepts = [];
     this.annotatedConcepts = [];
     this.conversationConcepts = [];
@@ -204,6 +205,42 @@ Sidebar.prototype = {
         }
     },
 
+    rebuildSidebarIfDifferentOBIEResultsAreAvaible : function() {
+        let currentResources = Sidebar.getCurrentResources();
+        if ((!currentResources) || (currentResources.length <= 0))
+            return;
+        let obieTexts = [];
+        let pimoResourceUris = [];
+        let len = Math.min(currentResources.length, Sidebar.MAX_NUMBER_OF_RESOURCES);
+        for (let i = 0; i < len; i++) {
+            obieTexts.push(Sidebar.getResourceTextForOBIE(currentResources[i]));
+            pimoResourceUris.push(Sidebar.getPimoResourceUri(currentResources[i]));
+        }
+
+        let json = {
+            method : "ObieApi.findAndCollectEntityReferencesInTexts",
+            params : [ dfki.FireTag.common.authKey, obieTexts, pimoResourceUris ]
+        };
+
+        let self = this;
+        let callback = function (response) {
+            let result = JSON.parse(response).result;
+            if (result) {
+                if( self.suggestedConceptsLastPimoResult.length != result.length ) {
+                    self.rebuildSidebar.call( self, true );
+                    return;
+                }
+                for (let i = 0, len = result.length; i < len; i++) {
+                    if (result[i].res.uri != self.suggestedConceptsLastPimoResult[i].res.uri ) {
+                        self.rebuildSidebar.call( self, true );
+                        return;
+                    }
+                }
+            }
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json, callback);
+    },
+
     getOBIEResults : function(resources) {
         let obieTexts = [];
         let pimoResourceUris = [];
@@ -222,6 +259,7 @@ Sidebar.prototype = {
         let callback = function (response) {
             let result = JSON.parse(response).result;
             if (result) {
+                self.suggestedConceptsLastPimoResult = result.slice( 0 );  // copy the array
 
                 self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 1 + self.conversationConcepts.length + 1 + 1, -self.suggestedConcepts.length);
                 self.suggestedConcepts.length = 0;

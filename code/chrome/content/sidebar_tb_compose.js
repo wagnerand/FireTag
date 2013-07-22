@@ -9,7 +9,7 @@ function componentConstruct() {
 
 Sidebar.prototype.addListeners = function() {
     let self = this;
-    window.setInterval(function() { self.rebuildSidebar.call(self, true); }, 10000);
+    window.setInterval(function() { self.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
 
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
