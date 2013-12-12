@@ -22,6 +22,8 @@ Sidebar.prototype.addListeners = function() {
             Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.replace(head, "");
             dfki.FireTag.common.LOG("Removed X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + " from header.");
         }
+        dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
+        dfki.FireTag.instance.draftId = null;
     };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true );
