@@ -19,7 +19,7 @@
     <RDF:li RDF:resource="rdf:#$3l56e"/>
   </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$3l56e"
-                   em:version="0.7.11">
+                   em:version="0.7.12">
     <em:targetApplication RDF:resource="rdf:#$6l56e"/>
     <em:targetApplication RDF:resource="rdf:#$dl56e"/>
   </RDF:Description>
