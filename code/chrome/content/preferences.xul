@@ -2,10 +2,10 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<prefwindow ondialogaccept="ok();" onload="init();" id="FireTagPrefsWin" title="FireTag Settings"
+<prefwindow id="FireTagPrefsWin" title="FireTag Settings"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/x-javascript" src="chrome://FireTag/content/preferences.js"/>
+    <!-- <script type="application/x-javascript" src="chrome://FireTag/content/preferences.js"/> -->
 
     <prefpane id="general" label="General">
         <preferences>
@@ -13,11 +13,12 @@
             <preference id="autocompleteShowTasks" name="extensions.dfki.FireTag.autocomplete.showTasks" type="bool" />
             <preference id="suggestConcepts" name="extensions.dfki.FireTag.suggestConcepts" type="bool" />
             <preference id="debug" name="extensions.dfki.FireTag.debug" type="bool" />
+            <preference id="servers" name="extensions.dfki.FireTag.servers" type="string" />
         </preferences>
         <vbox>
             <hbox>
-                <label value="Config String:" />
-                <menulist id="servers" editable="true" style="width: 400px;"/>
+                <label control="serverField" value="Config String:" />
+                <textbox id="serverField" style="width: 500px;" preference="servers" />
             </hbox>
             <vbox>
                 <checkbox label="Show tasks in autocomplete popup" preference="autocompleteShowTasks" />
