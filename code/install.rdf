@@ -22,7 +22,8 @@
                    em:creator="Andreas Wagner"
                    em:optionsURL="chrome://FireTag/content/preferences.xul"
                    em:homepageURL="https://github.com/wagnerand/FireTag"
-                   em:iconURL="chrome://FireTag/skin/logo32.png"
+                   em:iconURL="chrome://FireTag/skin/logo.png"
+                   em:icon64URL="chrome://FireTag/skin/logo64.png"
                    em:updateURL="https://raw.github.com/wagnerand/FireTag/master/dist/update.rdf">
     <em:targetApplication RDF:resource="rdf:#$UXteT2"/>
     <em:targetApplication RDF:resource="rdf:#$UXteT3"/>
