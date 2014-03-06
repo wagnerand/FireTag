@@ -40,7 +40,7 @@ the terms of any one of the MPL, the GPL or the LGPL.
 
 ***** END LICENSE BLOCK *****  -->
 
-<?xul-overlay href="chrome://FireTag/content/tsbSidebar.xul"?>
+<?xul-overlay href="chrome://firetag/content/tsbSidebar.xul"?>
 
 <overlay id="xsidebarComposeOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 

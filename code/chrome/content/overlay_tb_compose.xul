@@ -2,7 +2,7 @@
 
 <overlay id="waComposeOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="application/x-javascript" src="chrome://FireTag/content/overlay_tb_compose.js" />
+  <script type="application/x-javascript" src="chrome://firetag/content/overlay_tb_compose.js" />
 
   <commandset id="composeCommands">
     <command id="toggleSidebar" oncommand="toggleSidebar();"/>
@@ -18,7 +18,7 @@
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
-                 sidebarurl="chrome://FireTag/content/sidebar_tb_compose.xul"
+                 sidebarurl="chrome://firetag/content/sidebar_tb_compose.xul"
                  sidebartitle="Pimo Annotation"
                  oncommand="toggleSidebar('viewAnnotationSidebar');" />
     </broadcasterset>

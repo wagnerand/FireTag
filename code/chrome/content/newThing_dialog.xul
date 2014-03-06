@@ -9,7 +9,7 @@
     width="300"
     height="500">
 
-    <script type="application/x-javascript" src="chrome://FireTag/content/newThing_dialog.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/newThing_dialog.js" />
 
     <vbox flex="1">
 

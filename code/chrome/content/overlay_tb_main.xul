@@ -2,8 +2,8 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_main.js" />
-    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_tb_main.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/overlay_main.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/overlay_tb_main.js" />
 
 <!--
     <tree id="threadTree">

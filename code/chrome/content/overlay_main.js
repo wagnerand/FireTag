@@ -40,7 +40,7 @@ dfki.FireTag.overlay = {
 
         let sidebar = document.getElementById("FireTagSidebar");
         if (sidebar) {
-            sidebar.setAttribute("src", "chrome://FireTag/content/sidebar_tb_main.xul");
+            sidebar.setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
         }
     }
 };

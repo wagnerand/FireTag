@@ -91,7 +91,7 @@ Sidebar.prototype = {
                 }
                 else {
                     buttonPublish.disabled = false;
-                    imageIsPrivate.src = "chrome://FireTag/skin/private.png";
+                    imageIsPrivate.src = "chrome://firetag/skin/private.png";
                     imageIsPrivate.style.visibility = "visible";
                 }
             }
@@ -124,7 +124,7 @@ Sidebar.prototype = {
                     }
                 }
                 if (mixedStatus) {
-                    imageIsPrivate.src = "chrome://FireTag/skin/private_part.png";
+                    imageIsPrivate.src = "chrome://firetag/skin/private_part.png";
                     imageIsPrivate.style.visibility = "visible";
                     buttonPublish.disabled = false;
                 } else {
@@ -132,7 +132,7 @@ Sidebar.prototype = {
                         imageIsPrivate.style.visibility = "hidden";
                         buttonPublish.disabled = true;
                     } else {
-                        imageIsPrivate.src = "chrome://FireTag/skin/private.png";
+                        imageIsPrivate.src = "chrome://firetag/skin/private.png";
                         imageIsPrivate.style.visibility = "visible";
                         buttonPublish.disabled = false;
                     }
@@ -516,22 +516,22 @@ Sidebar.prototype = {
             } else if (col.id === "action") {
                 if (row === (dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     if (dfki.FireTag.instance.conversationConcepts.length > 0) {
-                        return "chrome://FireTag/skin/addAll.png";
+                        return "chrome://firetag/skin/addAll.png";
                     }
                 } else {
                     let resource = dfki.FireTag.instance.getResourceAtRow(row);
                     let parent = dfki.FireTag.instance.getResourceParent(resource);
                     if (parent === dfki.FireTag.instance.annotatedConcepts) {
-                        return "chrome://FireTag/skin/delete.png";
+                        return "chrome://firetag/skin/delete.png";
                     } else if ((parent === dfki.FireTag.instance.conversationConcepts) || (parent === dfki.FireTag.instance.suggestedConcepts)) {
-                        return "chrome://FireTag/skin/add.png";
+                        return "chrome://firetag/skin/add.png";
                     }
                 }
             } else if (col.id === "isPublic") {
                 let resource = dfki.FireTag.instance.getResourceAtRow(row);
                 if (resource) {
                     if (!resource.isPublic) {
-                        return "chrome://FireTag/skin/private.png";
+                        return "chrome://firetag/skin/private.png";
                     }
                 }
             }
@@ -762,7 +762,7 @@ Sidebar.prototype = {
 
         if (dfki.FireTag.instance.lastSelectedAutoCompleteIndex < 0) {
             let params = { inn : { name : searchString }, out : null };
-            window.openDialog("chrome://FireTag/content/newThing_dialog.xul", "",
+            window.openDialog("chrome://firetag/content/newThing_dialog.xul", "",
                 "chrome, dialog, modal, centerscreen, resizable=yes", params).focus();
             if (params.out) {
 
@@ -926,9 +926,9 @@ dfki.FireTag.registerPrefListener = function() {
                 let buttonDocuments = document.getElementById("toggleDocuments");
                 buttonDocuments.checked = showDocuments;
                 if (showDocuments) {
-                    buttonDocuments.image = "chrome://FireTag/skin/document.png";
+                    buttonDocuments.image = "chrome://firetag/skin/document.png";
                 } else {
-                    buttonDocuments.image = "chrome://FireTag/skin/document-disabled.png";
+                    buttonDocuments.image = "chrome://firetag/skin/document-disabled.png";
                 }
                 dfki.FireTag.instance.rebuildTree.call(dfki.FireTag.instance);
                 break;
@@ -937,9 +937,9 @@ dfki.FireTag.registerPrefListener = function() {
                 let buttonTasks = document.getElementById("toggleTasks");
                 buttonTasks.checked = showTasks;
                 if (showTasks) {
-                    buttonTasks.image = "chrome://FireTag/skin/task.png";
+                    buttonTasks.image = "chrome://firetag/skin/task.png";
                 } else {
-                    buttonTasks.image = "chrome://FireTag/skin/task-disabled.png";
+                    buttonTasks.image = "chrome://firetag/skin/task-disabled.png";
                 }
                 dfki.FireTag.instance.rebuildTree.call(dfki.FireTag.instance);
                 break;

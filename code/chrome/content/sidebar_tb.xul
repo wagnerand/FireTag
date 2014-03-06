@@ -6,7 +6,7 @@
 
         <hbox>
             <hbox flex="1" align="center">
-                <image id="imageIsPrivate" src="chrome://FireTag/skin/private.png" width="16" height="16" />
+                <image id="imageIsPrivate" src="chrome://firetag/skin/private.png" width="16" height="16" />
                 <label id="labelResource" onclick="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
             </hbox>
             <hbox>
@@ -14,10 +14,10 @@
                         tooltiptext="Edit Label"
                         oncommand="dfki.FireTag.instance.onButtonEditResourceLabelClicked();"
                         class="toolbarbutton-1"
-                        image="chrome://FireTag/skin/editLabel.png" />
+                        image="chrome://firetag/skin/editLabel.png" />
                 <toolbarbutton id="buttonPublish"
                         tooltiptext="Share this resource"
-                        image="chrome://FireTag/skin/share.png"
+                        image="chrome://firetag/skin/share.png"
                         oncommand="dfki.FireTag.instance.onButtonPublishResourcesClicked(dfki.FireTag.instance.currentResourcesAsPimoThings);"
                         class="toolbarbutton-1" />
             </hbox>
@@ -36,8 +36,8 @@
         <tree id="annotationTree" flex="1" seltype="text" onclick="dfki.FireTag.instance.onTreeClicked(event);">
             <treecols>
                 <treecol id="name" label="Name" flex="1" primary="true" />
-                <treecol id="isPublic" label="Public Status" src="chrome://FireTag/skin/private_gray.png" class="treecol-image" />
-                <treecol id="action" label="Action" src="chrome://FireTag/skin/add_gray.png" class="treecol-image" />
+                <treecol id="isPublic" label="Public Status" src="chrome://firetag/skin/private_gray.png" class="treecol-image" />
+                <treecol id="action" label="Action" src="chrome://firetag/skin/add_gray.png" class="treecol-image" />
             </treecols>
             <treechildren tooltip="treeItemTooltip" />
         </tree>
@@ -49,13 +49,13 @@
                     oncommand="dfki.FireTag.instance.onButtonToggleTasksClicked();"
                     type="checkbox"
                     class="toolbarbutton-1"
-                    image="chrome://FireTag/skin/task.png" />
+                    image="chrome://firetag/skin/task.png" />
             <toolbarbutton id="toggleDocuments"
                     tooltiptext="Show Documents"
                     oncommand="dfki.FireTag.instance.onButtonToggleDocumentsClicked();"
                     type="checkbox"
                     class="toolbarbutton-1"
-                    image="chrome://FireTag/skin/document.png" />
+                    image="chrome://firetag/skin/document.png" />
         </toolbar>
 
     </vbox>

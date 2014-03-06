@@ -2,7 +2,7 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/x-javascript" src="chrome://FireTag/content/overlay_main.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/overlay_main.js" />
 
     <menupopup id="viewSidebarMenu">
         <menuitem key="key_openASidebar" observes="viewAnnotationSidebar"  />
@@ -20,7 +20,7 @@
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
-                 sidebarurl="chrome://FireTag/content/sidebar_fx_main.xul"
+                 sidebarurl="chrome://firetag/content/sidebar_fx_main.xul"
                  sidebartitle="Pimo Annotation"
                  oncommand="toggleSidebar('viewAnnotationSidebar');" />
     </broadcasterset>

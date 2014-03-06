@@ -164,7 +164,7 @@ var xSidebar = {
     if (cssplit) {
       cssplit.parentNode.removeChild(cssplit.nextSibling);
       cssplit.parentNode.removeChild(cssplit);
-      document.loadOverlay("chrome://FireTag/content/tsbSidebar.xul", null);
+      document.loadOverlay("chrome://firetag/content/tsbSidebar.xul", null);
     }
     // On Linux F9 fetches new messages
     // see Bug 221360 – support F5 and/or F9 for checking mail

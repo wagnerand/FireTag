@@ -129,6 +129,6 @@ the terms of any one of the MPL, the GPL or the LGPL.
     </vbox>
   </vbox>
 
-  <script type="application/x-javascript" src="chrome://FireTag/content/tsbSidebar.js"/>
+  <script type="application/x-javascript" src="chrome://firetag/content/tsbSidebar.js"/>
 
 </overlay>

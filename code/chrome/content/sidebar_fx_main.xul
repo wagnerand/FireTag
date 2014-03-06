@@ -2,13 +2,13 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://global/skin/toolbarbutton.css" type="text/css" ?>
 <?xml-stylesheet href="chrome://browser/skin/browser.css" type="text/css" ?>
-<?xml-stylesheet href="chrome://FireTag/skin/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firetag/skin/style.css" type="text/css"?>
 
-<?xul-overlay href="chrome://FireTag/content/sidebar_fx.xul"?>
+<?xul-overlay href="chrome://firetag/content/sidebar_fx.xul"?>
 
 <page id="FireTagSidebarFxMain" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/x-javascript" src="chrome://FireTag/content/sidebar.js" />
-    <script type="application/x-javascript" src="chrome://FireTag/content/sidebar_fx.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/sidebar.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/sidebar_fx.js" />
 
 </page>

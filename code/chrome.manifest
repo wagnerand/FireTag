@@ -2,13 +2,13 @@ content     FireTag                    chrome/content/
 skin        FireTag    classic/1.0     chrome/skin/
 resource    FireTag                    modules/
 
-overlay     chrome://browser/content/browser.xul                                 chrome://FireTag/content/overlay_fx_main.xul          application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-overlay     chrome://messenger/content/messenger.xul                             chrome://FireTag/content/overlay_tb_main.xul          application={3550f703-e582-4d05-9a08-453d09bdfdc6}
-#overlay     chrome://messenger/content/msgHdrViewOverlay.xul                     chrome://FireTag/content/overlay_tb_main.xul          application={3550f703-e582-4d05-9a08-453d09bdfdc6}
-overlay     chrome://messenger/content/messengercompose/messengercompose.xul     chrome://FireTag/content/tsbComposer.xul              application={3550f703-e582-4d05-9a08-453d09bdfdc6}
-overlay     chrome://messenger/content/messengercompose/messengercompose.xul     chrome://FireTag/content/overlay_tb_compose.xul       application={3550f703-e582-4d05-9a08-453d09bdfdc6}
+overlay     chrome://browser/content/browser.xul                                 chrome://firetag/content/overlay_fx_main.xul          application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+overlay     chrome://messenger/content/messenger.xul                             chrome://firetag/content/overlay_tb_main.xul          application={3550f703-e582-4d05-9a08-453d09bdfdc6}
+#overlay     chrome://messenger/content/msgHdrViewOverlay.xul                     chrome://firetag/content/overlay_tb_main.xul          application={3550f703-e582-4d05-9a08-453d09bdfdc6}
+overlay     chrome://messenger/content/messengercompose/messengercompose.xul     chrome://firetag/content/tsbComposer.xul              application={3550f703-e582-4d05-9a08-453d09bdfdc6}
+overlay     chrome://messenger/content/messengercompose/messengercompose.xul     chrome://firetag/content/overlay_tb_compose.xul       application={3550f703-e582-4d05-9a08-453d09bdfdc6}
 
-style       chrome://global/content/customizeToolbar.xul                         chrome://FireTag/skin/toolbar.css
+style       chrome://global/content/customizeToolbar.xul                         chrome://firetag/skin/toolbar.css
 
 category    command-line-handler m-messageidopener @mozilla.org/commandlinehandler/general-startup;1?type=messageidopener application={3550f703-e582-4d05-9a08-453d09bdfdc6}
 
