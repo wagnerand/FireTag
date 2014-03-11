@@ -1,4 +1,4 @@
-pref("extensions.dfki.FireTag.installVersion", "0.8.0");
+pref("extensions.dfki.FireTag.installVersion", "0.9.0");
 
 pref("extensions.dfki.FireTag.servers", "");
 
