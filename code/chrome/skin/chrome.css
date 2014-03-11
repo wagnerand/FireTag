@@ -2,10 +2,10 @@
     list-style-image: url("chrome://FireTag/skin/toolbar-toggle-on.png");
 }
 
-#FireTagToggleSidebar[checkState="1"] {
+#FireTagToggleSidebar[checkState="1"], #FireTagToggleSidebar[checkState="true"] {
     list-style-image: url("chrome://FireTag/skin/toolbar-toggle-on.png");
 }
 
-#FireTagToggleSidebar[checkState="0"] {
+#FireTagToggleSidebar[checkState="0"], #FireTagToggleSidebar[checkState="false"] {
     list-style-image: url("chrome://FireTag/skin/toolbar-toggle-off.png");
 }

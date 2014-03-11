@@ -64,7 +64,6 @@ dfki.FireTag.overlay.tb.main.init = function() {
 
     var toolbarButton = document.getElementById("FireTagToggleSidebar");
     if (toolbarButton && toolbarButton.checkState) {
-        document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
         document.getElementById("FireTagSidebar").setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
     }
 

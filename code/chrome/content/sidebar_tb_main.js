@@ -43,6 +43,8 @@ Sidebar.prototype.addListeners = function() {
 //        observerService.addObserver(msgDisplayedObserver, "MsgMsgDisplayed", false);
 
         window.top.document.getElementById("tabmail").registerTabMonitor(tabMonitor);
+        window.top.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "1");
+        window.top.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
     } /*else if (window.top.document.location === "chrome://messenger/content/messengercompose/messengercompose.xul") {
      let msgHdr = window.top.messageSinkHeader.mSaveHdr;
      getPimoResults([msgHdr]);
@@ -58,6 +60,8 @@ Sidebar.prototype.addListeners = function() {
             folderTree.removeEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
 
             window.top.document.getElementById("tabmail").unregisterTabMonitor(tabMonitor);
+            window.top.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");
+            window.top.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
         }
     }, false);
 };

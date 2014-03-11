@@ -16,15 +16,10 @@ Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 dfki.FireTag.overlay.fx = {
     init : function() {
         window.removeEventListener("load", dfki.FireTag.overlay.fx.init, false);
-        var toolbarButton = document.getElementById("FireTagToggleSidebar");
-        if (toolbarButton && toolbarButton.checkState) {
-            document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
-        }
     },
 
     toggleSidebar : function() {
         toggleSidebar('viewAnnotationSidebar');
-        document.persist("FireTagToggleSidebar", "checkState");
     }
 };
 

@@ -6,11 +6,16 @@ Sidebar.prototype.addListeners = function() {
 
     Sidebar.mainWin.gBrowser.addEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
     Sidebar.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+    Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "true");
+    Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
 
     // Remove event listeners on unload
     window.addEventListener("unload", function () {
         Sidebar.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
         Sidebar.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+        Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "false");
+        Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
+
     }, false);
 };
 
