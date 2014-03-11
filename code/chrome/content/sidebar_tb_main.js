@@ -1,6 +1,23 @@
 function componentConstruct() {
 }
 
+let tabMonitor = {
+    monitorName : "FireTag_tabMonitor",
+    onTabTitleChanged : function (aTab) {},
+    onTabSwitched : function (aTab, aOldTab) {
+        if (aTab.mode.name === "folder") {
+            self.rebuildSidebar.call(self);
+        } /*else if (aTab.mode.name === "message") {
+         let msgHdr = aTab.folderDisplay.selectedMessage;
+         getPimoResults([msgHdr]);
+         }*/
+    },
+    onTabOpened : function (aTab, aIsFirstTab, aWasCurrentTab) {},
+    onTabClosing :  function (aTab) {},
+    onTabPersist : function (aTab) {},
+    onTabRestored : function (aTab, aState, aIsFirstTab) {}
+};
+
 Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 
@@ -8,14 +25,13 @@ Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 Components.utils.import("resource:///modules/gloda/public.js");
 
 Sidebar.prototype.addListeners = function() {
-//    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
     if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
         let msgTree = window.top.GetThreadTree();
         let self = this;
-        msgTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
+        msgTree.addEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
 
         let folderTree = window.top.document.getElementById("folderTree");
-        folderTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
+        folderTree.addEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
 
 //        let msgDisplayedObserver = {
 //                observe : function(subject, topic, data) {
@@ -26,27 +42,24 @@ Sidebar.prototype.addListeners = function() {
 
 //        observerService.addObserver(msgDisplayedObserver, "MsgMsgDisplayed", false);
 
-        let tabMonitor = {
-            monitorName : "FireTag_tabMonitor",
-            onTabTitleChanged : function (aTab) {},
-            onTabSwitched : function (aTab, aOldTab) {
-                if (aTab.mode.name === "folder") {
-                    self.rebuildSidebar.call(self);
-                } /*else if (aTab.mode.name === "message") {
-                 let msgHdr = aTab.folderDisplay.selectedMessage;
-                 getPimoResults([msgHdr]);
-                 }*/
-            },
-            onTabOpened : function (aTab, aIsFirstTab, aWasCurrentTab) {},
-            onTabClosing :  function (aTab) {},
-            onTabPersist : function (aTab) {},
-            onTabRestored : function (aTab, aState, aIsFirstTab) {}
-        };
         window.top.document.getElementById("tabmail").registerTabMonitor(tabMonitor);
     } /*else if (window.top.document.location === "chrome://messenger/content/messengercompose/messengercompose.xul") {
      let msgHdr = window.top.messageSinkHeader.mSaveHdr;
      getPimoResults([msgHdr]);
      }*/
+
+    window.addEventListener("unload", function() {
+        if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
+            let msgTree = window.top.GetThreadTree();
+            let self = this;
+            msgTree.removeEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+
+            let folderTree = window.top.document.getElementById("folderTree");
+            folderTree.removeEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+
+            window.top.document.getElementById("tabmail").unregisterTabMonitor(tabMonitor);
+        }
+    }, false);
 };
 
 Sidebar.prototype.publish = function (resources, defer) {

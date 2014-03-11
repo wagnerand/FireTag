@@ -62,6 +62,13 @@ dfki.FireTag.overlay.tb.main.init = function() {
 
     notificationService.addListener(sentMailListener, notificationService.msgsClassified);
 
+    var toolbarButton = document.getElementById("FireTagToggleSidebar");
+    if (toolbarButton && toolbarButton.checkState) {
+        document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
+        document.getElementById("FireTagSidebar").setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
+    }
+
+
     /*
      * COLUMN HANDLER DEMO
      */
@@ -89,5 +96,36 @@ dfki.FireTag.overlay.tb.main.init = function() {
     //  would work as well.
     //        }
 };
+
+dfki.FireTag.overlay.tb.main.toggleSidebar = function() {
+    var sidebarBox = document.getElementById("FireTagSidebar-box");
+
+    var elt = document.getElementById("FireTagToggleSidebar");
+    var sidebar = document.getElementById("FireTagSidebar");
+    var sidebarSplitter = document.getElementById("FireTagSidebar-splitter");
+
+    if (elt) {
+        if (elt.getAttribute("checkState") == 0) {
+            sidebar.setAttribute("src", "about:blank");
+            sidebarBox.collapsed = true;
+            sidebarBox.hidden = true;
+            sidebarSplitter.hidden = true;
+        } else {
+            sidebar.setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
+            sidebarBox.hidden = false;
+            sidebarBox.removeAttribute("collapsed");
+
+            sidebarSplitter.hidden = false;
+            if (sidebarSplitter.getAttribute("state") == "collapsed")
+                sidebarSplitter.removeAttribute("state");
+        }
+    }
+
+    document.persist("FireTagSidebar-box", "hidden");
+    document.persist("FireTagSidebar-box", "collapsed");
+    document.persist("FireTagSidebar-splitter", "hidden");
+    document.persist("FireTagSidebar-splitter", "state");
+    document.persist("FireTagToggleSidebar", "checkState");
+}
 
 window.addEventListener("load", dfki.FireTag.overlay.tb.main.init, false);

@@ -1,0 +1,11 @@
+#FireTagToggleSidebar {
+    list-style-image: url("chrome://FireTag/skin/toolbar-toggle-on.png");
+}
+
+#FireTagToggleSidebar[checkState="1"] {
+    list-style-image: url("chrome://FireTag/skin/toolbar-toggle-on.png");
+}
+
+#FireTagToggleSidebar[checkState="0"] {
+    list-style-image: url("chrome://FireTag/skin/toolbar-toggle-off.png");
+}

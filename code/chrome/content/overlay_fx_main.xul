@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://FireTag/skin/chrome.css" type="text/css"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
     <script type="application/x-javascript" src="chrome://firetag/content/overlay_main.js" />
+    <script type="application/x-javascript" src="chrome://firetag/content/overlay_fx_main.js" />
 
     <menupopup id="viewSidebarMenu">
         <menuitem key="key_openASidebar" observes="viewAnnotationSidebar"  />
@@ -24,5 +26,14 @@
                  sidebartitle="Pimo Annotation"
                  oncommand="toggleSidebar('viewAnnotationSidebar');" />
     </broadcasterset>
+
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="FireTagToggleSidebar"
+                       class="toolbarbutton-1 chromeclass-toolbar-additional"
+                       label="FireTag Sidebar"
+                       tooltiptext="Toggle FireTag Sidebar"
+                       type="checkbox"
+                       oncommand="dfki.FireTag.overlay.fx.toggleSidebar();" />
+    </toolbarpalette>
 
 </overlay>

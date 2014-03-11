@@ -13,7 +13,7 @@ Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
 dfki.FireTag.overlay = {
 
     storeSidebarState : function () {
-        let splitter = document.getElementById("FireTagSplitter");
+        let splitter = document.getElementById("FireTagSidebar-splitter");
         if (!splitter.getAttribute("state")) {
             splitter.setAttribute("state", "open");
         }
@@ -37,11 +37,6 @@ dfki.FireTag.overlay = {
         });
 
         overlayPrefListener.register(true);
-
-        let sidebar = document.getElementById("FireTagSidebar");
-        if (sidebar) {
-            sidebar.setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
-        }
     }
 };
 
