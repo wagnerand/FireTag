@@ -29,4 +29,13 @@
                 observes="viewAnnotationSidebar"/>
     </menupopup>
 
+    <toolbarpalette id="MsgComposeToolbarPalette">
+        <toolbarbutton id="FireTagToggleSidebar"
+                       class="toolbarbutton-1 chromeclass-toolbar-additional"
+                       label="FireTag Sidebar"
+                       tooltiptext="Toggle FireTag Sidebar"
+                       type="checkbox"
+                       oncommand="toggleSidebar('viewAnnotationSidebar');" />
+    </toolbarpalette>
+
 </overlay>

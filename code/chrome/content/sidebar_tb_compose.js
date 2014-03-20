@@ -9,7 +9,7 @@ function componentConstruct() {
 
 Sidebar.prototype.addListeners = function() {
     let self = this;
-    window.setInterval(function() { self.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
+    let rebuildTimer = window.setInterval(function() { dfki.FireTag.instance.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
 
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
@@ -26,9 +26,19 @@ Sidebar.prototype.addListeners = function() {
         dfki.FireTag.instance.draftId = null;
     };
 
-    Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true );
+    Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, false);
     //not working as otherRandomHeaders is empty when the window gets reopened, so no need to save our header on close
-    //Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, true );
+    //Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, false);
+
+    Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "1");
+    Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
+
+    window.addEventListener("unload", function() {
+        clearInterval(rebuildTimer);
+        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, false);
+        Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");
+        Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
+    }, false);
 };
 
 Sidebar.prototype.publish = function (resources, defer) {

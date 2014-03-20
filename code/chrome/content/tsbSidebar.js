@@ -214,6 +214,7 @@ function toggleSidebar(aCommandID, forceOpen) {
     if ((!forceOpen && elt && elt.getAttribute("checked") == "true")) {
       elt.removeAttribute("checked");
       sidebarTitle.setAttribute("value", "");
+      sidebar.setAttribute("src", "about:blank");
       sidebar.removeAttribute("src");
 
       var hideEverything = sidebarPanelsSplitter.getAttribute("hidden") == "true";
