@@ -14,7 +14,7 @@ Sidebar.prototype.addListeners = function() {
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
     let sendOrCloseListener = function() {
-        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, false);
+        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, true);
 
         let head = "X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + "\r\n";
         if ((Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.indexOf("X-PIMO-DRAFTURI:") < 0) && (dfki.FireTag.instance.annotatedConcepts.length > 0)) {
@@ -28,13 +28,14 @@ Sidebar.prototype.addListeners = function() {
         dfki.FireTag.instance.draftId = null;
     };
 
-    Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, false);
+    Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true);
     //not working as otherRandomHeaders is empty when the window gets reopened, so no need to save our header on close
     //Sidebar.mainWin.addEventListener( "compose-window-close", sendOrCloseListener, false);
 
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "1");
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
 
+    // Do NOT use Sidebar.mainWin.addEventListener here, window is correct!
     window.addEventListener("unload", function() {
         clearInterval(rebuildTimer);
 
@@ -45,7 +46,14 @@ Sidebar.prototype.addListeners = function() {
     Sidebar.mainWin.addEventListener("compose-window-close", function() {
         if (rebuildTimer) {
             clearInterval(rebuildTimer);
+            rebuildTimer = null;
             dfki.FireTag.instance.resetSidebar();
+        }
+    }, true);
+
+    Sidebar.mainWin.addEventListener("compose-window-init", function() {
+        if (!rebuildTimer) {
+            Sidebar.onLoadListener();
         }
     }, true);
 };

@@ -227,12 +227,12 @@ Sidebar.prototype = {
             let result = JSON.parse(response).result;
             if (result) {
                 if( self.suggestedConceptsLastPimoResult.length != result.length ) {
-                    self.rebuildSidebar.call( self, true );
+                    self.rebuildTree.call( self );
                     return;
                 }
                 for (let i = 0, len = result.length; i < len; i++) {
                     if (result[i].res.uri != self.suggestedConceptsLastPimoResult[i].res.uri ) {
-                        self.rebuildSidebar.call( self, true );
+                        self.rebuildTree.call( self );
                         return;
                     }
                 }
@@ -632,6 +632,8 @@ Sidebar.prototype = {
                 let rowIndex = row.value;
                 let resources = Sidebar.getCurrentResources();
 
+                this.suggestedConceptsLastPimoResult.length = 0;
+
                 if ((rowIndex > 0) && (rowIndex < this.annotatedConcepts.length + 1)) {
                     let removedItem = this.annotatedConcepts.splice(rowIndex - 1, 1)[0];
                     this.treeboxObject.rowCountChanged(rowIndex, -1);
@@ -948,7 +950,7 @@ dfki.FireTag.registerPrefListener = function() {
     myPrefListener.register(true);
 };
 
-window.addEventListener("load", function() {
+Sidebar.onLoadListener = function() {
     dfki.FireTag.instance = new Sidebar();
     dfki.FireTag.instance.treeView.rowCount = (dfki.FireTag.instance.conversationConcepts.length + dfki.FireTag.instance.suggestedConcepts.length + dfki.FireTag.instance.annotatedConcepts.length + 3);
     dfki.FireTag.instance.annotationTree.view = dfki.FireTag.instance.treeView;
@@ -956,7 +958,9 @@ window.addEventListener("load", function() {
     dfki.FireTag.registerPrefListener();
     dfki.FireTag.instance.addListeners.call(dfki.FireTag.instance);
     dfki.FireTag.instance.rebuildSidebar.call(dfki.FireTag.instance);
-}, false);
+}
+
+window.addEventListener("load", Sidebar.onLoadListener, false);
 
 function getStackDump() {
     let lines = [];
