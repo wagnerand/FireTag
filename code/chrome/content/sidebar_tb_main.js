@@ -1,23 +1,6 @@
 function componentConstruct() {
 }
 
-let tabMonitor = {
-    monitorName : "FireTag_tabMonitor",
-    onTabTitleChanged : function (aTab) {},
-    onTabSwitched : function (aTab, aOldTab) {
-        if (aTab.mode.name === "folder") {
-            self.rebuildSidebar.call(self);
-        } /*else if (aTab.mode.name === "message") {
-         let msgHdr = aTab.folderDisplay.selectedMessage;
-         getPimoResults([msgHdr]);
-         }*/
-    },
-    onTabOpened : function (aTab, aIsFirstTab, aWasCurrentTab) {},
-    onTabClosing :  function (aTab) {},
-    onTabPersist : function (aTab) {},
-    onTabRestored : function (aTab, aState, aIsFirstTab) {}
-};
-
 Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 
@@ -25,6 +8,7 @@ Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 Components.utils.import("resource:///modules/gloda/public.js");
 
 Sidebar.prototype.addListeners = function() {
+    let tabMonitor;
     if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
         let msgTree = window.top.GetThreadTree();
         let self = this;
@@ -41,6 +25,23 @@ Sidebar.prototype.addListeners = function() {
 //        };
 
 //        observerService.addObserver(msgDisplayedObserver, "MsgMsgDisplayed", false);
+
+        tabMonitor = {
+            monitorName : "FireTag_tabMonitor",
+            onTabTitleChanged : function (aTab) {},
+            onTabSwitched : function (aTab, aOldTab) {
+                if (aTab.mode.name === "folder") {
+                    self.rebuildSidebar.call(self);
+                } else if (aTab.mode.name === "message") {
+                 let msgHdr = aTab.folderDisplay.selectedMessage;
+                 self.getPimoResults([msgHdr]);
+                 }
+            },
+            onTabOpened : function (aTab, aIsFirstTab, aWasCurrentTab) {},
+            onTabClosing :  function (aTab) {},
+            onTabPersist : function (aTab) {},
+            onTabRestored : function (aTab, aState, aIsFirstTab) {}
+        };
 
         window.top.document.getElementById("tabmail").registerTabMonitor(tabMonitor);
         window.top.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "1");
