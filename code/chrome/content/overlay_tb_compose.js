@@ -16,4 +16,5 @@ if (!dfki.FireTag.overlay.tb.compose) {
 
 Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
 
-window.addEventListener("close", function() { dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI on close: " + dfki.FireTag.instance.draftId); dfki.FireTag.instance.draftId = null; });
+window.addEventListener("compose-window-close", function() { dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI on close: " + dfki.FireTag.instance.draftId); dfki.FireTag.instance.draftId = null; });
+

@@ -67,7 +67,6 @@ dfki.FireTag.overlay.tb.main.init = function() {
         document.getElementById("FireTagSidebar").setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
     }
 
-
     /*
      * COLUMN HANDLER DEMO
      */

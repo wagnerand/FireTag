@@ -31,11 +31,11 @@
 
     <toolbarpalette id="MsgComposeToolbarPalette">
         <toolbarbutton id="FireTagToggleSidebar"
-                       class="toolbarbutton-1 chromeclass-toolbar-additional"
+                       class="toolbarbutton-1"
                        label="FireTag Sidebar"
                        tooltiptext="Toggle FireTag Sidebar"
                        type="checkbox"
-                       oncommand="toggleSidebar('viewAnnotationSidebar');" />
+                       oncommand="toggleSidebar('viewAnnotationSidebar'); document.persist('FireTagToggleSidebar', 'checkState');" />
     </toolbarpalette>
 
 </overlay>

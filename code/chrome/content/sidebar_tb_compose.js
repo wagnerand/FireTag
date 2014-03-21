@@ -9,11 +9,13 @@ function componentConstruct() {
 
 Sidebar.prototype.addListeners = function() {
     let self = this;
-    let rebuildTimer = window.setInterval(function() { dfki.FireTag.instance.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
+    let rebuildTimer = setInterval(function() { dfki.FireTag.instance.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
 
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
     let sendOrCloseListener = function() {
+        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, false);
+
         let head = "X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + "\r\n";
         if ((Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.indexOf("X-PIMO-DRAFTURI:") < 0) && (dfki.FireTag.instance.annotatedConcepts.length > 0)) {
             Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders += head;
@@ -35,10 +37,17 @@ Sidebar.prototype.addListeners = function() {
 
     window.addEventListener("unload", function() {
         clearInterval(rebuildTimer);
-        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, false);
+
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
-    }, false);
+    }, true);
+
+    Sidebar.mainWin.addEventListener("compose-window-close", function() {
+        if (rebuildTimer) {
+            clearInterval(rebuildTimer);
+            dfki.FireTag.instance.resetSidebar();
+        }
+    }, true);
 };
 
 Sidebar.prototype.publish = function (resources, defer) {
