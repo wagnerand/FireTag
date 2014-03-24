@@ -33,9 +33,13 @@ Sidebar.prototype.addListeners = function() {
                 if (aTab.mode.name === "folder") {
                     self.rebuildSidebar.call(self);
                 } else if (aTab.mode.name === "message") {
-                 let msgHdr = aTab.folderDisplay.selectedMessage;
-                 self.getPimoResults([msgHdr]);
-                 }
+                    // Ugly shortcut to inject a given msgHdr
+                    let msgHdr = aTab.folderDisplay.selectedMessage;
+                    let resourceURI = Sidebar.getPimoResourceUri(msgHdr);
+                    self.resetSidebar();
+                    self.lastSelectedResources = [msgHdr];
+                    self.lookupResources([resourceURI]);
+                }
             },
             onTabOpened : function (aTab, aIsFirstTab, aWasCurrentTab) {},
             onTabClosing :  function (aTab) {},
