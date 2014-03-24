@@ -12,10 +12,10 @@ Sidebar.prototype.addListeners = function() {
     if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
         let msgTree = window.top.GetThreadTree();
         let self = this;
-        msgTree.addEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+        msgTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
 
         let folderTree = window.top.document.getElementById("folderTree");
-        folderTree.addEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+        folderTree.addEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
 
 //        let msgDisplayedObserver = {
 //                observe : function(subject, topic, data) {
@@ -59,10 +59,10 @@ Sidebar.prototype.addListeners = function() {
         if (window.top.document.location.href === "chrome://messenger/content/messenger.xul") {
             let msgTree = window.top.GetThreadTree();
             let self = this;
-            msgTree.removeEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+            msgTree.removeEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
 
             let folderTree = window.top.document.getElementById("folderTree");
-            folderTree.removeEventListener("select", dfki.FireTag.instance.rebuildSidebar.bind(self), false);
+            folderTree.removeEventListener("select", function() { self.rebuildSidebar.call(self); }, false);
 
             window.top.document.getElementById("tabmail").unregisterTabMonitor(tabMonitor);
             window.top.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");

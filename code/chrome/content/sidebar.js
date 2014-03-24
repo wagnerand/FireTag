@@ -149,7 +149,17 @@ Sidebar.prototype = {
     },
 
     rebuildSidebar : function(force) {
-        if (force || this.selectedResourcesChanged()) {
+        let needsRebuild = false;
+        if (this.selectedResourcesChanged()) {
+            needsRebuild = true;
+        }
+        else if (typeof force == "Event") {
+            needsRebuild = arguments[1];
+        }
+        else if (typeof force == "Boolean") {
+            needsRebuild = force;
+        }
+        if (needsRebuild) {
             this.resetSidebar();
             if (Sidebar.inPrivateMode()) {
                 return;
