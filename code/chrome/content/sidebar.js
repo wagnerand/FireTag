@@ -156,7 +156,7 @@ Sidebar.prototype = {
         else if (typeof force == "Event") {
             needsRebuild = arguments[1];
         }
-        else if (typeof force == "Boolean") {
+        else if (typeof force == "boolean") {
             needsRebuild = force;
         }
         if (needsRebuild) {
