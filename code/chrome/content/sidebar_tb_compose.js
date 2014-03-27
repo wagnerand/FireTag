@@ -26,6 +26,7 @@ Sidebar.prototype.addListeners = function() {
         }
         dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
         dfki.FireTag.instance.draftId = null;
+        dfki.FireTag.instance.resetSidebar();
     };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true);
