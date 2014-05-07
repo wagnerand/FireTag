@@ -14,7 +14,8 @@ Sidebar.prototype.addListeners = function() {
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
     let sendOrCloseListener = function() {
-        Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, true);
+        // Let's not remove the listener as this actually fires multiple times during composition, even when the email does not get sent...
+        //Sidebar.mainWin.removeEventListener( "compose-send-message", sendOrCloseListener, true);
 
         let head = "X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + "\r\n";
         if ((Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.indexOf("X-PIMO-DRAFTURI:") < 0) && (dfki.FireTag.instance.annotatedConcepts.length > 0)) {
@@ -24,8 +25,6 @@ Sidebar.prototype.addListeners = function() {
             Sidebar.mainWin.gMsgCompose.compFields.otherRandomHeaders.replace(head, "");
             dfki.FireTag.common.LOG("Removed X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId + " from header.");
         }
-        dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
-        dfki.FireTag.instance.draftId = null;
     };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true);
@@ -49,6 +48,8 @@ Sidebar.prototype.addListeners = function() {
             Sidebar.mainWin.FireTagRrebuildTimer = null;
             dfki.FireTag.instance.resetSidebar();
         }
+        dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
+        dfki.FireTag.instance.draftId = null;
     }, true);
 
     Sidebar.mainWin.addEventListener("compose-window-init", function() {
