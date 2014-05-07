@@ -9,7 +9,7 @@ function componentConstruct() {
 
 Sidebar.prototype.addListeners = function() {
     let self = this;
-    let rebuildTimer = setInterval(function() { dfki.FireTag.instance.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
+    Sidebar.mainWin.FireTagRrebuildTimer = setInterval(function() { dfki.FireTag.instance.rebuildSidebarIfDifferentOBIEResultsAreAvaible.call(self); }, 10000);
 
 //    let code=""; while(code = prompt("Enter code", code)) alert(eval(code));
 
@@ -26,7 +26,6 @@ Sidebar.prototype.addListeners = function() {
         }
         dfki.FireTag.common.LOG("Destroying cached X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
         dfki.FireTag.instance.draftId = null;
-        dfki.FireTag.instance.resetSidebar();
     };
 
     Sidebar.mainWin.addEventListener( "compose-send-message", sendOrCloseListener, true);
@@ -38,22 +37,22 @@ Sidebar.prototype.addListeners = function() {
 
     // Do NOT use Sidebar.mainWin.addEventListener here, window is correct!
     window.addEventListener("unload", function() {
-        clearInterval(rebuildTimer);
+        clearInterval(Sidebar.mainWin.FireTagRrebuildTimer);
 
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
     }, true);
 
     Sidebar.mainWin.addEventListener("compose-window-close", function() {
-        if (rebuildTimer) {
-            clearInterval(rebuildTimer);
-            rebuildTimer = null;
+        if (Sidebar.mainWin.FireTagRrebuildTimer) {
+            clearInterval(Sidebar.mainWin.FireTagRrebuildTimer);
+            Sidebar.mainWin.FireTagRrebuildTimer = null;
             dfki.FireTag.instance.resetSidebar();
         }
     }, true);
 
     Sidebar.mainWin.addEventListener("compose-window-init", function() {
-        if (!rebuildTimer) {
+        if (!Sidebar.mainWin.FireTagRrebuildTimer) {
             Sidebar.onLoadListener();
         }
     }, true);
