@@ -23,8 +23,10 @@ dfki.FireTag.overlay = {
         let overlayPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
             switch (name) {
             case "servers":
-                dfki.FireTag.common.authKey = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[1].trim();
-                break;
+                if (dfki.FireTag.common.prefBranch.getCharPref("servers").length > 0) {
+                    dfki.FireTag.common.authKey = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[1].trim();
+                    break;
+                }
             case "autocomplete.showDocuments":
                 let showDocuments = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showDocuments");
                 dfki.FireTag.common.showDocuments = showDocuments;
