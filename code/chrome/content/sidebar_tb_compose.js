@@ -38,6 +38,22 @@ Sidebar.prototype.addListeners = function() {
     window.addEventListener("unload", function() {
         clearInterval(Sidebar.mainWin.FireTagRrebuildTimer);
 
+        let draftUri = Sidebar.getPimoResourceUri();
+        let json = {
+            method: "PimoManipulationApi.deleteResource",
+            params: [ dfki.FireTag.common.authKey, draftUri ]
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json);
+
+        let pimoThings = dfki.FireTag.instance.currentResourcesAsPimoThings;
+        for (let i = 0; i < pimoThings.length; i++) {
+            let json = {
+                method: "PimoManipulationApi.deleteResource",
+                params: [ dfki.FireTag.common.authKey, pimoThings[i].uri ]
+            };
+            dfki.FireTag.rpc.JSONRPCCall(json);
+        }
+
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "0");
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
     }, true);
