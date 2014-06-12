@@ -126,19 +126,12 @@ Sidebar.getResourcesMetadata = function(resources) {
         result.push({
             uri : Sidebar.getPimoResourceUri(resources[i]),
             label : Sidebar.getPimoResourceLabel(resources[i]),
-            type : "pimo:informationelement#Email"
-            /*
-            messageURI : resources[i].folder.getUriForMsg(resources[i]),
-
-            date : resources[i].dateInSeconds,
-            folderURL : resources[i].folder.folderURL,
-            folderName : resources[i].folder.name,
-            from : resources[i].author,
-            to : resources[i].recipients,
-            cc : resources[i].ccList,
-            bcc : resources[i].bccList,
+            type : "pimo:informationelement#Email",
+            from : resources[i].from,
+            to : resources[i].to,
+            cc : resources[i].cc,
+            bcc : resources[i].bcc,
             subject : resources[i].subject
-             */
         });
     }
     return result;
