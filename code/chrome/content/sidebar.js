@@ -528,6 +528,10 @@ Sidebar.prototype = {
                     if (dfki.FireTag.instance.conversationConcepts.length > 0) {
                         return "chrome://firetag/skin/addAll.png";
                     }
+                } else if (row === (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
+                    if (dfki.FireTag.instance.suggestedConcepts.length > 0) {
+                        return "chrome://firetag/skin/addAll.png";
+                    }
                 } else {
                     let resource = dfki.FireTag.instance.getResourceAtRow(row);
                     let parent = dfki.FireTag.instance.getResourceParent(resource);
@@ -645,6 +649,7 @@ Sidebar.prototype = {
                 this.suggestedConceptsLastPimoResult.length = 0;
 
                 if ((rowIndex > 0) && (rowIndex < this.annotatedConcepts.length + 1)) {
+                    // Annotated concepts
                     let removedItem = this.annotatedConcepts.splice(rowIndex - 1, 1)[0];
                     this.treeboxObject.rowCountChanged(rowIndex, -1);
 
@@ -660,6 +665,7 @@ Sidebar.prototype = {
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json);
                 } else if (rowIndex === (this.annotatedConcepts.length + 1)) {
+                    // Conversation (inferred) concepts header
                     while (this.conversationConcepts.length > 0) {
                         this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
                         this.treeboxObject.invalidate();
@@ -680,6 +686,7 @@ Sidebar.prototype = {
 
                     }
                 } else if ((rowIndex > this.annotatedConcepts.length + 1) && (rowIndex < (this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1))) {
+                    // Conversation (found) concepts
                     this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
                     this.treeboxObject.invalidate();
 
@@ -695,7 +702,29 @@ Sidebar.prototype = {
                             self.rebuildSidebar.call(self, true);
                     };
                     dfki.FireTag.rpc.JSONRPCCall(json, callback);
+                } else if (rowIndex === (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
+                    // Suggested (found) concepts header
+                    while (this.suggestedConcepts.length > 0) {
+                        this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
+                        this.treeboxObject.invalidate();
+
+                        let metadataArray = Sidebar.getResourcesMetadata(resources);
+
+                        json = {
+                            method : "PimoAnnotationApi.addAnnotationForDataResourcesWithMetadatas",
+                            params : [ dfki.FireTag.common.authKey, metadataArray, this.annotatedConcepts[this.annotatedConcepts.length - 1].uri  ]
+                        };
+                        let self = this;
+                        let callback = function(response, params) {
+                            if ((self.annotatedConcepts.length <= 0) && (self.suggestedConcepts.length === 0)) {
+                                self.rebuildSidebar.call(self, true);
+                            }
+                        };
+                        dfki.FireTag.rpc.JSONRPCCall(json, callback);
+
+                    }
                 } else if (rowIndex > this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1) {
+                    // Suggested (found) concepts
                     this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - this.conversationConcepts.length - 1 - 1, 1)[0];
                     this.treeboxObject.invalidate();
 
