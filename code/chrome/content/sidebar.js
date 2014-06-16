@@ -296,7 +296,7 @@ Sidebar.prototype = {
                             }
 
                             if (!alreadyInConversation) {
-                                Sidebar.addPimoConceptToModel(currentResult, self.suggestedConcepts);
+                                Sidebar.addPimoConceptToModel(currentResult, self.suggestedConcepts, true);
                             }
                         }
                     }
@@ -325,7 +325,7 @@ Sidebar.prototype = {
                 self.treeboxObject.rowCountChanged(1, -self.annotatedConcepts.length);
                 self.annotatedConcepts.length = 0;
                 for (let i = 0, len = result.length; i < len; i++) {
-                    Sidebar.addPimoConceptToModel(result[i], self.annotatedConcepts);
+                    Sidebar.addPimoConceptToModel(result[i], self.annotatedConcepts, false);
                 }
                 self.treeboxObject.rowCountChanged(1, self.annotatedConcepts.length);
             }
@@ -389,7 +389,7 @@ Sidebar.prototype = {
                                                 }
                                             }
                                             if (!alreadyInAnnotated) {
-                                                Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts);
+                                                Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts, false);
                                             }
                                         }
                                         self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, self.conversationConcepts.length);
@@ -876,12 +876,14 @@ Sidebar.testConceptIsOfType = function( concept, typeUri ) {
 };
 
 // Class methods
-Sidebar.addPimoConceptToModel = function(concept, model) {
+Sidebar.addPimoConceptToModel = function(concept, model, filter) {
     if (!Sidebar.testConceptIsOfType(concept, "pimo:thing#Thing") && (!Sidebar.testConceptIsOfType(concept, "http://www.w3.org/2000/01/rdf-schema#Class")))
     	return;
-    if (Sidebar.testConceptIsOfType(concept, "pimo:thing#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
-    	Sidebar.testConceptIsOfType(concept, "pimo:task#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
-        return;
+    if (filter) {
+        if (Sidebar.testConceptIsOfType(concept, "pimo:thing#Document") && (!Sidebar.prefs.getBoolPref("autocomplete.showDocuments")) ||
+            Sidebar.testConceptIsOfType(concept, "pimo:task#Task") && (!Sidebar.prefs.getBoolPref("autocomplete.showTasks"))) {
+            return;
+        }
     }
 
     model.push({
