@@ -102,6 +102,7 @@ function onLoad() {
     treeboxObject.QueryInterface(Components.interfaces.nsITreeBoxObject);
 
     document.getElementById("newThingName").value += "\"" + window.arguments[0].inn.name + "\"";
+    sizeToContent();
 
     getAllClasses();
 }
