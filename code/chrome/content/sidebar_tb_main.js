@@ -113,7 +113,7 @@ Sidebar.getResourcesMetadata = function(resources) {
 
 Sidebar.getPimoResourceUri = function(resource) {
     if ((resource) && (resource.messageId)) {
-        return "message-id://" + resource.messageId;
+        return "message-id://" + encodeURI(resource.messageId);
     }
     return null;
 };

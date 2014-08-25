@@ -143,7 +143,7 @@ Sidebar.getPimoResourceUri = function(resource) {
     if (!draftId) {
         let uuidGenerator = Components.classes["@mozilla.org/uuid-generator;1"].getService(Components.interfaces.nsIUUIDGenerator);
         let uuidPtr = uuidGenerator.generateUUID();
-        dfki.FireTag.instance.draftId = "message-draft-id://" + uuidPtr.number.replace("{", "").replace("}", "");
+        dfki.FireTag.instance.draftId = "message-draft-id://" + encodeURI(uuidPtr.number.replace("{", "").replace("}", ""));
         dfki.FireTag.common.LOG("Created new X-PIMO-DRAFTURI: " + dfki.FireTag.instance.draftId);
     }
 

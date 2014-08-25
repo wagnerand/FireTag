@@ -29,7 +29,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
                 if (!hdr.folder.getFlag(0x00000400)) {
                     let jsonCheckExisting = {
                         method : "PimoQueryApi.isExisting",
-                        params : [ dfki.FireTag.common.authKey, hdr.messageId ]
+                        params : [ dfki.FireTag.common.authKey, encodeURI(hdr.messageId) ]
                     };
 
                     let callbackCheckExisting = function (response) {
@@ -45,7 +45,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
                                     if (aMimeMsg.has("X-PIMO-DRAFTURI")) {
                                         let jsonChangeURI = {
                                             method : "PimoManipulationApi.changeResourceUri",
-                                            params : [ dfki.FireTag.common.authKey, aMimeMsg.get("X-PIMO-DRAFTURI"), "message-id://" + hdr.messageId ]
+                                            params : [ dfki.FireTag.common.authKey, aMimeMsg.get("X-PIMO-DRAFTURI"), "message-id://" + encodeURI(hdr.messageId) ]
                                         };
                                         dfki.FireTag.rpc.JSONRPCCall(jsonChangeURI);
                                     }
