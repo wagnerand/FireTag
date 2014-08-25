@@ -101,11 +101,11 @@ Sidebar.getResourcesMetadata = function(resources) {
             type : "pimo:informationelement#Email",
             folderURL : resources[i].folder.folderURL,
             folderName : resources[i].folder.name,
-            from : resources[i].author,
-            to : resources[i].recipients,
+            from : resources[i].mime2DecodedAuthor,
+            to : resources[i].mime2DecodedRecipients,
             cc : resources[i].ccList,
             bcc : resources[i].bccList,
-            subject : resources[i].subject
+            subject : resources[i].mime2DecodedSubject
         });
     }
     return result;
@@ -119,15 +119,15 @@ Sidebar.getPimoResourceUri = function(resource) {
 };
 
 Sidebar.getPimoResourceLabel = function(resource) {
-    if ((resource) && (resource.subject)) {
-        return resource.subject;
+    if ((resource) && (resource.mime2DecodedSubject)) {
+        return resource.mime2DecodedSubject;
     }
     return null;
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
     let allText = "";
-    let subject = resource.subject;
+    let subject = resource.mime2DecodedSubject;
     if (subject) {
         allText += subject + "\n";
     }
