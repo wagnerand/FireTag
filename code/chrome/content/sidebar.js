@@ -346,16 +346,64 @@ Sidebar.prototype = {
         }
 
         let self = this;
+
+        function checkAndAddConvConcepts(resourceURIs) {
+            if (resourceURIs.length > 0) {
+                let json = {
+                    method: "PimoAnnotationApi.getAnnotationsForDataResources",
+                    params: [ dfki.FireTag.common.authKey, resourceURIs ]
+                };
+
+                let callback = function (response) {
+                    let result = JSON.parse(response).result;
+                    if (result) {
+
+                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, -self.conversationConcepts.length);
+                        self.conversationConcepts.length = 0;
+
+                        for (let i = 0; i < result.length; i++) {
+                            let alreadyInAnnotated = false;
+                            for (let j = 0; j < self.annotatedConcepts.length; j++) {
+                                if (self.annotatedConcepts[j].uri === result[i].uri) {
+                                    alreadyInAnnotated = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadyInAnnotated) {
+                                Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts, false);
+                            }
+                        }
+                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, self.conversationConcepts.length);
+                        self.treeboxObject.invalidateRow(self.annotatedConcepts.length + 1);
+                    }
+                    if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
+                        self.getOBIEResults.call(self, resources);
+                    }
+                };
+                dfki.FireTag.rpc.JSONRPCCall(json, callback);
+            } else {
+                if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
+                    self.getOBIEResults.call(self, resources);
+                }
+            }
+        }
+
         if ("Gloda" in window) {
             let convFinderListener = {
-                onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
-                onItemsModified: function _onItemsModified(aItems, aCollection) {},
-                onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
+                onItemsAdded: function _onItemsAdded(aItems, aCollection) {
+                },
+                onItemsModified: function _onItemsModified(aItems, aCollection) {
+                },
+                onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {
+                },
                 onQueryCompleted: function _onQueryCompleted(conversation_coll) {
                     let messagesListener = {
-                        onItemsAdded: function _onItemsAdded(aItems, aCollection) {},
-                        onItemsModified: function _onItemsModified(aItems, aCollection) {},
-                        onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {},
+                        onItemsAdded: function _onItemsAdded(aItems, aCollection) {
+                        },
+                        onItemsModified: function _onItemsModified(aItems, aCollection) {
+                        },
+                        onItemsRemoved: function _onItemsRemoved(aItems, aCollection) {
+                        },
                         onQueryCompleted: function _onQueryCompleted(conversation_coll) {
                             let resourceURIs = [];
                             try {
@@ -365,46 +413,9 @@ Sidebar.prototype = {
                                         resourceURIs.push(Sidebar.getPimoResourceUri(currentConvHeader));
                                     }
                                 }
-                            } catch (e) { }
-
-                            if (resourceURIs.length > 0) {
-                                let json = {
-                                    method : "PimoAnnotationApi.getAnnotationsForDataResources",
-                                    params : [ dfki.FireTag.common.authKey, resourceURIs ]
-                                };
-
-                                let callback = function (response) {
-                                    let result = JSON.parse(response).result;
-                                    if (result) {
-
-                                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, -self.conversationConcepts.length);
-                                        self.conversationConcepts.length = 0;
-
-                                        for (let i = 0; i < result.length; i++) {
-                                            let alreadyInAnnotated = false;
-                                            for (let j = 0; j < self.annotatedConcepts.length; j++) {
-                                                if (self.annotatedConcepts[j].uri === result[i].uri) {
-                                                    alreadyInAnnotated = true;
-                                                    break;
-                                                }
-                                            }
-                                            if (!alreadyInAnnotated) {
-                                                Sidebar.addPimoConceptToModel(result[i], self.conversationConcepts, false);
-                                            }
-                                        }
-                                        self.treeboxObject.rowCountChanged(self.annotatedConcepts.length + 2, self.conversationConcepts.length);
-                                        self.treeboxObject.invalidateRow(self.annotatedConcepts.length + 1);
-                                    }
-                                    if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
-                                        self.getOBIEResults.call(self, resources);
-                                    }
-                                };
-                                dfki.FireTag.rpc.JSONRPCCall(json, callback);
-                            } else {
-                                if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
-                                    self.getOBIEResults.call(self, resources);
-                                }
+                            } catch (e) {
                             }
+                            checkAndAddConvConcepts(resourceURIs);
                         }
                     };
 
@@ -412,11 +423,20 @@ Sidebar.prototype = {
                         for (let h = 0; h < conversation_coll.items.length; h++) {
                             conversation_coll.items[h].conversation.getMessagesCollection(messagesListener);
                         }
-                    } catch (e) { }
+                    } catch (e) {
+                    }
                 }
             };
 
             Gloda.getMessageCollectionForHeader(resources[0], convFinderListener);
+        } else if ((resources[0].references) && (resources[0].references.length > 0)) {
+            // Adding references to reply-compose
+            let references = resources[0].references.split(" ");
+            for (let i = 0; i < references.length; i++) {
+                // Remove "<" and ">" at the beginning and end
+                references[i] = "message-id://" + encodeURI(references[i].slice(1, -1));
+            }
+            checkAndAddConvConcepts(references);
         } else {
             if (Sidebar.prefs.getBoolPref("suggestConcepts")) {
                 this.getOBIEResults(resources);
