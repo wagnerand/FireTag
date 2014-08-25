@@ -622,25 +622,24 @@ Sidebar.prototype = {
         e.stopPropagation();
     },
 
+    setPrefLabel : function(newLabel) {
+        let resourceURI = this.currentResourcesAsPimoThings[0].uri;
+        let json = {
+            method : "PimoManipulationApi.setPrefLabel",
+            params : [ dfki.FireTag.common.authKey, resourceURI, newLabel ]
+        };
+        dfki.FireTag.rpc.JSONRPCCall(json);
+
+        let labelElement = document.getElementById("labelResource");
+        labelElement.value = newLabel;
+        labelElement.className = "plain";
+        labelElement.tooltipText = newLabel;
+    },
+
     onButtonEditResourceLabelClicked : function() {
         if (Sidebar.getCurrentSelectionCount() === 1) {
-            let currentThing = this.currentResourcesAsPimoThings[0];
-            let labelElement = document.getElementById("labelResource");
-            let resourceURI = currentThing.uri;
-
-            let currentLabelValue = labelElement.value;
-            let newLabel = prompt("New Label:", currentLabelValue);
-            if ((newLabel) && (newLabel.length > 0)) {
-                let json = {
-                    method : "PimoManipulationApi.setPrefLabel",
-                    params : [ dfki.FireTag.common.authKey, resourceURI, newLabel ]
-                };
-                dfki.FireTag.rpc.JSONRPCCall(json);
-
-                labelElement.value = newLabel;
-                labelElement.className = "plain";
-                labelElement.tooltipText = newLabel;
-            }
+            let newLabel = prompt("New Label:", document.getElementById("labelResource").value);
+            this.setPrefLabel(newLabel);
         }
     },
 

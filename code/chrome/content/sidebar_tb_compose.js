@@ -34,9 +34,19 @@ Sidebar.prototype.addListeners = function() {
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "1");
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
 
+    let onSubjectChanged = function() {
+        if (dfki.FireTag.instance.currentResourcesAsPimoThings.length > 0) {
+            dfki.FireTag.instance.setPrefLabel(Sidebar.getPimoResourceLabel(null));
+            document.getElementById("labelResource").value = Sidebar.getPimoResourceLabel(null);
+        }
+    }
+
+    Sidebar.mainWin.document.getElementById("msgSubject").addEventListener("change", onSubjectChanged);
+
     // Do NOT use Sidebar.mainWin.addEventListener here, window is correct!
     window.addEventListener("unload", function() {
         clearInterval(Sidebar.mainWin.FireTagRrebuildTimer);
+        Sidebar.mainWin.document.getElementById("msgSubject").removeEventListener("change", onSubjectChanged);
 
         let draftUri = Sidebar.getPimoResourceUri();
         let json = {
