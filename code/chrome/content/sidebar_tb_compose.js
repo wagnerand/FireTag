@@ -39,7 +39,7 @@ Sidebar.prototype.addListeners = function() {
             dfki.FireTag.instance.setPrefLabel(Sidebar.getPimoResourceLabel(null));
             document.getElementById("labelResource").value = Sidebar.getPimoResourceLabel(null);
         }
-    }
+    };
 
     Sidebar.mainWin.document.getElementById("msgSubject").addEventListener("change", onSubjectChanged);
 
@@ -57,7 +57,7 @@ Sidebar.prototype.addListeners = function() {
 
         let pimoThings = dfki.FireTag.instance.currentResourcesAsPimoThings;
         for (let i = 0; i < pimoThings.length; i++) {
-            let json = {
+            json = {
                 method: "PimoManipulationApi.deleteResource",
                 params: [ dfki.FireTag.common.authKey, pimoThings[i].uri ]
             };

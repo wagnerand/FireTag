@@ -25,8 +25,8 @@ dfki.FireTag.overlay = {
             case "servers":
                 if (dfki.FireTag.common.prefBranch.getCharPref("servers").length > 0) {
                     dfki.FireTag.common.authKey = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[1].trim();
-                    break;
                 }
+                break;
             case "autocomplete.showDocuments":
                 let showDocuments = dfki.FireTag.common.prefBranch.getBoolPref("autocomplete.showDocuments");
                 dfki.FireTag.common.showDocuments = showDocuments;

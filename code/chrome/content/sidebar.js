@@ -1018,7 +1018,7 @@ Sidebar.onLoadListener = function() {
     dfki.FireTag.registerPrefListener();
     dfki.FireTag.instance.addListeners.call(dfki.FireTag.instance);
     dfki.FireTag.instance.rebuildSidebar.call(dfki.FireTag.instance);
-}
+};
 
 window.addEventListener("load", Sidebar.onLoadListener, false);
 

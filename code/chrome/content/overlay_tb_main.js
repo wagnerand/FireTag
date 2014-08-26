@@ -62,7 +62,7 @@ dfki.FireTag.overlay.tb.main.init = function() {
 
     notificationService.addListener(sentMailListener, notificationService.msgsClassified);
 
-    var toolbarButton = document.getElementById("FireTagToggleSidebar");
+    let toolbarButton = document.getElementById("FireTagToggleSidebar");
     if (toolbarButton && toolbarButton.checkState) {
         document.getElementById("FireTagSidebar").setAttribute("src", "chrome://firetag/content/sidebar_tb_main.xul");
     }
@@ -96,11 +96,11 @@ dfki.FireTag.overlay.tb.main.init = function() {
 };
 
 dfki.FireTag.overlay.tb.main.toggleSidebar = function() {
-    var sidebarBox = document.getElementById("FireTagSidebar-box");
+    let sidebarBox = document.getElementById("FireTagSidebar-box");
 
-    var elt = document.getElementById("FireTagToggleSidebar");
-    var sidebar = document.getElementById("FireTagSidebar");
-    var sidebarSplitter = document.getElementById("FireTagSidebar-splitter");
+    let elt = document.getElementById("FireTagToggleSidebar");
+    let sidebar = document.getElementById("FireTagSidebar");
+    let sidebarSplitter = document.getElementById("FireTagSidebar-splitter");
 
     if (elt) {
         if (elt.getAttribute("checkState") == 0) {
@@ -114,7 +114,7 @@ dfki.FireTag.overlay.tb.main.toggleSidebar = function() {
             sidebarBox.removeAttribute("collapsed");
 
             sidebarSplitter.hidden = false;
-            if (sidebarSplitter.getAttribute("state") == "collapsed")
+            if (sidebarSplitter.getAttribute("state") === "collapsed")
                 sidebarSplitter.removeAttribute("state");
         }
     }
@@ -124,6 +124,6 @@ dfki.FireTag.overlay.tb.main.toggleSidebar = function() {
     document.persist("FireTagSidebar-splitter", "hidden");
     document.persist("FireTagSidebar-splitter", "state");
     document.persist("FireTagToggleSidebar", "checkState");
-}
+};
 
 window.addEventListener("load", dfki.FireTag.overlay.tb.main.init, false);
