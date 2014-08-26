@@ -1,10 +1,10 @@
 let EXPORTED_SYMBOLS = [ "prefObserver" ];
 
-let prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 let prefObserver = function (callback) {
     // We need to keep a reference to the branch to prevent garbage collection
-    this._branch = prefService.getBranch("extensions.dfki.FireTag.");
+    this._branch = Services.prefs.getBranch("extensions.dfki.FireTag.");
     this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
     this._callback = callback;
 };

@@ -8,6 +8,7 @@ if (!dfki.FireTag) {
 }
 
 Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 let rpc = {
 
@@ -22,15 +23,13 @@ let rpc = {
 
         let p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                 .createInstance(Components.interfaces.nsIXMLHttpRequest);
-        let observerService = Components.classes["@mozilla.org/observer-service;1"].
-            getService(Components.interfaces.nsIObserverService);
 
         p.onreadystatechange = function () {
             if (p.readyState === 4) {
                 let subject = Components.classes["@mozilla.org/supports-string;1"].
                     createInstance(Components.interfaces.nsISupportsString);
                 subject.data = p.status;
-                observerService.notifyObservers(subject, "firetag-rpc-result", p.responseText);
+                Services.obs.notifyObservers(subject, "firetag-rpc-result", p.responseText);
 
                 if (p.status === 200) {
                     let duration = Date.now() - start;

@@ -1039,8 +1039,7 @@ Sidebar.onLoadListener = function() {
             }
         }
     };
-    let obs = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-    obs.addObserver(rpcObserver, "firetag-rpc-result", false);
+    Services.obs.addObserver(rpcObserver, "firetag-rpc-result", false);
 };
 
 window.addEventListener("load", Sidebar.onLoadListener, false);
