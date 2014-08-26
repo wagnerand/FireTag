@@ -1010,6 +1010,14 @@ dfki.FireTag.registerPrefListener = function() {
     myPrefListener.register(true);
 };
 
+Sidebar.pingServer = function() {
+    let json = {
+        method : "PimoUserApi.ping",
+        params : []
+    };
+    dfki.FireTag.rpc.JSONRPCCall(json);
+};
+
 Sidebar.onLoadListener = function() {
     dfki.FireTag.instance = new Sidebar();
     dfki.FireTag.instance.treeView.rowCount = (dfki.FireTag.instance.conversationConcepts.length + dfki.FireTag.instance.suggestedConcepts.length + dfki.FireTag.instance.annotatedConcepts.length + 3);
@@ -1018,6 +1026,21 @@ Sidebar.onLoadListener = function() {
     dfki.FireTag.registerPrefListener();
     dfki.FireTag.instance.addListeners.call(dfki.FireTag.instance);
     dfki.FireTag.instance.rebuildSidebar.call(dfki.FireTag.instance);
+
+    let rpcObserver = {
+        observe : function(subject, topic, data) {
+            subject.QueryInterface(Components.interfaces.nsISupportsString);
+            let statusCode = parseInt(subject.data);
+            if (statusCode >= 400) {
+                document.getElementById("firetag-label-errorcode").value = "(Error " + subject.data + ")";
+                document.getElementById("firetag-deck").setAttribute("selectedIndex", "0");
+            } else if ((statusCode >= 200) && (statusCode < 400)) {
+                document.getElementById("firetag-deck").setAttribute("selectedIndex", "1");
+            }
+        }
+    };
+    let obs = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+    obs.addObserver(rpcObserver, "firetag-rpc-result", false);
 };
 
 window.addEventListener("load", Sidebar.onLoadListener, false);

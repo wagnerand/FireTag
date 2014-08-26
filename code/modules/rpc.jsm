@@ -22,9 +22,16 @@ let rpc = {
 
         let p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                 .createInstance(Components.interfaces.nsIXMLHttpRequest);
+        let observerService = Components.classes["@mozilla.org/observer-service;1"].
+            getService(Components.interfaces.nsIObserverService);
 
         p.onreadystatechange = function () {
             if (p.readyState === 4) {
+                let subject = Components.classes["@mozilla.org/supports-string;1"].
+                    createInstance(Components.interfaces.nsISupportsString);
+                subject.data = p.status;
+                observerService.notifyObservers(subject, "firetag-rpc-result", p.responseText);
+
                 if (p.status === 200) {
                     let duration = Date.now() - start;
                     dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
