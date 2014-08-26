@@ -65,6 +65,11 @@
                             type="checkbox"
                             class="toolbarbutton-1"
                             image="chrome://firetag/skin/document.png" />
+                    <toolbarbutton id="openPreferences"
+                            tooltiptext="Open Preferences"
+                            oncommand="Sidebar.openPreferences();"
+                            class="toolbarbutton-1"
+                            image="chrome://firetag/skin/gear.png" />
                 </toolbar>
             </vbox>
         </deck>

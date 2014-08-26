@@ -1018,6 +1018,29 @@ Sidebar.pingServer = function() {
     dfki.FireTag.rpc.JSONRPCCall(json);
 };
 
+Sidebar.openPreferences = function() {
+    let optionsURL = "chrome://firetag/content/preferences.xul";
+    let windows = Services.wm.getEnumerator(null);
+    while (windows.hasMoreElements()) {
+        let win = windows.getNext();
+        if (win.closed) {
+            continue;
+        }
+        if (win.document.documentURI == optionsURL) {
+            win.focus();
+            return;
+        }
+    }
+    let features = "chrome,titlebar,toolbar,centerscreen";
+    try {
+        var instantApply = Services.prefs.getBoolPref("browser.preferences.instantApply");
+        features += instantApply ? ",dialog=no" : ",modal";
+    } catch (e) {
+        features += ",modal";
+    }
+    openDialog(optionsURL, "", features);
+};
+
 Sidebar.onLoadListener = function() {
     dfki.FireTag.instance = new Sidebar();
     dfki.FireTag.instance.treeView.rowCount = (dfki.FireTag.instance.conversationConcepts.length + dfki.FireTag.instance.suggestedConcepts.length + dfki.FireTag.instance.annotatedConcepts.length + 3);
