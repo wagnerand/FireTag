@@ -639,7 +639,9 @@ Sidebar.prototype = {
     onButtonEditResourceLabelClicked : function() {
         if (Sidebar.getCurrentSelectionCount() === 1) {
             let newLabel = prompt("New Label:", document.getElementById("labelResource").value);
-            this.setPrefLabel(newLabel);
+            if (newLabel) {
+                this.setPrefLabel(newLabel);
+            }
         }
     },
 
