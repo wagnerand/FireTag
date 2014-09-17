@@ -17,3 +17,7 @@ See [the wiki](https://github.com/wagnerand/FireTag/wiki/DeveloperInstructions) 
 
 * FireTag: [@wagnerand](https://github.com/wagnerand) (<Andreas.Wagner@dfki.de>)
 * PIMO: [@svenschwarz](https://github.com/svenschwarz) (<Sven.Schwarz@dfki.de>)
+
+## Acknowledgements
+
+* supported by the EU project [ForgetIT - "Concise Preservation by combining Managed Forgetting and Contextualized Remembering"](https://www.forgetit-project.eu/) (Grant agreement no: 600826)
