@@ -75,10 +75,10 @@ Sidebar.getResourceTextForOBIE = function(resource) {
 
     if (body) {
         // TODO: HACK
-        body = body.textContent.replace(/\n/g, " ").replace(/\t/g, " ");
-        body = body.replace(/<!--(.|\n)*?-->/ig, " ");
-        body = body.replace(/<(.|\n)*?>/ig, " ");
-        body = body.replace(/\s+/ig, " ");
+        body = body.textContent.replace(/(\n|\t)/g, " ");
+        body = body.replace(/<(script|style)(.*?)>(.*?)<\/(script|style)>/gi, " ");
+        body = body.replace(/<(!--)?.*?(--)?>/g, " ");
+        body = body.replace(/\s+/g, " ");
         body = body.substring(0, Sidebar.STRIP_PER_RESOURCE);
         return body;
     }
