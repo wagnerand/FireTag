@@ -17,7 +17,7 @@
 
         <textbox id="newThingSearchBox" clickSelectsAll="true" placeholder="Search for existing types" type="search" oncommand="searchClass();"/>
 
-        <tree id="classTree" flex="1">
+        <tree id="classTree" flex="1" hidecolumnpicker="true">
             <treecols>
                 <treecol id="name" label="Name" flex="1" />
             </treecols>
