@@ -31,13 +31,14 @@ let rpc = {
                 subject.data = p.status;
                 Services.obs.notifyObservers(subject, "firetag-rpc-result", p.responseText);
 
+                let duration = Date.now() - start;
+                dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
+                if (dfki.FireTag.common.prefBranch.getBoolPref("debug.rpc")) {
+                    dfki.FireTag.common.LOG("RPC (" + localCount + ") response (" + p.status + "): " + p.responseText);
+                }
+
                 if (p.status === 200) {
-                    let duration = Date.now() - start;
-                    dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
                     if ((p.responseText) && (callback)) {
-                        if (dfki.FireTag.common.prefBranch.getBoolPref("debug.rpc")) {
-                            dfki.FireTag.common.LOG("RPC (" + localCount + ") response: " + p.responseText);
-                        }
                         callback.call(this, p.responseText, param);
                     }
                 }

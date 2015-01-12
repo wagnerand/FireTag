@@ -1056,11 +1056,11 @@ Sidebar.onLoadListener = function() {
         observe : function(subject, topic, data) {
             subject.QueryInterface(Components.interfaces.nsISupportsString);
             let statusCode = parseInt(subject.data);
-            if (statusCode >= 400) {
+            if ((statusCode >= 200) && (statusCode < 400)) {
+                document.getElementById("firetag-deck").setAttribute("selectedIndex", "1");
+            } else {
                 document.getElementById("firetag-label-errorcode").value = "(Error " + subject.data + ")";
                 document.getElementById("firetag-deck").setAttribute("selectedIndex", "0");
-            } else if ((statusCode >= 200) && (statusCode < 400)) {
-                document.getElementById("firetag-deck").setAttribute("selectedIndex", "1");
             }
         }
     };
