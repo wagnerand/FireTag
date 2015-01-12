@@ -215,6 +215,9 @@ Sidebar.prototype = {
         }
     },
 
+    previousOBIEText : "",
+    previousPimoResourceUris : "",
+
     rebuildSidebarIfDifferentOBIEResultsAreAvaible : function() {
         let currentResources = Sidebar.getCurrentResources();
         if ((!currentResources) || (currentResources.length <= 0))
@@ -226,6 +229,12 @@ Sidebar.prototype = {
             obieTexts.push(Sidebar.getResourceTextForOBIE(currentResources[i]));
             pimoResourceUris.push(Sidebar.getPimoResourceUri(currentResources[i]));
         }
+
+        if ((obieTexts.join() === this.previousOBIEText) && (pimoResourceUris.join() === this.previousPimoResourceUris)) {
+            return;
+        }
+        this.previousOBIEText = obieTexts.join();
+        this.previousPimoResourceUris = pimoResourceUris.join();
 
         let json = {
             method : "ObieApi.findAndCollectEntityReferencesInTexts",
