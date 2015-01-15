@@ -782,8 +782,7 @@ Sidebar.prototype = {
 
                     let resource = this.getResourceAtRow(rowIndex);
                     if (resource) {
-                        let uri = Services.io.newURI(resource.uri, null, null);
-                        Sidebar.extProtService.loadUrl(uri);
+                        Sidebar.openResourceExternal(resource);
                     }
                 }
             }
@@ -919,7 +918,7 @@ Sidebar.prototype = {
         if (event.detail === 2) {
             let resources = this.currentResourcesAsPimoThings;
             for (let i = 0; i < resources.length; i++) {
-                Sidebar.openResourceExternal(resources[i].uri);
+                Sidebar.openResourceExternal(resources[i]);
             }
         }
     }
@@ -964,9 +963,9 @@ Sidebar.toggleDocuments = function() {
     Sidebar.prefs.setBoolPref("autocomplete.showDocuments", checked);
 };
 
-Sidebar.openResourceExternal = function(resourceURI) {
+Sidebar.openResourceExternal = function(resource) {
     let base = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
-    let destination = base + "pimo5/#res/" + encodeURIComponent(resourceURI);
+    let destination = base + "pimo5/#res/" + encodeURIComponent(resource.uri);
     let uri = Services.io.newURI(destination, null, null);
     Sidebar.extProtService.loadUrl(uri);
 };
