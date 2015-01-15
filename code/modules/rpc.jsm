@@ -19,7 +19,7 @@ let rpc = {
         let start = Date.now();
 
         let destination = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
-        destination += "/pimodb/json-rpc";
+        destination += "pimodb/json-rpc";
 
         let p = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
                 .createInstance(Components.interfaces.nsIXMLHttpRequest);

@@ -965,12 +965,15 @@ Sidebar.toggleDocuments = function() {
 };
 
 Sidebar.openResourceExternal = function(resourceURI) {
-    let uri = Services.io.newURI(resourceURI, null, null);
+    let base = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
+    let destination = base + "pimo5/#res/" + encodeURIComponent(resourceURI);
+    let uri = Services.io.newURI(destination, null, null);
     Sidebar.extProtService.loadUrl(uri);
 };
 
 Sidebar.prefs = Services.prefs.getBranch("extensions.dfki.FireTag.");
 Sidebar.extProtService = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"].getService(Components.interfaces.nsIExternalProtocolService);
+
 Sidebar.inPrivateMode = function() {
     try {
         if (PrivateBrowsingUtils) {
