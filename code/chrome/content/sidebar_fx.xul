@@ -8,14 +8,14 @@
                 <label value="FireTag" style="font-size: larger"/>
                 <label value="Connecting to server failed!" />
                 <label id="firetag-label-errorcode" />
-                <label onclick="Sidebar.pingServer();" class="text-link" value="Try again"/>
+                <label oncommand="Sidebar.pingServer();" class="text-link" value="Try again"/>
             </vbox>
 
             <vbox>
                 <hbox>
                     <hbox flex="1" align="center">
                         <image id="imageIsPrivate" src="chrome://firetag/skin/private.png" width="16" height="16" />
-                        <label id="labelResource" onclick="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
+                        <label id="labelResource" oncommand="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
                     </hbox>
                     <hbox style="margin-right: 5px">
                         <toolbarbutton id="buttonEditResourceLabel"
@@ -43,7 +43,7 @@
                     placeholder="Search for concepts"
                     highlightnonmatches="true" />
 
-                <tree id="annotationTree" flex="1" seltype="text" onclick="dfki.FireTag.instance.onTreeClicked(event);" hidecolumnpicker="true">
+                <tree id="annotationTree" flex="1" seltype="text" oncommand="dfki.FireTag.instance.onTreeClicked(event);" hidecolumnpicker="true">
                     <treecols>
                         <treecol id="name" label="Name" flex="1" primary="true" />
                         <treecol id="isPublic" label="Public Status" src="chrome://firetag/skin/private_gray.png" class="treecol-image" />
