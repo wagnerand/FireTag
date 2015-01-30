@@ -45,7 +45,6 @@ Sidebar.prototype = {
     resetSidebar : function() {
         this.currentResourcesAsPimoThings = [];
 
-        document.getElementById("buttonEditResourceLabel").style.visibility = "hidden";
         document.getElementById("buttonPublish").style.visibility = "hidden";
         document.getElementById("imageIsPrivate").style.visibility = "hidden";
         document.getElementById("labelResource").value = "";
@@ -63,7 +62,6 @@ Sidebar.prototype = {
 
     initSidebar : function() {
         let resources = this.currentResourcesAsPimoThings;
-        let buttonEditResourceLabel = document.getElementById("buttonEditResourceLabel");
         let buttonPublish = document.getElementById("buttonPublish");
         let imageIsPrivate  = document.getElementById("imageIsPrivate");
         let labelResource = document.getElementById("labelResource");
@@ -77,10 +75,8 @@ Sidebar.prototype = {
                 imageIsPrivate.style.visibility = "hidden";
                 labelResource.value = "";
                 labelResource.tooltipText = "";
-                buttonEditResourceLabel.style.visibility = "hidden";
                 buttonPublish.style.visibility = "hidden";
             } else {
-                buttonEditResourceLabel.style.visibility = "visible";
                 buttonPublish.style.visibility = "visible";
                 labelResource.className = "plain";
                 labelResource.value = resources[0].label;
@@ -103,10 +99,8 @@ Sidebar.prototype = {
                 labelResource.className = "header";
                 labelResource.value = "0 of " + currentSelectionCount + " messages in PIMO.";
                 labelResource.tooltipText = "0 of " + currentSelectionCount + " messages in PIMO.";
-                buttonEditResourceLabel.style.visibility = "hidden";
                 buttonPublish.style.visibility = "hidden";
             } else {
-                buttonEditResourceLabel.style.visibility = "visible";
                 buttonPublish.style.visibility = "visible";
                 labelResource.className = "header";
                 let nrResources = resources.length;
