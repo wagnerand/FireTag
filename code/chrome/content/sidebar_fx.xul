@@ -15,15 +15,9 @@
                 <hbox>
                     <hbox flex="1" align="center">
                         <image id="imageIsPrivate" src="chrome://firetag/skin/private.png" width="16" height="16" />
-                        <label id="labelResource" oncommand="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
+                        <label id="labelResource" context="resource-context" oncontextmenu="dfki.FireTag.instance.onResourceContextMenuShowed(event);" oncommand="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden;" flex="1" />
                     </hbox>
                     <hbox style="margin-right: 5px">
-                        <toolbarbutton id="buttonEditResourceLabel"
-                                tooltiptext="Edit Label"
-                                oncommand="dfki.FireTag.instance.onButtonEditResourceLabelClicked();"
-                                class="toolbarbutton-1"
-                                image="chrome://firetag/skin/editLabel.png"
-                                width="24" height="26" />
                         <toolbarbutton id="buttonPublish"
                                 tooltiptext="Share this resource"
                                 image="chrome://firetag/skin/share.png"
@@ -78,6 +72,11 @@
 
     <popupset>
         <tooltip id="treeItemTooltip" onpopupshowing="dfki.FireTag.instance.onTreeItemTooltipShowing(event);" />
+        <popupset>
+            <menupopup id="resource-context">
+                <menuitem label="Rename" oncommand="dfki.FireTag.instance.onContextMenuRename"/>
+            </menupopup>
+        </popupset>
     </popupset>
 
 </overlay>

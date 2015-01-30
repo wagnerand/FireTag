@@ -645,15 +645,6 @@ Sidebar.prototype = {
         labelElement.tooltipText = newLabel;
     },
 
-    onButtonEditResourceLabelClicked : function() {
-        if (Sidebar.getCurrentSelectionCount() === 1) {
-            let newLabel = prompt("New Label:", document.getElementById("labelResource").value);
-            if (newLabel) {
-                this.setPrefLabel(newLabel);
-            }
-        }
-    },
-
     onButtonPublishResourcesClicked : function(resources) {
         this.publish(resources, true);
         let buttonPublish = document.getElementById("buttonPublish");
@@ -915,10 +906,26 @@ Sidebar.prototype = {
     },
 
     onLabelClicked : function(event) {
-        if (event.detail === 2) {
+        if ((event.button === 1) && (event.detail === 2)) {
             let resources = this.currentResourcesAsPimoThings;
             for (let i = 0; i < resources.length; i++) {
                 Sidebar.openResourceExternal(resources[i]);
+            }
+        }
+    },
+
+    onResourceContextMenuShowed : function(event) {
+        let resources = this.currentResourcesAsPimoThings;
+        if ((!resources) || (resources.length != 1)) {
+            event.preventDefault();
+        }
+    },
+
+    onContextMenuRename : function() {
+        if (Sidebar.getCurrentSelectionCount() === 1) {
+            let newLabel = prompt("New Label:", document.getElementById("labelResource").value);
+            if (newLabel) {
+                this.setPrefLabel(newLabel);
             }
         }
     }
