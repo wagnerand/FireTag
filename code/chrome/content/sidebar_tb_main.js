@@ -82,6 +82,10 @@ Sidebar.prototype.publish = function (resources, defer) {
     }
 };
 
+Sidebar.prototype.isValidURL = function() {
+    return true;
+};
+
 Sidebar.getCurrentResources = function() {
     return window.top.gFolderDisplay.selectedMessages;
 };

@@ -6,9 +6,9 @@
         <deck id ="firetag-deck" flex="1" selectedIndex="1">
             <vbox id="box-error" pack="center" align="center">
                 <label value="FireTag" style="font-size: 2em; margin-bottom: 0.5em"/>
-                <label value="Connecting to server failed!" />
-                <label id="firetag-label-errorcode" />
-                <label oncommand="Sidebar.pingServer();" class="text-link" value="Try again"/>
+                <label id="firetag-disabled-label" />
+                <label id="firetag-disabled-errorcode" />
+                <label id="firetag-disabled-tryagain" oncommand="Sidebar.pingServer();" class="text-link" value="Try again"/>
             </vbox>
 
             <vbox>

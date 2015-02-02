@@ -33,6 +33,20 @@ function Sidebar() {
 
 // Instance methods
 Sidebar.prototype = {
+    disableSidebar : function (reason, code, isError) {
+        document.getElementById("firetag-disabled-label").value = reason;
+        document.getElementById("firetag-disabled-errorcode").value = "(Error " + code + ")";
+        let isTryAgainVisible = isError ? "visible" : "hidden";
+        document.getElementById("firetag-disabled-tryagain").style.visibility = isTryAgainVisible;
+        document.getElementById("firetag-disabled-errorcode").style.visibility = isTryAgainVisible;
+        document.getElementById("firetag-deck").setAttribute("selectedIndex", "0");
+        this.lastSelectedResources = null;
+    },
+
+    enableSidebar : function() {
+        document.getElementById("firetag-deck").setAttribute("selectedIndex", "1");
+    },
+
     resetTree : function() {
         this.treeboxObject.rowCountChanged(this.annotatedConcepts.length + 1 + this.conversationConcepts.length + 1 + 1, -this.suggestedConcepts.length);
         this.treeboxObject.rowCountChanged(this.annotatedConcepts.length + 2, -this.conversationConcepts.length);
@@ -132,6 +146,12 @@ Sidebar.prototype = {
     },
 
     rebuildSidebar : function(force) {
+        if ((Sidebar.inPrivateMode()) || !this.isValidURL()) {
+            this.resetSidebar();
+            this.disableSidebar("FireTag has been disabled for this page.", -1, false);
+            return;
+        }
+
         let needsRebuild = false;
         if (this.selectedResourcesChanged()) {
             needsRebuild = true;
@@ -144,9 +164,6 @@ Sidebar.prototype = {
         }
         if (needsRebuild) {
             this.resetSidebar();
-            if (Sidebar.inPrivateMode()) {
-                return;
-            }
 
             let selectCount = Sidebar.getCurrentSelectionCount();
             if (selectCount > 0) {
@@ -157,6 +174,7 @@ Sidebar.prototype = {
                     let resourceURI = Sidebar.getPimoResourceUri(currentResources[i]);
                     pimoResourceURIs.push(resourceURI);
                 }
+
                 this.lookupResources(pimoResourceURIs);
             }
         }
@@ -1008,7 +1026,7 @@ dfki.FireTag.registerPrefListener = function() {
                 break;
         }
     });
-    myPrefListener.register(true);
+    myPrefListener.register(false);
 };
 
 Sidebar.pingServer = function() {
@@ -1056,10 +1074,11 @@ Sidebar.onLoadListener = function() {
             subject.QueryInterface(Components.interfaces.nsISupportsString);
             let statusCode = parseInt(subject.data);
             if ((statusCode >= 200) && (statusCode < 400)) {
-                document.getElementById("firetag-deck").setAttribute("selectedIndex", "1");
+                if (document.getElementById("firetag-disabled-tryagain").style.visibility === "visible") {
+                    dfki.FireTag.instance.enableSidebar();
+                }
             } else {
-                document.getElementById("firetag-label-errorcode").value = "(Error " + subject.data + ")";
-                document.getElementById("firetag-deck").setAttribute("selectedIndex", "0");
+                dfki.FireTag.instance.disableSidebar("Connecting to server failed!", subject.data, true);
             }
         }
     };

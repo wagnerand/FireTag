@@ -113,6 +113,10 @@ Sidebar.prototype.publish = function (resources, defer) {
     }
 };
 
+Sidebar.prototype.isValidURL = function() {
+    return true;
+};
+
 Sidebar.STRIP_PER_RESOURCE = 10000;
 Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).

@@ -4,15 +4,15 @@ function componentConstruct() {
 Sidebar.prototype.addListeners = function() {
     let self = this;
 
-    Sidebar.mainWin.gBrowser.addEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
-    Sidebar.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+    Sidebar.mainWin.gBrowser.addEventListener("DOMContentLoaded", function(event) { self.eventHandler.call(self, event); }, false);
+    Sidebar.mainWin.gBrowser.tabContainer.addEventListener("TabSelect", function(event) { self.eventHandler.call(self, event); }, false);
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "true");
     Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checked", "true");
 
     // Remove event listeners on unload
     window.addEventListener("unload", function () {
-        Sidebar.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function(event) { self.onPageLoad.call(self, event); }, false);
-        Sidebar.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function() { self.rebuildSidebar.call(self); }, false);
+        Sidebar.mainWin.gBrowser.removeEventListener("DOMContentLoaded", function(event) { self.eventHandler.call(self, event); }, false);
+        Sidebar.mainWin.gBrowser.tabContainer.removeEventListener("TabSelect", function(event) { self.eventHandler.call(self, event); }, false);
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").setAttribute("checkState", "false");
         Sidebar.mainWin.document.getElementById("FireTagToggleSidebar").removeAttribute("checked");
 
@@ -28,6 +28,31 @@ Sidebar.prototype.publish = function (resources, defer) {
         };
         dfki.FireTag.rpc.JSONRPCCall(json);
     }
+};
+
+Sidebar.prototype.eventHandler = function(event) {
+    let doc = event.originalTarget;
+
+    if ((doc.location) && (doc.location.href !== Sidebar.mainWin.gBrowser.contentDocument.location.href)) {
+        return;
+    }
+
+    let win = doc.defaultView;
+    if (win) {
+        if ((win !== win.top) || (win.frameElement)) {
+            return;
+        }
+    }
+
+    if ((doc.nodeName === "#document") || (doc.nodeName === "tab")) {
+        this.enableSidebar();
+        this.rebuildSidebar();
+    }
+};
+
+Sidebar.prototype.isValidURL = function() {
+    let url = Sidebar.mainWin.gBrowser.contentDocument.location.href;
+    return ((url.indexOf("about:") !== 0) && (url.indexOf("chrome:") !== 0));
 };
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
@@ -83,27 +108,4 @@ Sidebar.getResourceTextForOBIE = function(resource) {
         return body;
     }
     return "";
-};
-
-Sidebar.prototype.onPageLoad = function(event) {
-    if (Sidebar.inPrivateMode()) {
-        resetSidebar();
-        return;
-    }
-
-    let doc = event.originalTarget;
-    if (doc.location.href !== Sidebar.mainWin.gBrowser.contentDocument.location.href) {
-        return;
-    }
-
-    let win = doc.defaultView;
-    if (win !== win.top) {
-        return;
-    }
-    if (win.frameElement) {
-        return;
-    }
-    if (doc.nodeName === "#document") {
-        this.rebuildSidebar();
-    }
 };
