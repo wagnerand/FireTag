@@ -4,16 +4,16 @@
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="rdf:#$dl56e"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="4.0"
-                   em:maxVersion="24.*"
+                   em:minVersion="31.0"
+                   em:maxVersion="37.*"
                    em:updateLink="https://raw.github.com/wagnerand/FireTag/master/dist/firetag.xpi" />
   <RDF:Description RDF:about="urn:mozilla:extension:firetag@opendfki.de">
       <em:updates RDF:resource="rdf:#$2l56e"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$6l56e"
                    em:id="{3550f703-e582-4d05-9a08-453d09bdfdc6}"
-                   em:minVersion="4.0"
-                   em:maxVersion="24.*"
+                   em:minVersion="31.0"
+                   em:maxVersion="37.*"
                    em:updateLink="https://raw.github.com/wagnerand/FireTag/master/dist/firetag.xpi" />
   <RDF:Seq RDF:about="rdf:#$2l56e">
     <RDF:li RDF:resource="rdf:#$3l56e"/>
