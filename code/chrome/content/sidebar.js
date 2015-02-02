@@ -45,7 +45,6 @@ Sidebar.prototype = {
     resetSidebar : function() {
         this.currentResourcesAsPimoThings = [];
 
-        document.getElementById("buttonPublish").style.visibility = "hidden";
         document.getElementById("imageIsPrivate").style.visibility = "hidden";
         document.getElementById("labelResource").value = "";
         document.getElementById("labelResource").tooltipText = "";
@@ -62,7 +61,6 @@ Sidebar.prototype = {
 
     initSidebar : function() {
         let resources = this.currentResourcesAsPimoThings;
-        let buttonPublish = document.getElementById("buttonPublish");
         let imageIsPrivate  = document.getElementById("imageIsPrivate");
         let labelResource = document.getElementById("labelResource");
 
@@ -75,18 +73,14 @@ Sidebar.prototype = {
                 imageIsPrivate.style.visibility = "hidden";
                 labelResource.value = "";
                 labelResource.tooltipText = "";
-                buttonPublish.style.visibility = "hidden";
             } else {
-                buttonPublish.style.visibility = "visible";
-                labelResource.className = "plain";
+                labelResource.style.fontWeight = "normal";
                 labelResource.value = resources[0].label;
                 labelResource.tooltipText = resources[0].label;
                 if (resources[0].public) {
-                    buttonPublish.disabled = true;
                     imageIsPrivate.style.visibility = "hidden";
                 }
                 else {
-                    buttonPublish.disabled = false;
                     imageIsPrivate.src = "chrome://firetag/skin/private.png";
                     imageIsPrivate.style.visibility = "visible";
                 }
@@ -96,13 +90,11 @@ Sidebar.prototype = {
         else {
             if ((!resources) || (resources.length === 0)) {
                 imageIsPrivate.style.visibility = "hidden";
-                labelResource.className = "header";
+                labelResource.style.fontWeight = "bold";
                 labelResource.value = "0 of " + currentSelectionCount + " messages in PIMO.";
                 labelResource.tooltipText = "0 of " + currentSelectionCount + " messages in PIMO.";
-                buttonPublish.style.visibility = "hidden";
             } else {
-                buttonPublish.style.visibility = "visible";
-                labelResource.className = "header";
+                labelResource.style.fontWeight = "bold";
                 let nrResources = resources.length;
                 if (resources.length >= Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC ) {
                     nrResources = Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC + "+";
@@ -120,15 +112,12 @@ Sidebar.prototype = {
                 if (mixedStatus) {
                     imageIsPrivate.src = "chrome://firetag/skin/private_part.png";
                     imageIsPrivate.style.visibility = "visible";
-                    buttonPublish.disabled = false;
                 } else {
                     if (isPublic) {
                         imageIsPrivate.style.visibility = "hidden";
-                        buttonPublish.disabled = true;
                     } else {
                         imageIsPrivate.src = "chrome://firetag/skin/private.png";
                         imageIsPrivate.style.visibility = "visible";
-                        buttonPublish.disabled = false;
                     }
                 }
             }
@@ -635,20 +624,18 @@ Sidebar.prototype = {
 
         let labelElement = document.getElementById("labelResource");
         labelElement.value = newLabel;
-        labelElement.className = "plain";
+        labelElement.style.fontWeight = "normal";
         labelElement.tooltipText = newLabel;
     },
 
     onButtonPublishResourcesClicked : function(resources) {
         this.publish(resources, true);
-        let buttonPublish = document.getElementById("buttonPublish");
-        buttonPublish.disabled = true;
         let imageIsPrivate  = document.getElementById("imageIsPrivate");
         imageIsPrivate.style.visibility = "hidden";
 
         if (Sidebar.getCurrentSelectionCount() > 1) {
             let labelResource = document.getElementById("labelResource");
-            labelResource.className = "header";
+            labelResource.style.fontWeight = "bold";
             labelResource.value = Sidebar.getCurrentSelectionCount() + " of " + Sidebar.getCurrentSelectionCount() + " messages in PIMO.";
         }
     },
