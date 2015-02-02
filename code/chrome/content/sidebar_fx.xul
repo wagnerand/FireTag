@@ -5,7 +5,7 @@
     <vbox flex="1">
         <deck id ="firetag-deck" flex="1" selectedIndex="1">
             <vbox id="box-error" pack="center" align="center">
-                <label value="FireTag" style="font-size: larger"/>
+                <label value="FireTag" style="font-size: 2em; margin-bottom: 0.5em"/>
                 <label value="Connecting to server failed!" />
                 <label id="firetag-label-errorcode" />
                 <label oncommand="Sidebar.pingServer();" class="text-link" value="Try again"/>
@@ -36,7 +36,7 @@
                     <treechildren tooltip="treeItemTooltip" />
                 </tree>
 
-                <toolbar style="margin-right: 5px">
+                <toolbar style="-moz-appearance: none !important;">
                     <spacer flex="1" />
                     <toolbarbutton id="toggleTasks"
                             tooltiptext="Show Tasks"

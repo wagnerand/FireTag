@@ -2,7 +2,7 @@
 
 <overlay id="FireTagTbSidebar" title="FireTag" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <vbox flex="1">
+    <vbox flex="1" style="margin-right: 5px">
         <deck id ="firetag-deck" flex="1" selectedIndex="1">
             <vbox id="box-error" pack="center" align="center">
                 <label value="FireTag" style="font-size: 2em; margin-bottom: 0.5em"/>
@@ -36,7 +36,7 @@
                     <treechildren tooltip="treeItemTooltip" />
                 </tree>
 
-                <toolbar>
+                <toolbar style="background-color: transparent !important; -moz-appearance: none !important;">
                     <spacer flex="1" />
                     <toolbarbutton id="toggleTasks"
                             tooltiptext="Show Tasks"
