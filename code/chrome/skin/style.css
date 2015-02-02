@@ -13,3 +13,18 @@
 
 #annotationTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }
 #annotationTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
+
+label.oneResNotInPimo {
+    font-style: italic;
+    font-weight: normal;
+}
+
+label.oneResInPimo {
+    font-style: normal;
+    font-weight: normal;
+}
+
+label.multiRes {
+    font-style: italic;
+    font-weight: bold;
+}

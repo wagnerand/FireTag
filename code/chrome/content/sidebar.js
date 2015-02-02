@@ -85,11 +85,12 @@ Sidebar.prototype = {
         if (currentSelectionCount === 1) {
             if ((!resources) || (resources.length === 0)) {
                 imageIsPrivate.style.visibility = "hidden";
-                labelResource.value = "";
-                labelResource.tooltipText = "";
+                labelResource.value = "Resource not in PIMO.";
+                labelResource.className = "oneResNotInPimo";
+                labelResource.tooltipText = "Resource not in PIMO.";
             } else {
-                labelResource.style.fontWeight = "normal";
                 labelResource.value = resources[0].label;
+                labelResource.className = "oneResInPimo";
                 labelResource.tooltipText = resources[0].label;
                 if (resources[0].public) {
                     imageIsPrivate.style.visibility = "hidden";
@@ -104,17 +105,17 @@ Sidebar.prototype = {
         else {
             if ((!resources) || (resources.length === 0)) {
                 imageIsPrivate.style.visibility = "hidden";
-                labelResource.style.fontWeight = "bold";
                 labelResource.value = "0 of " + currentSelectionCount + " messages in PIMO.";
+                labelResource.className = "multiRes";
                 labelResource.tooltipText = "0 of " + currentSelectionCount + " messages in PIMO.";
             } else {
-                labelResource.style.fontWeight = "bold";
                 let nrResources = resources.length;
                 if (resources.length >= Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC ) {
                     nrResources = Sidebar.MAX_NUMBER_OF_THINGS_FOR_GROCC + "+";
                 }
-                labelResource.value = nrResources + " of " + Sidebar.getCurrentSelectionCount() + " messages in PIMO.";
-                labelResource.tooltipText = nrResources + " of " + Sidebar.getCurrentSelectionCount() + " messages in PIMO.";
+                labelResource.value = nrResources + " of " + currentSelectionCount + " messages in PIMO.";
+                labelResource.className = "multiRes";
+                labelResource.tooltipText = nrResources + " of " + currentSelectionCount + " messages in PIMO.";
                 let isPublic = resources[0].public;
                 let mixedStatus = false;
                 for (let i = 1; i < resources.length; i++) {
@@ -653,8 +654,8 @@ Sidebar.prototype = {
 
         if (Sidebar.getCurrentSelectionCount() > 1) {
             let labelResource = document.getElementById("labelResource");
-            labelResource.style.fontWeight = "bold";
             labelResource.value = Sidebar.getCurrentSelectionCount() + " of " + Sidebar.getCurrentSelectionCount() + " messages in PIMO.";
+            labelResource.className = "multiRes";
         }
     },
 
