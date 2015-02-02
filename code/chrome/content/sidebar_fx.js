@@ -56,7 +56,6 @@ Sidebar.prototype.isValidURL = function() {
 };
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
-Sidebar.annotationSearchBoxName = "annotationSearchBox";
 Sidebar.mainWin = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).
     getInterface(Components.interfaces.nsIWebNavigation).
     QueryInterface(Components.interfaces.nsIDocShellTreeItem).

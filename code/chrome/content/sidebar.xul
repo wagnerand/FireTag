@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<overlay id="FireTagFxSidebar" title="FireTag" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<overlay id="FireTagSidebar" title="FireTag" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
     <vbox flex="1">
         <deck id ="firetag-deck" flex="1" selectedIndex="1">

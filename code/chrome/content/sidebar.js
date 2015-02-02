@@ -26,7 +26,7 @@ function Sidebar() {
     this.annotationTree = document.getElementById("annotationTree");
 //    this.treeboxObject.QueryInterface(Components.interfaces.nsITreeBoxObject);
 
-    let autoCompleteTextbox = document.getElementById(Sidebar.annotationSearchBoxName);
+    let autoCompleteTextbox = document.getElementById("annotationSearchBox");
     autoCompleteTextbox.popup.addEventListener("popuphidden", this.onAutoCompletePopupHidden );
     autoCompleteTextbox.popup.addEventListener("popupshown", this.onAutoCompletePopupShown );
 }
@@ -622,7 +622,7 @@ Sidebar.prototype = {
         }
         // TODO: Prettify!
         window.setTimeout(dfki.FireTag.instance.onAutoCompletePopupShown, 100);
-        let autoCompleteTextbox = document.getElementById(Sidebar.annotationSearchBoxName);
+        let autoCompleteTextbox = document.getElementById("annotationSearchBox");
         dfki.FireTag.instance.lastSelectedAutoCompleteIndex = autoCompleteTextbox.popup.selectedIndex;
     },
 
@@ -815,7 +815,7 @@ Sidebar.prototype = {
     },
 
     onSearchboxTextEntered : function() {
-        let searchString  = document.getElementById(Sidebar.annotationSearchBoxName).value;
+        let searchString  = document.getElementById("annotationSearchBox").value;
 
         let resources = Sidebar.getCurrentResources();
         let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -852,7 +852,7 @@ Sidebar.prototype = {
                         //                        icon: params.out.icon
                         //                    };
                         //                    treeboxObject.rowCountChanged(annotatedConcepts.length, 1);
-                        document.getElementById(Sidebar.annotationSearchBoxName).value = "";
+                        document.getElementById("annotationSearchBox").value = "";
 
                         let jsonAddProperty = {
                             method : "PimoAnnotationApi.addAnnotationForDataResourcesWithMetadatas",
@@ -899,7 +899,7 @@ Sidebar.prototype = {
 
                 dfki.FireTag.rpc.JSONRPCCall(json, callbackAdd);
             }
-            document.getElementById(Sidebar.annotationSearchBoxName).value = "";
+            document.getElementById("annotationSearchBox").value = "";
             dfki.FireTag.instance.lastSelectedAutoCompleteIndex = -1;
         }
     },

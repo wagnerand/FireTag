@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://firetag/skin/style.css" type="text/css"?>
 
-<?xul-overlay href="chrome://firetag/content/sidebar_tb.xul"?>
+<?xul-overlay href="chrome://firetag/content/sidebar.xul"?>
 
 <page id="FireTagSidebarTbMain" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 

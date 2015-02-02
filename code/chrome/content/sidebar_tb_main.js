@@ -2,7 +2,6 @@ function componentConstruct() {
 }
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
-Sidebar.annotationSearchBoxName = "annotationSearchBoxTb";
 
 //let observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 Components.utils.import("resource:///modules/gloda/public.js");
