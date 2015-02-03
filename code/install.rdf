@@ -16,7 +16,7 @@
                    em:maxVersion="37.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="firetag@opendfki.de"
-                   em:version="0.11.3"
+                   em:version="0.12"
                    em:name="FireTag"
                    em:description="Find, relate, tag!"
                    em:creator="Andreas Wagner"
