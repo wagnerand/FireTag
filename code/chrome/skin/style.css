@@ -28,3 +28,7 @@ label.multiRes {
     font-style: italic;
     font-weight: bold;
 }
+
+#annotationTree > treecols > treecol[id="scrollbar-spacer"]:-moz-system-metric(overlay-scrollbars) {
+    visibility: collapse;
+}
