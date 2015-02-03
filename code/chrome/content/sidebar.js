@@ -928,6 +928,11 @@ Sidebar.prototype = {
                 this.setPrefLabel(newLabel);
             }
         }
+    },
+
+    displayScrollbarSpacer : function(aShouldDisplay) {
+        let spacer = document.getElementById("scrollbar-spacer");
+        spacer.collapsed = !aShouldDisplay;
     }
 };
 

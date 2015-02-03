@@ -32,8 +32,13 @@
                         <treecol id="name" label="Name" flex="1" primary="true" />
                         <treecol id="isPublic" label="Public Status" src="chrome://firetag/skin/private_gray.png" class="treecol-image" />
                         <treecol id="action" label="Action" src="chrome://firetag/skin/add_gray.png" class="treecol-image" />
+                        <treecol id="scrollbar-spacer" fixed="true" collapsed="true">
+                            <slider id="scrollbar-slider" orient="vertical"/>
+                        </treecol>
                     </treecols>
-                    <treechildren tooltip="treeItemTooltip" />
+                    <treechildren tooltip="treeItemTooltip"
+                                  onoverflow="dfki.FireTag.instance.displayScrollbarSpacer(true)"
+                                  onunderflow="dfki.FireTag.instance.displayScrollbarSpacer(false)" />
                 </tree>
 
                 <toolbar style="-moz-appearance: none !important;">
