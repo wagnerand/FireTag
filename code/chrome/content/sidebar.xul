@@ -8,12 +8,12 @@
                 <label value="FireTag" style="font-size: 2em; margin-bottom: 0.5em"/>
                 <label id="firetag-disabled-label" />
                 <label id="firetag-disabled-errorcode" />
-                <label id="firetag-disabled-tryagain" oncommand="Sidebar.pingServer();" class="text-link" value="Try again"/>
+                <label id="firetag-disabled-tryagain" onclick="Sidebar.pingServer();" class="text-link" value="Try again"/>
             </vbox>
 
             <vbox>
                 <hbox align="center" style="height: 25px; margin-left: 4px; margin-right: 4px">
-                    <label id="labelResource" context="resource-context" oncontextmenu="dfki.FireTag.instance.onResourceContextMenuShowed(event);" oncommand="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden; margin: 0" flex="1" />
+                    <label id="labelResource" context="resource-context" oncontextmenu="dfki.FireTag.instance.onResourceContextMenuShowed(event);" onclick="dfki.FireTag.instance.onLabelClicked(event);" crop="end" style="overflow: hidden; margin: 0" flex="1" />
                     <image id="imageIsPrivate" tooltiptext="Share this resource" src="chrome://firetag/skin/private.png" onclick="dfki.FireTag.instance.onButtonPublishResourcesClicked(dfki.FireTag.instance.currentResourcesAsPimoThings);" width="16" height="16" />
                 </hbox>
 
@@ -27,7 +27,7 @@
                     placeholder="Search for concepts"
                     highlightnonmatches="true" />
 
-                <tree id="annotationTree" flex="1" seltype="text" oncommand="dfki.FireTag.instance.onTreeClicked(event);" hidecolumnpicker="true">
+                <tree id="annotationTree" flex="1" seltype="text" onclick="dfki.FireTag.instance.onTreeClicked(event);" hidecolumnpicker="true">
                     <treecols>
                         <treecol id="name" label="Name" flex="1" primary="true" />
                         <treecol id="isPublic" label="Public Status" src="chrome://firetag/skin/private_gray.png" class="treecol-image" />

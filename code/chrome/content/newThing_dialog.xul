@@ -21,7 +21,7 @@
             <treecols>
                 <treecol id="name" label="Name" flex="1" />
             </treecols>
-            <treechildren oncommand="onClickTree(event);" />
+            <treechildren onclick="onClickTree(event);" />
         </tree>
     </vbox>
 
