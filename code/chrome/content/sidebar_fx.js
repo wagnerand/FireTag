@@ -95,16 +95,23 @@ Sidebar.getPimoResourceLabel = function(resource) {
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
-    let body = resource.body;
+    let body = resource.body.cloneNode(true);
 
-    if (body) {
-        // TODO: HACK
-        body = body.textContent.replace(/(\n|\t)/g, " ");
-        body = body.replace(/<(script|style)(.*?)>(.*?)<\/(script|style)>/gi, " ");
-        body = body.replace(/<(!--)?.*?(--)?>/g, " ");
-        body = body.replace(/\s+/g, " ");
-        body = body.substring(0, Sidebar.STRIP_PER_RESOURCE);
-        return body;
+    let scripts = body.getElementsByTagName("script");
+    for (let i = scripts.length - 1; i >= 0; i--) {
+        scripts[i].remove();
     }
-    return "";
+
+    let styles = body.getElementsByTagName("style");
+    for (let i = styles.length - 1; i >= 0; i--) {
+        styles[i].remove();
+    }
+
+   // TODO: HACK
+    let bodyText = body.textContent.replace(/(\n|\t)/g, " ");
+    bodyText = bodyText.replace(/<(!--)?.*?(--)?>/g, " ");
+    bodyText = bodyText.replace(/\s+/g, " ");
+    bodyText = bodyText.substring(0, Sidebar.STRIP_PER_RESOURCE);
+    return bodyText;
+
 };
