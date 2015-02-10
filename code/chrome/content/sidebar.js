@@ -687,8 +687,9 @@ Sidebar.prototype = {
                     dfki.FireTag.rpc.JSONRPCCall(json);
                 } else if (rowIndex === (this.annotatedConcepts.length + 1)) {
                     // Conversation (inferred) concepts header
+                    let numberOfCallbacks = 0;
                     while (this.conversationConcepts.length > 0) {
-                        this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
+                        this.annotatedConcepts[this.annotatedConcepts.length] = this.conversationConcepts.splice(0, 1)[0];
                         this.treeboxObject.invalidate();
 
                         let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -699,7 +700,8 @@ Sidebar.prototype = {
                         };
                         let self = this;
                         let callback = function(response, params) {
-                            if ((self.annotatedConcepts.length <= 0) && (self.conversationConcepts.length === 0)) {
+                            numberOfCallbacks++;
+                            if (self.annotatedConcepts.length === numberOfCallbacks) {
                                 self.rebuildSidebar.call(self, true);
                             }
                         };
@@ -725,8 +727,9 @@ Sidebar.prototype = {
                     dfki.FireTag.rpc.JSONRPCCall(json, callback);
                 } else if (rowIndex === (dfki.FireTag.instance.conversationConcepts.length + 1 + dfki.FireTag.instance.annotatedConcepts.length + 1)) {
                     // Suggested (found) concepts header
+                    let numberOfCallbacks = 0;
                     while (this.suggestedConcepts.length > 0) {
-                        this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(rowIndex - this.annotatedConcepts.length - 1 - 1, 1)[0];
+                        this.annotatedConcepts[this.annotatedConcepts.length] = this.suggestedConcepts.splice(0, 1)[0];
                         this.treeboxObject.invalidate();
 
                         let metadataArray = Sidebar.getResourcesMetadata(resources);
@@ -737,7 +740,8 @@ Sidebar.prototype = {
                         };
                         let self = this;
                         let callback = function(response, params) {
-                            if ((self.annotatedConcepts.length <= 0) && (self.suggestedConcepts.length === 0)) {
+                            numberOfCallbacks++;
+                            if (self.annotatedConcepts.length === numberOfCallbacks) {
                                 self.rebuildSidebar.call(self, true);
                             }
                         };
