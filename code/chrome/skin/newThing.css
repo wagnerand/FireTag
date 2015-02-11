@@ -7,15 +7,16 @@ radio {
     filter: grayscale(1);
     width: 100px;
     cursor: pointer;
+
 }
 
-
-radio > image.radio-check {
+radio > image.radio-check, radio > hbox.radio-check-box1 {
     opacity: 0;
 }
 
 radio > hbox.radio-label-box {
     -moz-box-orient: vertical;
+    border: 0;
 }
 
 radio[selected] {
