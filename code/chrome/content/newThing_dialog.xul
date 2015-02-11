@@ -1,28 +1,31 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firetag/skin/newThing.css" type="text/css"?>
+
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    id="newThingDialog" title="Choose type of newly created thing"
-    buttons="accept,cancel"
+    id="newThingDialog"
+    title="Choose type of newly created thing"
+    buttons="accept, cancel, extra1"
+    buttonlabelextra1="Other..."
+    ondialogextra1="openDialogOther();"
     ondialogaccept="return onAccept();"
-    ondialogcancel="return onCancel();"
-    width="300"
-    height="500">
+    ondialogcancel="return onCancel();">
 
     <script type="application/x-javascript" src="chrome://firetag/content/newThing_dialog.js" />
 
-    <vbox flex="1">
-
+    <hbox pack="center">
         <label id="newThingName" value="Select type for new concept " />
-
-        <textbox id="newThingSearchBox" clickSelectsAll="true" placeholder="Search for existing types" type="search" oncommand="searchClass();"/>
-
-        <tree id="classTree" flex="1" hidecolumnpicker="true">
-            <treecols>
-                <treecol id="name" label="Name" flex="1" />
-            </treecols>
-            <treechildren onclick="onClickTree(event);" />
-        </tree>
-    </vbox>
+    </hbox>
+    <radiogroup id="radiogroup">
+        <grid>
+            <columns>
+                <column flex="1"/>
+                <column flex="1"/>
+                <column flex="1"/>
+            </columns>
+            <rows id="rows"/>
+        </grid>
+    </radiogroup>
 
 </dialog>

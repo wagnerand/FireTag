@@ -1,0 +1,27 @@
+#newThingName {
+    font-weight: bold;
+    font-size: larger;
+}
+
+radio {
+    filter: grayscale(1);
+    width: 100px;
+    cursor: pointer;
+}
+
+
+radio > image.radio-check {
+    opacity: 0;
+}
+
+radio > hbox.radio-label-box {
+    -moz-box-orient: vertical;
+}
+
+radio[selected] {
+    filter: grayscale(0);
+}
+
+radio[selected] > hbox.radio-label-box {
+    font-weight: bold;
+}

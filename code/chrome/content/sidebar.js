@@ -828,7 +828,7 @@ Sidebar.prototype = {
         if (dfki.FireTag.instance.lastSelectedAutoCompleteIndex < 0) {
             let params = { inn : { name : searchString }, out : null };
             window.openDialog("chrome://firetag/content/newThing_dialog.xul", "",
-                "chrome, dialog, modal, centerscreen, resizable=yes", params).focus();
+                "chrome, dialog, modal, centerscreen, resizable=no", params).focus();
             if (params.out) {
 
                 let self = this;

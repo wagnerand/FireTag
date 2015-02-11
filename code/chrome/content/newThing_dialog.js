@@ -6,105 +6,115 @@ if (!dfki.FireTag) {
 }
 
 Components.utils.import("resource://FireTag/common.jsm", dfki.FireTag);
-Components.utils.import("resource://FireTag/rpc.jsm", dfki.FireTag);
+Components.utils.import("resource://gre/modules/Task.jsm");
 
-let visibleItems = [];
-let classes = [];
+const maxColumns = 3;
+const imgWidth = 48;
+const imgHeight = 48;
 
-let classTree = null;
-let treeboxObject = null;
+const classesToDisplay = [
+    "pimo:thing#Topic",
+    "pimo:thing#Project",
+    "pimo:thing#Person",
+    "pimo:thing#Organization",
+    "pimo:thing#Event",
+    "pimo:thing#City",
+    "pimo:thing#Country",
+    "pimo:thing#Software",
+    "pimo:thing#Tool"
+];
 
-function onAccept() {
-    let selectionIndex = classTree.currentIndex;
-    let selectedItem = visibleItems[selectionIndex];
+function onAccept(fromOther) {
+    if (fromOther) return;
+    let radioGroup = document.getElementById("radiogroup");
     window.arguments[0].out = {
-            type : selectedItem.uri,
-            icon : selectedItem.iconBase64For16x16
+        type : radioGroup.selectedItem.id
     };
+    return true;
 }
 
 function onCancel() {
     window.arguments[0].out = null;
+    return true;
 }
 
-function onClickTree(event) {
-    if ((event.detail === 2) && (event.button === 0)) {
-        document.documentElement.getButton("accept").click();
+function openDialogOther() {
+    let params = window.arguments[0];
+    window.openDialog("chrome://firetag/content/newThing_dialog_other.xul", "",
+        "chrome, dialog, modal, centerscreen, resizable=yes", params).focus();
+    if (params.out) {
+        onAccept(true);
+        window.close();
+    }
+    else {
+        onCancel();
     }
 }
 
-let treeView = {
-    treebox: null,
-    selection: null,
-    rowCount : visibleItems.length,
-    setTree: function (treebox) { this.treebox = treebox; },
-    getCellText : function (row, column) {
-        return visibleItems[row].label;
-    },
-    isContainer: function (row) { return false; },
-    isSeparator: function (row) { return false; },
-    isSorted: function () { return false; },
-    getLevel: function (row) { return 0; },
-    getImageSrc: function (row, col) {
-        if (col.id === "name") {
-            return visibleItems[row].iconBase64For16x16;
-        }
-        return null;
-    },
-    getParentIndex: function (row) { return -1; },
-    getRowProperties: function (idx, prop) {},
-    getCellProperties: function (idx, column, prop) {},
-    getColumnProperties: function (column, element, prop) {}
-};
+function Request(options) {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest;
+        xhr.onload = event => resolve(event.target);
+        xhr.onerror = reject;
 
-function setView() {
-    classTree.view = treeView;
-}
+        let destination = dfki.FireTag.common.prefBranch.getCharPref("servers").split(",")[0].split("|")[0].trim();
+        destination += "pimodb/json-rpc";
+        xhr.open("POST", destination);
 
-function getAllClasses() {
-    let json = {
-            method : "PimoSchemaQueryApi.getAllThingSubclasses",
-            params : [dfki.FireTag.common.authKey, 0, 0]
-        };
-
-    let callback = function (response) {
-        classes = JSON.parse(response).result;
-        visibleItems = classes.slice(0);
-        treeboxObject.rowCountChanged(0, visibleItems.length);
-    };
-    dfki.FireTag.rpc.JSONRPCCall(json, callback);
-}
-
-function searchClass() {
-    treeboxObject.rowCountChanged(0, -visibleItems.length);
-    visibleItems.length = 0;
-    let searchString = document.getElementById("newThingSearchBox").value.trim().toLowerCase();
-    if (searchString.length > 0) {
-        for (let i = 0; i < classes.length; i++) {
-            if (classes[i].label.toLowerCase().indexOf(searchString) >= 0) {
-                visibleItems[visibleItems.length] = {
-                    label : classes[i].label,
-                    uri : classes[i].uri,
-                    iconBase64For16x16 : classes[i].iconBase64For16x16
-                };
-            }
-        }
-    } else {
-        visibleItems = classes.slice(0);
-    }
-    treeboxObject.rowCountChanged(0, visibleItems.length);
+        dfki.FireTag.common.LOG("RPC to: " + destination, options);
+        xhr.send(JSON.stringify(options));
+    });
 }
 
 function onLoad() {
-    classTree = document.getElementById("classTree");
-    setView();
-    treeboxObject = classTree.boxObject;
-    treeboxObject.QueryInterface(Components.interfaces.nsITreeBoxObject);
+    document.getElementById("newThingName").value += "\"" + window.arguments[0].inn.name + "\":";
+    Task.spawn(function* () {
+        let json = {
+            method : "PimoFastQueryApi.getResources",
+            params : [
+                dfki.FireTag.common.authKey, {
+                    uris : classesToDisplay,
+                    resultItemType : "json",
+                    fillAttributes : ["label", "icon"],
+                    iconSize: imgWidth + "x" + imgHeight
+                }
+            ]
+        };
 
-    document.getElementById("newThingName").value += "\"" + window.arguments[0].inn.name + "\"";
-    sizeToContent();
+        let xhr = yield Request(json);
+        let result = JSON.parse(xhr.responseText);
+        dfki.FireTag.common.LOG("RPC response (" + xhr.status + "):", result);
+        let data = result.result.elements;
 
-    getAllClasses();
+        data.sort(function(a, b) {
+            if (classesToDisplay.indexOf(a.uri) < classesToDisplay.indexOf(b.uri)) return -1;
+            if (classesToDisplay.indexOf(a.uri) === classesToDisplay.indexOf(b.uri)) return 0;
+            if (classesToDisplay.indexOf(a.uri) > classesToDisplay.indexOf(b.uri)) return 1;
+        });
+
+        let rowsElement = document.getElementById("rows");
+        for (let i = 0; i < data.length; i++) {
+            let radio = document.createElement("radio");
+            radio.id = data[i].uri;
+            radio.setAttribute("src", data[i].icon);
+            radio.setAttribute("label", data[i].label);
+            radio.addEventListener("click", function(event) {
+               if (event.detail === 2) {
+                   onAccept();
+                   window.close();
+               }
+            });
+
+            if (i % 3 === 0) {
+                let newRow = document.createElement("row");
+                rowsElement.appendChild(newRow);
+            }
+            let currentRow = rowsElement.lastChild;
+            currentRow.appendChild(radio);
+        }
+        setTimeout(function() {sizeToContent()}, 0);
+
+    });
 }
 
 window.addEventListener("load", onLoad, false);
