@@ -34,7 +34,7 @@ let rpc = {
                 let duration = Date.now() - start;
                 dfki.FireTag.common.LOG("RPC (" + localCount + ") took: " + duration / 1000 + "s");
                 if (dfki.FireTag.common.prefBranch.getBoolPref("debug.rpc")) {
-                    dfki.FireTag.common.LOG("RPC (" + localCount + ") response (" + p.status + "): " + p.responseText);
+                    dfki.FireTag.common.LOG("RPC (" + localCount + ") response (" + p.status + "):", p.responseText);
                 }
 
                 if (p.status === 200) {
@@ -47,7 +47,7 @@ let rpc = {
 
         p.open("POST", destination);
         p.send(JSON.stringify(json));
-        dfki.FireTag.common.LOG("RPC (" + localCount + ") to: " + destination + "\n " + JSON.stringify(json) + "\n");
+        dfki.FireTag.common.LOG("RPC (" + localCount + ") to: " + destination, json);
     }
 
 };

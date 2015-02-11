@@ -7,9 +7,9 @@ let common = {
     authKey : null,
     autoComplete : [],
     prefBranch : Services.prefs.getBranch("extensions.dfki.FireTag."),
-    LOG : function(message) {
+    LOG : function(message, ...args) {
         if (this.prefBranch.getBoolPref("debug")) {
-            console.log((new Date().toISOString()) + " [FireTag] " + message);
+            console.log("[FireTag] " + message, args);
         }
     }
 };
