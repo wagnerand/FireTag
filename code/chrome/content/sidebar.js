@@ -847,16 +847,6 @@ Sidebar.prototype = {
                     };
 
                     let callbackAddType = function (response) {
-                        //                    let types = [];
-                        //                    let obj = { uri : params.out.type };
-                        //                    types[0] = obj;
-                        //                    annotatedConcepts[annotatedConcepts.length] = {
-                        //                        name : searchString,
-                        //                        uri : newThingUri,
-                        //                        types : types,
-                        //                        icon: params.out.icon
-                        //                    };
-                        //                    treeboxObject.rowCountChanged(annotatedConcepts.length, 1);
                         document.getElementById("annotationSearchBox").value = "";
 
                         let jsonAddProperty = {
@@ -885,14 +875,6 @@ Sidebar.prototype = {
             }
 
             if (!isAlreadyInList) {
-                //            annotatedConcepts[annotatedConcepts.length] = {
-                //                name : rpcResult[0].label,
-                //                uri : rpcResult[0].uri,
-                //                icon : rpcResult[0].iconBase64For16x16,
-                //                types : rpcResult[0].types
-                //            };
-                //            treeboxObject.rowCountChanged(annotatedConcepts.length, 1);
-
                 let json = {
                     method : "PimoAnnotationApi.addAnnotationForDataResourcesWithMetadatas",
                     params : [ dfki.FireTag.common.authKey, metadataArray, autoCompleteResult.uri ]
