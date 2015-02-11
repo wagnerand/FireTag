@@ -95,23 +95,25 @@ Sidebar.getPimoResourceLabel = function(resource) {
 };
 
 Sidebar.getResourceTextForOBIE = function(resource) {
-    let body = resource.body.cloneNode(true);
+    if (resource.body) {
+        let body = resource.body.cloneNode(true);
 
-    let scripts = body.getElementsByTagName("script");
-    for (let i = scripts.length - 1; i >= 0; i--) {
-        scripts[i].remove();
+        let scripts = body.getElementsByTagName("script");
+        for (let i = scripts.length - 1; i >= 0; i--) {
+            scripts[i].remove();
+        }
+
+        let styles = body.getElementsByTagName("style");
+        for (let i = styles.length - 1; i >= 0; i--) {
+            styles[i].remove();
+        }
+
+        // TODO: HACK
+        let bodyText = body.textContent.replace(/(\n|\t)/g, " ");
+        bodyText = bodyText.replace(/<(!--)?.*?(--)?>/g, " ");
+        bodyText = bodyText.replace(/\s+/g, " ");
+        bodyText = bodyText.substring(0, Sidebar.STRIP_PER_RESOURCE);
+        return bodyText;
     }
-
-    let styles = body.getElementsByTagName("style");
-    for (let i = styles.length - 1; i >= 0; i--) {
-        styles[i].remove();
-    }
-
-   // TODO: HACK
-    let bodyText = body.textContent.replace(/(\n|\t)/g, " ");
-    bodyText = bodyText.replace(/<(!--)?.*?(--)?>/g, " ");
-    bodyText = bodyText.replace(/\s+/g, " ");
-    bodyText = bodyText.substring(0, Sidebar.STRIP_PER_RESOURCE);
-    return bodyText;
 
 };
