@@ -52,7 +52,12 @@ Sidebar.prototype.eventHandler = function(event) {
 
 Sidebar.prototype.isValidURL = function() {
     let url = Sidebar.mainWin.gBrowser.contentDocument.location.href;
-    return ((url.indexOf("about:") !== 0) && (url.indexOf("chrome:") !== 0));
+    return ((url.indexOf("about:") !== 0) &&
+        (url.indexOf("chrome:") !== 0) &&
+        (url.indexOf("jar:") !== 0) &&
+        (url.indexOf("resource:") !== 0) &&
+        (url.indexOf("data:") !== 0) &&
+        (url.indexOf("javascript:") !== 0));
 };
 
 Sidebar.STRIP_PER_RESOURCE = 10000;
