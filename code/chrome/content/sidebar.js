@@ -892,7 +892,7 @@ Sidebar.prototype = {
     },
 
     onLabelClicked : function(event) {
-        if ((event.button === 1) && (event.detail === 2)) {
+        if ((event.button === 0) && (event.detail === 2)) {
             let resources = this.currentResourcesAsPimoThings;
             for (let i = 0; i < resources.length; i++) {
                 Sidebar.openResourceExternal(resources[i]);
