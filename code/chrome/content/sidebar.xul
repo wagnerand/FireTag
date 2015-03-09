@@ -69,7 +69,7 @@
         <tooltip id="treeItemTooltip" onpopupshowing="dfki.FireTag.instance.onTreeItemTooltipShowing(event);" />
         <popupset>
             <menupopup id="resource-context">
-                <menuitem label="Rename" oncommand="dfki.FireTag.instance.onContextMenuRename"/>
+                <menuitem label="Rename" oncommand="dfki.FireTag.instance.onContextMenuRename();"/>
             </menupopup>
         </popupset>
     </popupset>
