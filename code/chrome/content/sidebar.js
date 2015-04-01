@@ -29,6 +29,8 @@ function Sidebar() {
     let autoCompleteTextbox = document.getElementById("annotationSearchBox");
     autoCompleteTextbox.popup.addEventListener("popuphidden", this.onAutoCompletePopupHidden );
     autoCompleteTextbox.popup.addEventListener("popupshown", this.onAutoCompletePopupShown );
+    Sidebar.showTasksPrefChanged();
+    Sidebar.showDocumentsPrefChanged();
 }
 
 // Instance methods
@@ -995,25 +997,11 @@ dfki.FireTag.registerPrefListener = function() {
     let myPrefListener = new dfki.FireTag.prefObserver(function (branch, name) {
         switch (name) {
             case "autocomplete.showDocuments":
-                let showDocuments = Sidebar.prefs.getBoolPref("autocomplete.showDocuments");
-                let buttonDocuments = document.getElementById("toggleDocuments");
-                buttonDocuments.checked = showDocuments;
-                if (showDocuments) {
-                    buttonDocuments.image = "chrome://firetag/skin/document.png";
-                } else {
-                    buttonDocuments.image = "chrome://firetag/skin/document-disabled.png";
-                }
+                Sidebar.showDocumentsPrefChanged();
                 dfki.FireTag.instance.rebuildTree.call(dfki.FireTag.instance);
                 break;
             case "autocomplete.showTasks":
-                let showTasks = Sidebar.prefs.getBoolPref("autocomplete.showTasks");
-                let buttonTasks = document.getElementById("toggleTasks");
-                buttonTasks.checked = showTasks;
-                if (showTasks) {
-                    buttonTasks.image = "chrome://firetag/skin/task.png";
-                } else {
-                    buttonTasks.image = "chrome://firetag/skin/task-disabled.png";
-                }
+                Sidebar.showTasksPrefChanged();
                 dfki.FireTag.instance.rebuildTree.call(dfki.FireTag.instance);
                 break;
         }
@@ -1027,6 +1015,28 @@ Sidebar.pingServer = function() {
         params : []
     };
     dfki.FireTag.rpc.JSONRPCCall(json);
+};
+
+Sidebar.showDocumentsPrefChanged = function() {
+    let showDocuments = Sidebar.prefs.getBoolPref("autocomplete.showDocuments");
+    let buttonDocuments = document.getElementById("toggleDocuments");
+    buttonDocuments.checked = showDocuments;
+    if (showDocuments) {
+        buttonDocuments.image = "chrome://firetag/skin/document.png";
+    } else {
+        buttonDocuments.image = "chrome://firetag/skin/document-disabled.png";
+    }
+};
+
+Sidebar.showTasksPrefChanged = function() {
+    let showTasks = Sidebar.prefs.getBoolPref("autocomplete.showTasks");
+    let buttonTasks = document.getElementById("toggleTasks");
+    buttonTasks.checked = showTasks;
+    if (showTasks) {
+        buttonTasks.image = "chrome://firetag/skin/task.png";
+    } else {
+        buttonTasks.image = "chrome://firetag/skin/task-disabled.png";
+    }
 };
 
 Sidebar.openPreferences = function() {
