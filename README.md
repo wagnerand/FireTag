@@ -15,8 +15,7 @@ See [the wiki](https://github.com/wagnerand/FireTag/wiki/DeveloperInstructions) 
 
 ## Contact
 
-* FireTag: [@wagnerand](https://github.com/wagnerand) (<Andreas.Wagner@dfki.de>)
-* PIMO: [@svenschwarz](https://github.com/svenschwarz) (<Sven.Schwarz@dfki.de>)
+[@svenschwarz](https://github.com/svenschwarz) (<Sven.Schwarz@dfki.de>)
 
 ## Acknowledgements
 
